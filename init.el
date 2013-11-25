@@ -33,6 +33,7 @@
 ;; Flymake
 ;;;;;;;;;;;
 
+;; Uncomment this to automatically enable flymake on supported files
 ;; (add-hook 'find-file-hook 'flymake-find-file-hook)
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
 
@@ -40,13 +41,7 @@
 ;;;;;;;;;;;;;;;;
 
 (require 'auto-complete)
-;; dirty fix for having AC everywhere
-(define-globalized-minor-mode real-global-auto-complete-mode
-  auto-complete-mode (lambda ()
-                       (if (not (minibufferp (current-buffer)))
-                         (auto-complete-mode 1))
-                       ))
-(real-global-auto-complete-mode t)
+(global-auto-complete-mode t)
 
 ;; Achievements
 ;;;;;;;;;;;;;;;
@@ -67,7 +62,6 @@
 (setq tss-popup-help-key "C-:")
 (setq tss-jump-to-definition-key "C->")
 
-(add-to-list 'tss-enable-modes 'hoge-mode)
 (add-to-list 'tss-ac-trigger-command-keys "=")
 (tss-config-default)
 
@@ -89,6 +83,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ecb-layout-window-sizes (quote (("left8" (ecb-directories-buffer-name 0.16666666666666666 . 0.2619047619047619) (ecb-sources-buffer-name 0.16666666666666666 . 0.23809523809523808) (ecb-methods-buffer-name 0.16666666666666666 . 0.2857142857142857) (ecb-history-buffer-name 0.16666666666666666 . 0.19047619047619047)))))
  '(ecb-options-version "2.40")
  '(electric-indent-mode t)
  '(electric-pair-mode t)
