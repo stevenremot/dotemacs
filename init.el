@@ -21,6 +21,11 @@
 
 (require 'package)
 
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives
+               '("gnu" .
+                 "http://elpa.gnu.org/packages/")))
+
 (add-to-list 'package-archives
              '("marmalade" .
                "http://marmalade-repo.org/packages/"))
@@ -46,8 +51,8 @@
 ;; Achievements
 ;;;;;;;;;;;;;;;
 
-(require 'achievements)
-(require 'basic-achievements)
+;; (require 'achievements)
+;; (require 'basic-achievements)
 
 ;; tss
 ;;;;;;
