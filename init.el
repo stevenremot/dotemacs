@@ -19,10 +19,12 @@
 (setq-default tab-width 4)
 (show-paren-mode 1)
 
+(global-set-key (kbd "C-s-t") 'multi-term)
+
 ;; Semantic mode
 ;;;;;;;;;;;;;;;;
 (semantic-mode 1)
-(add-to-list 'semantic-new-buffer-setup-functions '(js3-mode . wisent-javascript-setup-parser))
+(add-to-list 'semantic-new-buffer-setup-functions '(js2-mode . wisent-javascript-setup-parser))
 
 ;; ECB
 ;;;;;;
@@ -47,6 +49,12 @@
                "http://melpa.milkbox.net/packages/"))
 
 (package-initialize)
+
+;; Path variable
+;;;;;;;;;;;;;;;;
+
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 
 ;; Flymake
 ;;;;;;;;;;;
@@ -76,7 +84,7 @@
 
 (require 'tss)
 
-;; Key bindinges
+;; Key bindings
 (setq tss-popup-help-key "C-:")
 (setq tss-jump-to-definition-key "C->")
 

@@ -8,7 +8,10 @@
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(js3-indent-level 4)
- '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-keyword-face) (t . font-lock-keyword-face) (3 . font-lock-keyword-face) (4 . font-lock-keyword-face) (5 . font-lock-keyword-face) (6 . font-lock-keyword-face)))))
+ '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-keyword-face) (t . font-lock-keyword-face) (3 . font-lock-keyword-face) (4 . font-lock-keyword-face) (5 . font-lock-keyword-face) (6 . font-lock-keyword-face))))
+ '(send-mail-function (quote smtpmail-send-it))
+ '(smtpmail-smtp-server "smtp.gmail.com")
+ '(smtpmail-smtp-service 587))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
