@@ -67,6 +67,8 @@
 ;;;;;;;;;;;;;;;;
 
 (require 'auto-complete)
+(add-to-list 'ac-modes 'php-mode)
+(add-to-list 'ac-modes 'mmm-mode)
 (global-auto-complete-mode t)
 
 ;; Achievements
