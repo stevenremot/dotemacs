@@ -71,6 +71,7 @@
 (require 'auto-complete)
 (add-to-list 'ac-modes 'php-mode)
 (add-to-list 'ac-modes 'mmm-mode)
+(add-to-list 'ac-modes 'dart-mode)
 (global-auto-complete-mode t)
 
 ;; Achievements
