@@ -19,6 +19,7 @@
 (setq-default tab-width 4)
 (show-paren-mode 1)
 
+(column-number-mode 1)
 (global-set-key (kbd "C-s-t") 'multi-term)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
