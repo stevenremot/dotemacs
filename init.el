@@ -20,6 +20,7 @@
 (show-paren-mode 1)
 
 (global-set-key (kbd "C-s-t") 'multi-term)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Semantic mode
 ;;;;;;;;;;;;;;;;
@@ -99,7 +100,7 @@
 (add-to-list 'load-path (concat personalconf--custom-lisp-dir "/multi-web-mode"))
 (require 'multi-web-mode)
 (setq mweb-default-major-mode 'html-mode)
-(setq mweb-tags 
+(setq mweb-tags
   '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
     (js3-mode  "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
     (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
