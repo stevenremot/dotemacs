@@ -21,6 +21,7 @@
 
 (column-number-mode 1)
 (global-set-key (kbd "C-s-t") 'multi-term)
+(global-set-key (kbd "C-s-s") 'speedbar)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Semantic mode
@@ -61,8 +62,7 @@
 ;; Flymake
 ;;;;;;;;;;;
 
-;; Uncomment this to automatically enable flymake on supported files
-;; (add-hook 'find-file-hook 'flymake-find-file-hook)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
 
 ;; Auto complete
