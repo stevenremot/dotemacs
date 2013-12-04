@@ -1,8 +1,15 @@
+;;; init.el --- Initialization file
+
+;;; Commentary:
+
+;;; Code:
+
 ;; Base configuration
 ;;;;;;;;;;;;;;;;;;;;;
-(setq personalconf--basedir (file-name-directory load-file-name))
-(setq personalconf--custom-lisp-dir (concat personalconf--basedir "/site-lisp"))
-(setq personalconf--custom-conf (concat personalconf--basedir "/custom-configuration.el"))
+
+(defvar personalconf--basedir (file-name-directory load-file-name))
+(defvar personalconf--custom-lisp-dir (concat personalconf--basedir "/site-lisp"))
+(defvar personalconf--custom-conf (concat personalconf--basedir "/custom-configuration.el"))
 
 ;; Custom configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,6 +36,7 @@
 ;; Semantic mode
 ;;;;;;;;;;;;;;;;
 (semantic-mode 1)
+(defvar semantic-new-buffer-setup-functions)
 (add-to-list 'semantic-new-buffer-setup-functions '(js2-mode . wisent-javascript-setup-parser))
 
 ;; ECB
@@ -61,10 +69,13 @@
 (require 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
-;; Flymake
-;;;;;;;;;;;
+;; Flymake / flycheck
+;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+(if (require 'flycheck nil :no-error)
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    (add-hook 'find-file-hook 'flymake-find-file-hook))
+
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
 
 ;; Auto complete
@@ -98,15 +109,4 @@
 (add-to-list 'tss-ac-trigger-command-keys "=")
 (tss-config-default)
 
-;; Multi web mode
-;;;;;;;;;;;;;;;;;
-
-(add-to-list 'load-path (concat personalconf--custom-lisp-dir "/multi-web-mode"))
-(require 'multi-web-mode)
-(setq mweb-default-major-mode 'html-mode)
-(setq mweb-tags
-  '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-    (js3-mode  "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
-    (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
-(setq mweb-filename-extensions '("ctp" "phtml"))
-(multi-web-global-mode 1)
+;;; init.el ends here
