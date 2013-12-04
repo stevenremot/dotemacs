@@ -24,6 +24,8 @@
 (global-set-key (kbd "C-s-s") 'speedbar)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(ido-mode 1)
+
 ;; Semantic mode
 ;;;;;;;;;;;;;;;;
 (semantic-mode 1)
