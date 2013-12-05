@@ -33,6 +33,10 @@
 
 (ido-mode 1)
 
+;; In order to make dead-circumflex work on emacs 24
+(when (>= emacs-major-version 24)
+  (require 'iso-transl))
+
 ;; Semantic mode
 ;;;;;;;;;;;;;;;;
 (semantic-mode 1)
