@@ -44,7 +44,7 @@
 (semantic-mode 1)
 (defvar semantic-new-buffer-setup-functions)
 
-(add-to-list 'semantic-new-buffer-setup-functions '(js2-mode . wisent-javascript-setup-parser))
+(add-to-list 'semantic-new-buffer-setup-functions '(js3-mode . wisent-javascript-setup-parser))
 (global-set-key [(control return)] 'semantic-ia-complete-symbol)
 
 
@@ -94,17 +94,21 @@
 ;;;;;;
 
 (add-to-list 'load-path (concat personalconf--custom-lisp-dir "/emacs-tss"))
-(require 'typescript)
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
-(require 'tss)
+(when (require 'tss nil :noerror)
+  (defvar tss-popup-help-key)
+  (defvar tss-jump-to-definition-key)
+  (defvar tss-ac-trigger-command-keys)
 
-;; Key bindings
-(setq tss-popup-help-key "C-:")
-(setq tss-jump-to-definition-key "C->")
+  (require 'typescript)
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
-(add-to-list 'tss-ac-trigger-command-keys "=")
-(tss-config-default)
+  ;; Key bindings
+  (setq tss-popup-help-key "C-:")
+  (setq tss-jump-to-definition-key "C->")
+
+  (add-to-list 'tss-ac-trigger-command-keys "=")
+  (tss-config-default))
 
 ;; mmm-mode
 ;;;;;;;;;;;
