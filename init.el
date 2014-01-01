@@ -96,4 +96,19 @@
 (add-to-list 'tss-ac-trigger-command-keys "=")
 (tss-config-default)
 
+;; mmm-mode
+;;;;;;;;;;;
+
+(require 'mmm-auto)
+(defvar mmm-global-mode)
+(setq mmm-global-mode :auto)
+
+(add-to-list 'mmm-major-mode-preferences '(html-js . js3-mode))
+(mmm-add-mode-ext-class 'html-mode nil 'html-js)
+(mmm-add-mode-ext-class 'html-mode nil 'html-css)
+(mmm-add-mode-ext-class 'html-mode nil 'html-php)
+
+
+(add-to-list 'auto-mode-alist '(".html\\.phtml\\'" . html-mode))
+
 ;;; init.el ends here
