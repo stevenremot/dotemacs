@@ -84,21 +84,6 @@
 
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
 
-;; Auto complete
-;;;;;;;;;;;;;;;;
-
-(require 'auto-complete)
-(add-to-list 'ac-modes 'php-mode)
-(add-to-list 'ac-modes 'mmm-mode)
-(add-to-list 'ac-modes 'dart-mode)
-(global-auto-complete-mode t)
-
-;; Achievements
-;;;;;;;;;;;;;;;
-
-;; (require 'achievements)
-;; (require 'basic-achievements)
-
 ;; tss
 ;;;;;;
 
