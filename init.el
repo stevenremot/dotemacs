@@ -44,11 +44,7 @@
 (semantic-mode 1)
 (defvar semantic-new-buffer-setup-functions)
 (add-to-list 'semantic-new-buffer-setup-functions '(js2-mode . wisent-javascript-setup-parser))
-
-;; ECB
-;;;;;;
-
-(global-set-key (kbd "C-s-p") 'ecb-activate)
+(global-set-key [(control return)] 'semantic-ia-complete-symbol)
 
 ;; Package repositories
 ;;;;;;;;;;;;;;;;;;;;;;;
