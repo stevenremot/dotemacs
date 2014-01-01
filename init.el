@@ -43,8 +43,11 @@
 ;;;;;;;;;;;;;;;;
 (semantic-mode 1)
 (defvar semantic-new-buffer-setup-functions)
+
 (add-to-list 'semantic-new-buffer-setup-functions '(js2-mode . wisent-javascript-setup-parser))
 (global-set-key [(control return)] 'semantic-ia-complete-symbol)
+
+
 
 ;; Package repositories
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -79,6 +82,13 @@
     (add-hook 'find-file-hook 'flymake-find-file-hook))
 
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
+
+;; auto-complete
+;;;;;;;;;;;;;;;;;
+
+(require 'auto-complete)
+(add-to-list 'ac-modes 'php-mode)
+(global-auto-complete-mode t)
 
 ;; tss
 ;;;;;;
