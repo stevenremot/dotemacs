@@ -82,6 +82,7 @@
     (add-hook 'find-file-hook 'flymake-find-file-hook))
 
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
+(add-hook 'php-mode-hook 'flymake-phpmd-setup)
 
 ;; auto-complete
 ;;;;;;;;;;;;;;;;;
