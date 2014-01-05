@@ -11,7 +11,9 @@
  '(flycheck-phpcs-standard "PSR2")
  '(flycheck-phpmd-rulesets (quote ("codesize" "design" "naming" "unusedcode")))
  '(inferior-lisp-program "sbcl")
+ '(jabber-account-list (quote (("dray@jabber.org"))))
  '(js3-indent-level 4)
+ '(org-agenda-files (quote ("~/Documents/rapport-stage/notes.org")))
  '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-keyword-face) (t . font-lock-keyword-face) (3 . font-lock-keyword-face) (4 . font-lock-keyword-face) (5 . font-lock-keyword-face) (6 . font-lock-keyword-face))))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 (custom-set-faces
