@@ -31,7 +31,9 @@
                            'auto-complete
                            'mmm-mode
                            'js3-mode
-                           'php-mode))
+                           'php-mode
+                           'helm
+                           ))
 
        (packages-emacs24 (list
                           'flycheck))

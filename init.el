@@ -126,4 +126,10 @@
 
 (add-to-list 'auto-mode-alist '(".html\\.phtml\\'" . html-mode))
 
+;; Helm
+;;;;;;;
+
+(when (require 'helm nil :no-error)
+  (helm-mode 1))
+
 ;;; init.el ends here
