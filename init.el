@@ -10,6 +10,7 @@
 (defvar personalconf--basedir (file-name-directory load-file-name))
 (defvar personalconf--custom-lisp-dir (concat personalconf--basedir "/site-lisp"))
 (defvar personalconf--custom-conf (concat personalconf--basedir "/custom-configuration.el"))
+(defvar personalconf--local-init-file (concat personalconf--basedir "/init-local.el"))
 
 ;; Custom configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -131,5 +132,12 @@
 
 (when (require 'helm nil :no-error)
   (helm-mode 1))
+
+;; Local configuration
+;;;;;;;;;;;;;;;;;;;;;;;
+
+(when (file-exists-p personalconf--local-init-file)
+  (load-file personalconf--local-init-file))
+
 
 ;;; init.el ends here
