@@ -33,6 +33,8 @@
                            'js3-mode
                            'php-mode
                            'helm
+                           'projectile
+                           'helm-projectile
                            ))
 
        (packages-emacs24 (list

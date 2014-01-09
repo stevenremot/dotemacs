@@ -15,6 +15,7 @@
  '(js3-indent-level 4)
  '(max-lisp-eval-depth 1000)
  '(org-agenda-files (quote ("~/Documents/rapport-stage/notes.org")))
+ '(projectile-tags-command "ctags-exuberant -Re %s")
  '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-keyword-face) (t . font-lock-keyword-face) (3 . font-lock-keyword-face) (4 . font-lock-keyword-face) (5 . font-lock-keyword-face) (6 . font-lock-keyword-face))))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 (custom-set-faces
