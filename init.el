@@ -33,7 +33,6 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (require 'uniquify)
-(ido-mode 1)
 (tool-bar-mode -1)
 
 ;; In order to make dead-circumflex work on emacs 24
