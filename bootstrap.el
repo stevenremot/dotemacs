@@ -2,48 +2,98 @@
 
 ;;; Commentary:
 
-;; This file is intended to setup a bare environment
-;; It will install all required packages
+;; This file is intended to setup specialized environments.
+;; An environment is a list of packages.
+
+;; The script handles dependencies between environment (not circular ones though)
+
+;; To install an environment, just do
+;; (bootstrap-install <environment>)
+
+;; For example, to install the web development packages, one would do
+;; (bootstrap-install 'web)
+
+;; The environments currently defined are :
+;; * basic - General editing packages
+;; * basic-emacs24 - General packages intended to be used at least on Emacs 24
+;; * project - Packages for project management (projectile)
+;; * web - Packages for JS and PHP programming
 
 ;;; Code:
 
 (require 'cl-lib)
-
-;; Setup package repositories
 (require 'package)
 
-(when (< emacs-major-version 24)
+(defvar bootstrap-environment-packages
+  '((basic . (exec-path-from-shell
+              auto-complete
+              helm
+              ))
+    (basic-emacs24 . (flycheck
+                      ))
+    (project . (projectile
+                helm-projectile
+                ))
+    (web . (mmm-mode
+            js3-mode
+            php-mode
+            tern
+            tern-auto-complete
+            ))
+    )
+  "Association between desired environment and packages.")
+
+(defvar bootstrap-environment-dependency
+  '((basic . ())
+    (basic-emacs24 . (basic))
+    (project . (basic))
+    (web . (basic)))
+  "Define dependencies for each environment.")
+
+(defun bootstrap--init-package ()
+  "Set up package sources."
+  (when (< emacs-major-version 24)
+    (add-to-list 'package-archives
+                 '("gnu" .
+                   "http://elpa.gnu.org/packages/")))
+
   (add-to-list 'package-archives
-               '("gnu" .
-                 "http://elpa.gnu.org/packages/")))
+               '("marmalade" .
+                 "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives
+               '("melpa" .
+                 "http://melpa.milkbox.net/packages/"))
 
-(add-to-list 'package-archives
-             '("marmalade" .
-               "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" .
-               "http://melpa.milkbox.net/packages/"))
+  (package-initialize))
 
-(package-initialize)
+(defun bootstrap-get-environment-dependency-list (environment)
+  "Return a list of the ENVIRONMENT's dependencies."
+  (let ((direct-dependencies (cdr (assoc environment bootstrap-environment-dependency)))
+        (dependencies '()))
+    (when direct-dependencies
+      (dolist (dependency direct-dependencies)
+        (dolist (subdependency (bootstrap-get-environment-dependency-list dependency))
+          (add-to-list 'dependencies subdependency))))
+    (add-to-list 'dependencies environment)
+    dependencies))
 
-(let* ((packages-standard (list
-                           'exec-path-from-shell
-                           'auto-complete
-                           'mmm-mode
-                           'js3-mode
-                           'php-mode
-                           'helm
-                           'projectile
-                           'helm-projectile
-                           ))
+(defun bootstrap-get-environment-packages (environment)
+  "Return a list of the packages that must be installed for this ENVIRONMENT.
+Include the dependencies."
+  (let ((packages '())
+        (envs (bootstrap-get-environment-dependency-list environment)))
+    (dolist (env envs)
+      (dolist (package (reverse (cdr (assoc env bootstrap-environment-packages))))
+        (add-to-list 'packages package)))
+    packages))
 
-       (packages-emacs24 (list
-                          'flycheck))
+(defun bootstrap-install (environment)
+  "Install all packages for the ENVIRONMENT."
+  (bootstrap--init-package)
+  (cl-loop for package in (bootstrap-get-environment-packages environment)
+           unless (package-installed-p package)
+           do (package-install package)))
 
-       (packages (append packages-standard packages-emacs24)))
-
-  (cl-loop for p in packages
-           unless (package-installed-p p)
-           do (package-install p)))
+(provide 'bootstrap)
 
 ;;; bootstrap.el ends here
