@@ -17,7 +17,8 @@
 ;; * basic - General editing packages
 ;; * basic-emacs24 - General packages intended to be used at least on Emacs 24
 ;; * project - Packages for project management (projectile)
-;; * web - Packages for JS and PHP programming
+;; * web - Packages for web development
+;; * web-emacs24 - Packages for web development intended to be used at least on Emacs 24
 
 ;;; Code:
 
@@ -37,9 +38,10 @@
     (web . (mmm-mode
             js3-mode
             php-mode
-            tern
-            tern-auto-complete
             ))
+    (web-emacs24 . (tern
+                    tern-auto-complete
+                    ))
     )
   "Association between desired environment and packages.")
 
@@ -47,7 +49,8 @@
   '((basic . ())
     (basic-emacs24 . (basic))
     (project . (basic))
-    (web . (basic)))
+    (web . (basic))
+    (web-emacs24 . (basic-emacs24 web)))
   "Define dependencies for each environment.")
 
 (defun bootstrap--init-package ()

@@ -44,7 +44,6 @@
 (semantic-mode 1)
 (defvar semantic-new-buffer-setup-functions)
 
-(add-to-list 'semantic-new-buffer-setup-functions '(js3-mode . wisent-javascript-setup-parser))
 (global-set-key [(control return)] 'semantic-ia-complete-symbol)
 
 
@@ -91,6 +90,30 @@
 (add-to-list 'ac-modes 'php-mode)
 (global-auto-complete-mode t)
 
+;; Helm
+;;;;;;;
+
+(when (require 'helm nil :no-error)
+  (helm-mode 1))
+
+;; Projectile
+;;;;;;;;;;;;;
+
+(when (require 'projectile nil :no-error)
+  (projectile-global-mode 1))
+
+;; Tern
+;;;;;;;
+
+(add-hook 'js3-mode-hook (lambda ()
+                           (when (require 'tern nil :no-error)
+                             (tern-mode t))))
+
+(eval-after-load 'tern
+  '(progn
+     (require 'tern-auto-complete)
+     (tern-ac-setup)))
+
 ;; tss
 ;;;;;;
 
@@ -125,19 +148,6 @@
 
 
 (add-to-list 'auto-mode-alist '(".html\\.phtml\\'" . html-mode))
-
-;; Helm
-;;;;;;;
-
-(when (require 'helm nil :no-error)
-  (helm-mode 1))
-
-;; Projectile
-;;;;;;;;;;;;;
-
-
-(when (require 'projectile nil :no-error)
-  (projectile-global-mode 1))
 
 ;; Local configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
