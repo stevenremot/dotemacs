@@ -88,6 +88,7 @@
 
 (require 'auto-complete)
 (add-to-list 'ac-modes 'php-mode)
+(add-to-list 'ac-modes 'js3-mode)
 (global-auto-complete-mode t)
 
 ;; Helm
