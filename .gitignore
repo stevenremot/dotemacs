@@ -1,0 +1,5 @@
+session.*
+semanticdb/*
+init-local.el
+*~
+TAGS
