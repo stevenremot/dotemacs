@@ -1,5 +1,17 @@
+# Emacs specific files
+#######################
+
 session.*
 semanticdb/*
-init-local.el
-*~
+elpa/*
 TAGS
+
+# Local initialization file
+###########################
+
+init-local.el
+
+# Backup files
+##############
+
+*~
