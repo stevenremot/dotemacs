@@ -28,12 +28,10 @@
 (defvar bootstrap-environment-packages
   '((basic . (exec-path-from-shell
               auto-complete
-              helm
               ))
     (basic-emacs24 . (flycheck
                       ))
     (project . (projectile
-                helm-projectile
                 ))
     (web . (mmm-mode
             js3-mode

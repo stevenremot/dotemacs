@@ -34,6 +34,7 @@
 
 (require 'uniquify)
 (tool-bar-mode -1)
+(ido-mode 1)
 
 ;; In order to make dead-circumflex work on emacs 24
 (when (>= emacs-major-version 24)
@@ -90,12 +91,6 @@
 (add-to-list 'ac-modes 'php-mode)
 (add-to-list 'ac-modes 'js3-mode)
 (global-auto-complete-mode t)
-
-;; Helm
-;;;;;;;
-
-(when (require 'helm nil :no-error)
-  (helm-mode 1))
 
 ;; Projectile
 ;;;;;;;;;;;;;
