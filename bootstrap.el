@@ -32,6 +32,7 @@
     (basic-emacs24 . (flycheck
                       ))
     (project . (projectile
+                magit
                 ))
     (web . (mmm-mode
             js3-mode
