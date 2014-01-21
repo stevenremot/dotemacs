@@ -4,8 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(auth-source-save-behavior nil)
  '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes (quote ("026a20335f54d3326cbbf6eb7934c203004bfa8d6a1da8156c9ff817b1c8580a" "05005fac4a123b966105fd2fd637b724e9d7030c5e14af4086c237b091d16396" "aaa5c988b99658cd96a17da864266870afe26033c71976cb5609a797c98dfe4c" default)))
+ '(ecb-options-version "2.40")
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(flycheck-phpcs-standard "PSR2")

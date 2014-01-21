@@ -8,9 +8,10 @@
 ;;;;;;;;;;;;;;;;;;;;;
 
 (defvar personalconf--basedir (file-name-directory load-file-name))
-(defvar personalconf--custom-lisp-dir (concat personalconf--basedir "/site-lisp"))
-(defvar personalconf--custom-conf (concat personalconf--basedir "/custom-configuration.el"))
-(defvar personalconf--local-init-file (concat personalconf--basedir "/init-local.el"))
+(defvar personalconf--custom-lisp-dir (concat personalconf--basedir "site-lisp/"))
+(defvar personalconf--custom-conf (concat personalconf--basedir "custom-configuration.el"))
+(defvar personalconf--local-init-file (concat personalconf--basedir "init-local.el"))
+(defvar personalconf--authinfo-file (concat personalconf--basedir ".authinfo.gpg"))
 
 ;; Custom configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -144,6 +145,27 @@
 
 
 (add-to-list 'auto-mode-alist '(".html\\.phtml\\'" . html-mode))
+
+;; Gnus
+;;;;;;;;
+(require 'epa-file)
+(epa-file-enable)
+
+(eval-after-load 'gnus '(progn
+                          (defvar gnus-select-method)
+                          (defvar gnus-secondary-select-methods)
+                          (setq gnus-select-method '(nnrss "http://planet.lisp.org/rss20.xml"))
+                          (setq gnus-secondary-select-methods `((nnimap "perso"
+                                                                        (nnimap-address "imap.gmail.com")
+                                                                        (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                                                (nnimap "telecom"
+                                                                        (nnimap-address "z.mines-telecom.fr")
+                                                                        (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                                                (nnimap "inovia"
+                                                                        (nnimap-address "imap.gmail.com")
+                                                                        (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                                                (nnrss "http://planet.lisp.org/rss20.xml")
+                                                                (nnrss "http://celeron.55.lt/blog/?feed=rss2")))))
 
 ;; Local configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
