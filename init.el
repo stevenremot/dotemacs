@@ -121,6 +121,7 @@
   (defvar tss-jump-to-definition-key)
   (defvar tss-ac-trigger-command-keys)
 
+
   (require 'typescript)
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
@@ -154,6 +155,9 @@
 (eval-after-load 'gnus '(progn
                           (defvar gnus-select-method)
                           (defvar gnus-secondary-select-methods)
+
+                          (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+
                           (setq gnus-select-method '(nnrss "http://planet.lisp.org/rss20.xml"))
                           (setq gnus-secondary-select-methods `((nnimap "perso"
                                                                         (nnimap-address "imap.gmail.com")
@@ -166,6 +170,23 @@
                                                                         (nnimap-authinfo-file ,personalconf--authinfo-file))
                                                                 (nnrss "http://planet.lisp.org/rss20.xml")
                                                                 (nnrss "http://celeron.55.lt/blog/?feed=rss2")))))
+
+;; BBDB
+;;;;;;;
+
+(when (require 'bbdb nil :no-error)
+  (defvar gnus-summary-mode-map)
+  (defvar bbdb-message-all-addresses)
+
+  (bbdb-initialize 'gnus 'message)
+  (bbdb-mua-auto-update-init 'gnus 'message))
+
+;; Keyboard macros
+;;;;;;;;;;;;;;;;;;
+
+(fset 'perso-show-installed-packages
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217843 111 dead-circumflex 32 73 return] 0 "%d")) arg)))
+
 
 ;; Local configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
