@@ -171,11 +171,10 @@
 
                           (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
-                          (setq gnus-select-method '(nnrss "http://planet.lisp.org/rss20.xml"))
-                          (setq gnus-secondary-select-methods `((nnimap "perso"
-                                                                        (nnimap-address "imap.gmail.com")
-                                                                        (nnimap-authinfo-file ,personalconf--authinfo-file))
-                                                                (nnimap "telecom"
+                          (setq gnus-select-method '(nnimap "perso"
+                                                            (nnimap-address "imap.gmail.com")
+                                                            (nnimap-authinfo-file ,personalconf--authinfo-file)))
+                          (setq gnus-secondary-select-methods `((nnimap "telecom"
                                                                         (nnimap-address "z.mines-telecom.fr")
                                                                         (nnimap-authinfo-file ,personalconf--authinfo-file))
                                                                 (nnimap "inovia"
