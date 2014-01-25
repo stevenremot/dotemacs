@@ -147,6 +147,19 @@
 
 (add-to-list 'auto-mode-alist '(".html\\.phtml\\'" . html-mode))
 
+;; ELisp development
+;;;;;;;;;;;;;;;;;;;;;
+(defvar flycheck-emacs-lisp-load-path)
+
+(add-hook 'emacs-lisp-mode-hook (lambda ()
+                                  (setq flycheck-emacs-lisp-load-path load-path)
+                                  (local-set-key (kbd "C-c C-b") 'eval-buffer)))
+
+(when (package-installed-p 'eldoc)
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+  (add-hook 'php-mode-hook 'eldoc-mode))
+
 ;; Gnus
 ;;;;;;;;
 (require 'epa-file)

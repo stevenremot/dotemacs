@@ -28,6 +28,7 @@
 (defvar bootstrap-environment-packages
   '((basic . (exec-path-from-shell
               auto-complete
+              eldoc
               ))
     (basic-emacs24 . (flycheck
                       ))
@@ -38,6 +39,7 @@
     (web . (mmm-mode
             js3-mode
             php-mode
+            php-eldoc
             ))
     (web-emacs24 . (tern
                     tern-auto-complete
