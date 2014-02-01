@@ -160,6 +160,10 @@
   (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
   (add-hook 'php-mode-hook 'eldoc-mode))
 
+(when (package-installed-p 'paredit)
+  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'paredit-mode))
+
 ;; Gnus
 ;;;;;;;;
 (require 'epa-file)
@@ -168,20 +172,32 @@
 (eval-after-load 'gnus '(progn
                           (defvar gnus-select-method)
                           (defvar gnus-secondary-select-methods)
+                          (defvar gnus-posting-styles)
 
                           (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
-                          (setq gnus-select-method '(nnimap "perso"
-                                                            (nnimap-address "imap.gmail.com")
-                                                            (nnimap-authinfo-file ,personalconf--authinfo-file)))
-                          (setq gnus-secondary-select-methods `((nnimap "telecom"
-                                                                        (nnimap-address "z.mines-telecom.fr")
-                                                                        (nnimap-authinfo-file ,personalconf--authinfo-file))
-                                                                (nnimap "inovia"
-                                                                        (nnimap-address "imap.gmail.com")
-                                                                        (nnimap-authinfo-file ,personalconf--authinfo-file))
-                                                                (nnrss "http://planet.lisp.org/rss20.xml")
-                                                                (nnrss "http://celeron.55.lt/blog/?feed=rss2")))))
+                          (setq gnus-select-method
+                                '(nnimap "perso"
+                                         (nnimap-address "imap.gmail.com")
+                                         (nnimap-authinfo-file ,personalconf--authinfo-file)))
+                          (setq gnus-secondary-select-methods
+                                `((nnimap "telecom"
+                                          (nnimap-address "z.mines-telecom.fr")
+                                          (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                  (nnimap "inovia"
+                                          (nnimap-address "imap.gmail.com")
+                                          (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                  (nnrss "http://planet.lisp.org/rss20.xml")
+                                  (nnrss "http://celeron.55.lt/blog/?feed=rss2")))
+                          (setq gnus-posting-styles
+                                '((".*"
+                                   (name "Steven Rémot"))
+                                  ("perso"
+                                   (address "steven.remot@gmail.com"))
+                                  ("telecom"
+                                   (address "steven.remot@telecom-paristech.fr"))
+                                  ("inovia"
+                                   (address "steven.remot@inovia-team.com"))))))
 
 ;; BBDB
 ;;;;;;;

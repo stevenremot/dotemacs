@@ -17,6 +17,8 @@
  '(flycheck-phpmd-rulesets (quote ("codesize" "design" "naming" "unusedcode")))
  '(gnus-permanently-visible-groups "INBOX")
  '(inferior-lisp-program "sbcl" t)
+ '(inhibit-startup-screen t)
+ '(initial-buffer-choice t)
  '(jabber-account-list (quote (("dray@jabber.org"))))
  '(js3-indent-level 4)
  '(max-lisp-eval-depth 1000)
