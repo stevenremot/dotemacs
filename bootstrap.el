@@ -36,7 +36,7 @@
     (project . (projectile
                 magit
                 ))
-    (web . (mmm-mode
+    (web . (web-mode
             js3-mode
             php-mode
             php-eldoc

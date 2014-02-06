@@ -90,7 +90,7 @@
 
 (require 'auto-complete)
 (add-to-list 'ac-modes 'php-mode)
-(add-to-list 'ac-modes 'js3-mode)
+(add-to-list 'ac-modes 'js-mode)
 (global-auto-complete-mode t)
 
 ;; Projectile
@@ -102,7 +102,7 @@
 ;; Tern
 ;;;;;;;
 
-(add-hook 'js3-mode-hook (lambda ()
+(add-hook 'js-mode-hook (lambda ()
                            (when (require 'tern nil :no-error)
                              (tern-mode t))))
 
@@ -132,20 +132,10 @@
   (add-to-list 'tss-ac-trigger-command-keys "=")
   (tss-config-default))
 
-;; mmm-mode
-;;;;;;;;;;;
+;; web-mode
+;;;;;;;;;;;;
 
-(require 'mmm-auto)
-(defvar mmm-global-mode)
-(setq mmm-global-mode :auto)
-
-(add-to-list 'mmm-major-mode-preferences '(html-js . js3-mode))
-(mmm-add-mode-ext-class 'html-mode nil 'html-js)
-(mmm-add-mode-ext-class 'html-mode nil 'html-css)
-(mmm-add-mode-ext-class 'html-mode nil 'html-php)
-
-
-(add-to-list 'auto-mode-alist '(".html\\.phtml\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\.phtml\\'" . web-mode))
 
 ;; ELisp development
 ;;;;;;;;;;;;;;;;;;;;;
@@ -207,7 +197,10 @@
   (defvar bbdb-message-all-addresses)
 
   (bbdb-initialize 'gnus 'message)
-  (bbdb-mua-auto-update-init 'gnus 'message))
+  (bbdb-mua-auto-update-init 'gnus 'message)
+
+  (add-hook 'message-mode-hook (lambda ()
+                                 (local-set-key (kbd "C-c ;") 'bbdb-complete-name))))
 
 ;; Keyboard macros
 ;;;;;;;;;;;;;;;;;;
@@ -215,12 +208,15 @@
 (fset 'perso-show-installed-packages
    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217843 111 dead-circumflex 32 73 return] 0 "%d")) arg)))
 
+;; Unlocked features
+;;;;;;;;;;;;;;;;;;;;
+
+(put 'erase-buffer 'disabled nil)
 
 ;; Local configuration
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 (when (file-exists-p personalconf--local-init-file)
   (load-file personalconf--local-init-file))
-
 
 ;;; init.el ends here
