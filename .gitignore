@@ -15,3 +15,15 @@ init-local.el
 ##############
 
 *~
+
+# Packages files
+################
+
+.cask
+roguel-ike-saves
+url/
+*.before_ecb*
+elnode
+emms
+jabber-avatar-cache
+newsticker
