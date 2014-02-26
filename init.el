@@ -37,20 +37,19 @@
 (when window-system
   (tool-bar-mode -1))
 (ido-mode 1)
-(global-ede-mode 1)
 
 ;; In order to make dead-circumflex work on emacs 24
 (when (>= emacs-major-version 24)
   (require 'iso-transl))
 
-;; Semantic mode
+;; EDE
 ;;;;;;;;;;;;;;;;
-(semantic-mode 1)
-(defvar semantic-new-buffer-setup-functions)
 
-(global-set-key [(control return)] 'semantic-ia-complete-symbol)
+(load-file (concat personalconf--custom-lisp-dir "cedet-1.1/common/cedet.el"))
+(global-ede-mode 1)
 
-
+(semantic-load-enable-minimum-features)
+(semantic-load-enable-gaudy-code-helpers)
 
 ;; Package repositories
 ;;;;;;;;;;;;;;;;;;;;;;;
