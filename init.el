@@ -48,8 +48,9 @@
 (load-file (concat personalconf--custom-lisp-dir "cedet-1.1/common/cedet.el"))
 (global-ede-mode 1)
 
-(semantic-load-enable-minimum-features)
 (semantic-load-enable-gaudy-code-helpers)
+(semantic-load-enable-all-exuberent-ctags-support)
+(global-set-key (kbd "C-s-<SPC>") 'semantic-ia-complete-symbol-menu)
 
 ;; Package repositories
 ;;;;;;;;;;;;;;;;;;;;;;;
