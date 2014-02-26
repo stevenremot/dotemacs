@@ -44,6 +44,9 @@
     (web-emacs24 . (tern
                     tern-auto-complete
                     ))
+    (clojure . (clojure-mode
+                cider
+                clojurescript-mode))
     )
   "Association between desired environment and packages.")
 
@@ -52,7 +55,8 @@
     (basic-emacs24 . (basic))
     (project . (basic))
     (web . (basic))
-    (web-emacs24 . (basic-emacs24 web)))
+    (web-emacs24 . (basic-emacs24 web))
+    (clojure . (basic)))
   "Define dependencies for each environment.")
 
 (defun bootstrap--init-package ()

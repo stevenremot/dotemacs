@@ -34,8 +34,10 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (require 'uniquify)
-(tool-bar-mode -1)
+(when window-system
+  (tool-bar-mode -1))
 (ido-mode 1)
+(global-ede-mode 1)
 
 ;; In order to make dead-circumflex work on emacs 24
 (when (>= emacs-major-version 24)
@@ -152,7 +154,8 @@
 
 (when (package-installed-p 'paredit)
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook 'paredit-mode))
+  (add-hook 'lisp-interaction-mode-hook 'paredit-mode)
+  (add-hook 'clojure-mode-hook 'paredit-mode))
 
 ;; Gnus
 ;;;;;;;;
