@@ -1,0 +1,15 @@
+#+TITLE: "Personal keymaps"
+
+* General
+
+  | Key   | Function name | Description |
+  |-------+---------------+-------------|
+  | C-s-t | multi-term    | Terminal    |
+  | C-s-s | speedbar      |             |
+
+* Semantic
+
+  | Key          | Function name                    | Description        |
+  |--------------+----------------------------------+--------------------|
+  | C-s-<SPC>    | semantic-ia-complete-symbol-menu | Menu de complétion |
+  | C-s-<return> | semantic-ia-fast-jump            | Jump sémantique    |

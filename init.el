@@ -51,6 +51,7 @@
 (semantic-load-enable-gaudy-code-helpers)
 (semantic-load-enable-all-exuberent-ctags-support)
 (global-set-key (kbd "C-s-<SPC>") 'semantic-ia-complete-symbol-menu)
+(global-set-key (kbd "C-s-<return>") 'semantic-ia-fast-jump)
 
 ;; Package repositories
 ;;;;;;;;;;;;;;;;;;;;;;;
