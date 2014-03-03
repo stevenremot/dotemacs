@@ -1,4 +1,4 @@
-#+TITLE "My CEDET CHeat sheet"
+#+TITLE: My CEDET CHeat sheet
 
 * Senator
 
