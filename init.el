@@ -199,10 +199,10 @@
 (eval-after-load 'mu4e
   (progn
     (setq mu4e-maildir "~/Maildir"
-          mu4e-sent-folder "/Perso/sent"
-          mu4e-draft-folder "/Perso/drafts"
-          mu4e-trash-folder "/Perso/trash"
-          mu4e-refile-folder "/Perso/archive"
+          mu4e-sent-folder "/Perso/Sent"
+          mu4e-drafts-folder "/Perso/Drafts"
+          mu4e-trash-folder "/Perso/Trash"
+          mu4e-refile-folder "/Perso/Archive"
 
           user-email-address "steven.remot@gmail.com"
           smtpmail-default-smtp-server "smtp.gmail.com"
@@ -211,18 +211,24 @@
           smtpmail-stream-type 'starttls
           smtpmail-smtp-service 25
 
-          mu4e-get-mail-command "fetchmail"
+          mu4e-get-mail-command "offlineimap"
           mu4e-update-interval 300)
 
     (defvar my-mu4e-account-alist
       '(("Perso"
-         (mu4e-sent-folder "/Perso/sent")
-         (mu4e-drafts-folder "/Perso/drafts"))
+         (mu4e-sent-folder "/Perso/Sent")
+         (mu4e-drafts-folder "/Perso/Drafts"))
         ("Telecom"
-         (mu4e-sent-folder "/Telecom/sent")
-         (mu4e-drafts-folder "/Perso/drafts")
+         (mu4e-sent-folder "/Telecom/Sent")
+         (mu4e-drafts-folder "/Telecom/Drafts")
+         (mu4e-trash-folder "/Telecom/Trash")
          (user-mail-address "steven.remot@telecom-paristech.fr")
-         (smtpmail-default-smtp-server "z.institut-telecom.fr"))))
+         (smtpmail-default-smtp-server "z.institut-telecom.fr"))
+        ("Inovia"
+         (mu4e-sent-folder "/Inovia/Sent")
+         (mu4e-drafts-folder "/Inovia/Drafts")
+         (mu4e-trash-folder "/Inovia/Trash")
+         (user-mail-address "steven.remot@inovia-team.com"))))
 
     (defun my-mu4e-set-account ()
       "Set the account for composing a message."
