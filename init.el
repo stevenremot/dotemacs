@@ -193,6 +193,57 @@
                                   ("inovia"
                                    (address "steven.remot@inovia-team.com"))))))
 
+;; Mu4e
+;;;;;;;;
+
+(eval-after-load 'mu4e
+  (progn
+    (setq mu4e-maildir "~/Maildir"
+          mu4e-sent-folder "/Perso/sent"
+          mu4e-draft-folder "/Perso/drafts"
+          mu4e-trash-folder "/Perso/trash"
+          mu4e-refile-folder "/Perso/archive"
+
+          user-email-address "steven.remot@gmail.com"
+          smtpmail-default-smtp-server "smtp.gmail.com"
+          smtpmail-local-domain "gmail.com"
+          smtpmail-smtp-server "smtp.gmail.com"
+          smtpmail-stream-type 'starttls
+          smtpmail-smtp-service 25
+
+          mu4e-get-mail-command "fetchmail"
+          mu4e-update-interval 300)
+
+    (defvar my-mu4e-account-alist
+      '(("Perso"
+         (mu4e-sent-folder "/Perso/sent")
+         (mu4e-drafts-folder "/Perso/drafts"))
+        ("Telecom"
+         (mu4e-sent-folder "/Telecom/sent")
+         (mu4e-drafts-folder "/Perso/drafts")
+         (user-mail-address "steven.remot@telecom-paristech.fr")
+         (smtpmail-default-smtp-server "z.institut-telecom.fr"))))
+
+    (defun my-mu4e-set-account ()
+      "Set the account for composing a message."
+      (let* ((account
+              (if mu4e-compose-parent-message
+                  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                    (string-match "/\\(.*?\\)/" maildir)
+                    (match-string 1 maildir))
+                (completing-read (format "Compose with account: (%s) "
+                                         (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
+                                 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                 nil t nil nil (caar my-mu4e-account-alist))))
+             (account-vars (cdr (assoc account my-mu4e-account-alist))))
+        (if account-vars
+            (mapc #'(lambda (var)
+                      (set (car var) (cadr var)))
+                  account-vars)
+          (error "No email account found"))))
+
+    (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)))
+
 ;; BBDB
 ;;;;;;;
 
