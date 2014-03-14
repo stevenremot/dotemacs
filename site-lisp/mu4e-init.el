@@ -1,9 +1,5 @@
 ;;; mu4e-init.el --- Mu4e-related initialization
 
-;; Mu4e
-;;;;;;;;
-
-
 ;;; Commentary:
 ;;
 
