@@ -35,8 +35,7 @@
     (setq mu4e-maildir "~/Maildir"
           mu4e-sent-folder (lambda (msg)
                              (perso-auto-select-mail-folder msg "Sent"))
-          mu4e-drafts-folder (lambda (msg)
-                               (perso-auto-select-mail-folder msg "Drafts"))
+          mu4e-drafts-folder "/Drafts"
           mu4e-trash-folder (lambda (msg)
                               (perso-auto-select-mail-folder msg "Trash"))
           mu4e-refile-folder (lambda (msg)
@@ -53,7 +52,8 @@
           mu4e-update-interval 300)
 
     (defvar my-mu4e-account-alist
-      '(("Perso")
+      '(("Perso"
+         (user-mail-address "steven.remot@gmail.com"))
         ("Telecom"
          (user-mail-address "steven.remot@telecom-paristech.fr")
          (smtpmail-default-smtp-server "z.mines-telecom.fr")
