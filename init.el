@@ -193,62 +193,10 @@
                                   ("inovia"
                                    (address "steven.remot@inovia-team.com"))))))
 
-;; Mu4e
+;; mu4e
 ;;;;;;;;
 
-(eval-after-load 'mu4e
-  (progn
-    (setq mu4e-maildir "~/Maildir"
-          mu4e-sent-folder "/Perso/Sent"
-          mu4e-drafts-folder "/Perso/Drafts"
-          mu4e-trash-folder "/Perso/Trash"
-          mu4e-refile-folder "/Perso/Archive"
-
-          user-email-address "steven.remot@gmail.com"
-          smtpmail-default-smtp-server "smtp.gmail.com"
-          smtpmail-local-domain "gmail.com"
-          smtpmail-smtp-server "smtp.gmail.com"
-          smtpmail-stream-type 'starttls
-          smtpmail-smtp-service 25
-
-          mu4e-get-mail-command "offlineimap"
-          mu4e-update-interval 300)
-
-    (defvar my-mu4e-account-alist
-      '(("Perso"
-         (mu4e-sent-folder "/Perso/Sent")
-         (mu4e-drafts-folder "/Perso/Drafts"))
-        ("Telecom"
-         (mu4e-sent-folder "/Telecom/Sent")
-         (mu4e-drafts-folder "/Telecom/Drafts")
-         (mu4e-trash-folder "/Telecom/Trash")
-         (user-mail-address "steven.remot@telecom-paristech.fr")
-         (smtpmail-default-smtp-server "z.institut-telecom.fr"))
-        ("Inovia"
-         (mu4e-sent-folder "/Inovia/Sent")
-         (mu4e-drafts-folder "/Inovia/Drafts")
-         (mu4e-trash-folder "/Inovia/Trash")
-         (user-mail-address "steven.remot@inovia-team.com"))))
-
-    (defun my-mu4e-set-account ()
-      "Set the account for composing a message."
-      (let* ((account
-              (if mu4e-compose-parent-message
-                  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-                    (string-match "/\\(.*?\\)/" maildir)
-                    (match-string 1 maildir))
-                (completing-read (format "Compose with account: (%s) "
-                                         (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
-                                 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                                 nil t nil nil (caar my-mu4e-account-alist))))
-             (account-vars (cdr (assoc account my-mu4e-account-alist))))
-        (if account-vars
-            (mapc #'(lambda (var)
-                      (set (car var) (cadr var)))
-                  account-vars)
-          (error "No email account found"))))
-
-    (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)))
+(require 'mu4e-init)
 
 ;; BBDB
 ;;;;;;;
@@ -258,10 +206,11 @@
   (defvar bbdb-message-all-addresses)
 
   (bbdb-initialize 'gnus 'message)
-  (bbdb-mua-auto-update-init 'gnus 'message)
+  ;; (bbdb-mua-auto-update-init 'gnus 'message)
 
-  (add-hook 'message-mode-hook (lambda ()
-                                 (local-set-key (kbd "C-c ;") 'bbdb-complete-name))))
+  ;; (add-hook 'message-mode-hook (lambda ()
+  ;; (local-set-key (kbd "C-c ;") 'bbdb-complete-name)))
+  )
 
 ;; Keyboard macros
 ;;;;;;;;;;;;;;;;;;
