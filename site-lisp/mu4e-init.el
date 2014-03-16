@@ -21,6 +21,9 @@
     (defvar mu4e-get-mail-command)
     (defvar mu4e-update-interval)
     (defvar mu4e-compose-parent-message)
+    (defvar mu4e-html2text-command)
+    (defvar user-full-name)
+    (setq user-full-name "Steven Rémot")
 
     (defvar perso-mail-roots '("/Perso/" "/Telecom/" "/Inovia/"))
 
@@ -33,8 +36,7 @@
           (concat "/" dir))))
 
     (setq mu4e-maildir "~/Maildir"
-          mu4e-sent-folder (lambda (msg)
-                             (perso-auto-select-mail-folder msg "Sent"))
+          mu4e-sent-folder "/Sent"
           mu4e-drafts-folder "/Drafts"
           mu4e-trash-folder (lambda (msg)
                               (perso-auto-select-mail-folder msg "Trash"))
@@ -53,14 +55,20 @@
 
     (defvar my-mu4e-account-alist
       '(("Perso"
-         (user-mail-address "steven.remot@gmail.com"))
+         (user-mail-address "steven.remot@gmail.com")
+         (mu4e-sent-folder "/Perso/Sent")
+         (mu4e-drafts-folder "/Perso/Drafts"))
         ("Telecom"
          (user-mail-address "steven.remot@telecom-paristech.fr")
          (smtpmail-default-smtp-server "z.mines-telecom.fr")
          (smtpmail-smtp-server "z.mines-telecom.fr")
-         (smtpmail-smtp-service 587))
+         (smtpmail-smtp-service 587)
+         (mu4e-sent-folder "/Telecom/Sent")
+         (mu4e-drafts-folder "/Telecom/Drafts"))
         ("Inovia"
-         (user-mail-address "steven.remot@inovia-team.com"))))
+         (user-mail-address "steven.remot@inovia-team.com")
+         (mu4e-sent-folder "/Inovia/Sent")
+         (mu4e-drafts-folder "/Inovia/Drafts"))))
 
     (defun my-mu4e-set-account ()
       "Set the account for composing a message."
@@ -81,6 +89,9 @@
           (error "No email account found"))))
 
     (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+
+    (setq mu4e-html2text-command
+          "html2markdown | grep -v '&nbsp_place_holder;'")
     ))
 
 (provide 'mu4e-init)
