@@ -47,8 +47,7 @@
           smtpmail-default-smtp-server "smtp.gmail.com"
           smtpmail-local-domain "gmail.com"
           smtpmail-smtp-server "smtp.gmail.com"
-          smtpmail-stream-type 'starttls
-          smtpmail-smtp-service 25
+          smtpmail-smtp-service 587
 
           mu4e-get-mail-command "offlineimap"
           mu4e-update-interval 300)
@@ -56,8 +55,12 @@
     (defvar my-mu4e-account-alist
       '(("Perso"
          (user-mail-address "steven.remot@gmail.com")
-         (mu4e-sent-folder "/Perso/Sent")
-         (mu4e-drafts-folder "/Perso/Drafts"))
+          (smtpmail-default-smtp-server "smtp.gmail.com")
+          (smtpmail-local-domain "gmail.com")
+          (smtpmail-smtp-server "smtp.gmail.com")
+          (smtpmail-smtp-service 587)
+          (mu4e-sent-folder "/Perso/Sent")
+          (mu4e-drafts-folder "/Perso/Drafts"))
         ("Telecom"
          (user-mail-address "steven.remot@telecom-paristech.fr")
          (smtpmail-default-smtp-server "z.mines-telecom.fr")
@@ -67,11 +70,16 @@
          (mu4e-drafts-folder "/Telecom/Drafts"))
         ("Inovia"
          (user-mail-address "steven.remot@inovia-team.com")
-         (mu4e-sent-folder "/Inovia/Sent")
-         (mu4e-drafts-folder "/Inovia/Drafts"))))
+          (smtpmail-default-smtp-server "smtp.gmail.com")
+          (smtpmail-local-domain "gmail.com")
+          (smtpmail-smtp-server "smtp.gmail.com")
+          (smtpmail-smtp-service 587)
+          (mu4e-sent-folder "/Inovia/Sent")
+          (mu4e-drafts-folder "/Inovia/Drafts"))))
 
     (defun my-mu4e-set-account ()
       "Set the account for composing a message."
+      (interactive)
       (let* ((account
               (if mu4e-compose-parent-message
                   (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))

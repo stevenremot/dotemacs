@@ -16,6 +16,7 @@
 ;; The environments currently defined are :
 ;; * basic - General editing packages
 ;; * basic-emacs24 - General packages intended to be used at least on Emacs 24
+;; * mailing - Basic mail utilities (actually, prefer mu4e)
 ;; * project - Packages for project management (projectile)
 ;; * web - Packages for web development
 ;; * web-emacs24 - Packages for web development intended to be used at least on Emacs 24
@@ -27,6 +28,7 @@
 
 (defvar bootstrap-environment-packages
   '((basic . (exec-path-from-shell
+              multi-eshell
               auto-complete
               eldoc
               ))

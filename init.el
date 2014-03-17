@@ -29,7 +29,7 @@
 (show-paren-mode 1)
 
 (column-number-mode 1)
-(global-set-key (kbd "C-s-t") 'multi-term)
+(global-set-key (kbd "C-s-t") 'multi-eshell)
 (global-set-key (kbd "C-s-s") 'speedbar)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
