@@ -88,6 +88,14 @@
 (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
 (add-hook 'php-mode-hook 'flymake-phpmd-setup)
 
+;; Helm
+;;;;;;;;
+
+(eval-after-load 'helm
+  '(progn
+     (global-set-key (kbd "M-x") 'helm-M-x)
+     (global-set-key (kbd "C-x C-f") 'helm-find-files)))
+
 ;; auto-complete
 ;;;;;;;;;;;;;;;;;
 

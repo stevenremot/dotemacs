@@ -47,6 +47,7 @@
     (web-emacs24 . (tern
                     tern-auto-complete
                     ))
+    (lisp . (paredit))
     (clojure . (clojure-mode
                 cider
                 clojurescript-mode))
@@ -59,7 +60,7 @@
     (project . (basic))
     (web . (basic))
     (web-emacs24 . (basic-emacs24 web))
-    (clojure . (basic)))
+    (clojure . (basic lisp)))
   "Define dependencies for each environment.")
 
 (defun bootstrap--init-package ()
