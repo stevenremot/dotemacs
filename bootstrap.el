@@ -31,6 +31,7 @@
               multi-eshell
               auto-complete
               eldoc
+              solarized-theme
               ))
     (basic-emacs24 . (flycheck
                       ))
