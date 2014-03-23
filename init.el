@@ -29,7 +29,7 @@
 (show-paren-mode 1)
 
 (column-number-mode 1)
-(global-set-key (kbd "C-s-t") 'multi-eshell)
+(global-set-key (kbd "C-s-t") (lambda () (interactive) (eshell t)))
 (global-set-key (kbd "C-s-s") 'speedbar)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -71,6 +71,7 @@
                "http://melpa.milkbox.net/packages/"))
 
 (package-initialize)
+(load-theme 'solarized-dark t)
 
 ;; Path variable
 ;;;;;;;;;;;;;;;;
@@ -91,18 +92,31 @@
 ;; Helm
 ;;;;;;;;
 
-(eval-after-load 'helm
-  '(progn
-     (global-set-key (kbd "M-x") 'helm-M-x)
-     (global-set-key (kbd "C-x C-f") 'helm-find-files)))
+(when (package-installed-p 'helm)
+  (require 'helm)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x C-b") 'helm-buffers-list))
 
 ;; auto-complete
 ;;;;;;;;;;;;;;;;;
 
-(require 'auto-complete)
-(add-to-list 'ac-modes 'php-mode)
-(add-to-list 'ac-modes 'js-mode)
-(global-auto-complete-mode t)
+;; (require 'auto-complete)
+;; (add-to-list 'ac-modes 'php-mode)
+;; (add-to-list 'ac-modes 'js-mode)
+;; (global-auto-complete-mode t)
+
+;; Company
+;;;;;;;;;;;
+
+(when (package-installed-p 'company)
+  (require 'company)
+  (defvar company-backends)
+
+  (when (package-installed-p 'company-tern)
+    (add-to-list 'company-backends 'company-tern))
+  (add-hook 'after-init-hook 'global-company-mode))
 
 ;; Projectile
 ;;;;;;;;;;;;;
@@ -114,13 +128,15 @@
 ;;;;;;;
 
 (add-hook 'js-mode-hook (lambda ()
-                           (when (require 'tern nil :no-error)
-                             (tern-mode t))))
+                           (when (package-installed-p 'tern)
+                             (tern-mode t)
+                             (when (package-installed-p 'company-tern)
+                               (company-tern t)))))
 
-(eval-after-load 'tern
-  '(progn
-     (require 'tern-auto-complete)
-     (tern-ac-setup)))
+;; (eval-after-load 'tern
+;;   '(progn
+;;      (require 'tern-auto-complete)
+;;      (tern-ac-setup)))
 
 ;; tss
 ;;;;;;

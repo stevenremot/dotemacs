@@ -28,8 +28,7 @@
 
 (defvar bootstrap-environment-packages
   '((basic . (exec-path-from-shell
-              multi-eshell
-              auto-complete
+              company
               eldoc
               solarized-theme
               ))
@@ -45,7 +44,7 @@
             php-eldoc
             ))
     (web-emacs24 . (tern
-                    tern-auto-complete
+                    company-tern
                     ))
     (lisp . (paredit))
     (clojure . (clojure-mode
