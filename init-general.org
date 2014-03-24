@@ -158,7 +158,7 @@
 
    Auto-complete is disabled, I use company instead.
 
-   #+begin_src emacs-lisp :tangle no
+   #+begin_src emacs-lisp :tangle no :exports none
      (require 'auto-complete)
      (add-to-list 'ac-modes 'php-mode)
      (add-to-list 'ac-modes 'js-mode)
@@ -199,7 +199,7 @@
 
     Disabled in favor of company
 
-    #+begin_src emacs-lisp :tangle no
+    #+begin_src emacs-lisp :tangle no :exports none
       (eval-after-load 'tern
         '(progn
            (require 'tern-auto-complete)
@@ -276,7 +276,7 @@
 
   I use mu4e and elfeed now, so this section is disabled.
 
-  #+begin_src emacs-lisp :tangle no
+  #+begin_src emacs-lisp :tangle no :exports none
     (require 'epa-file)
     (epa-file-enable)
 
@@ -315,7 +315,7 @@
 
   Mu4e Handles contacts correctly, so this section is disabled.
 
-  #+begin_src emacs-lisp :tangle no
+  #+begin_src emacs-lisp :tangle no :exports none
     (when (require 'bbdb nil :no-error)
       (defvar gnus-summary-mode-map)
       (defvar bbdb-message-all-addresses)
