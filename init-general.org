@@ -3,7 +3,10 @@
 
 * Base configuration
 
+  I put in this part configurations related to Emacs use in general.
+
 ** Global variables
+
    #+begin_src emacs-lisp
      (defvar personalconf--basedir (file-name-directory load-file-name))
      (defvar personalconf--custom-lisp-dir (concat personalconf--basedir "site-lisp/"))
@@ -21,6 +24,32 @@
 ** Custom lisp loading
    #+begin_src emacs-lisp
      (add-to-list 'load-path personalconf--custom-lisp-dir)
+   #+end_src
+
+** Package
+   Installing repositories
+
+   #+begin_src emacs-lisp
+     (require 'package)
+
+     (when (< emacs-major-version 24)
+       (add-to-list 'package-archives
+                    '("gnu" .
+                      "http://elpa.gnu.org/packages/")))
+
+     (add-to-list 'package-archives
+                  '("marmalade" .
+                    "http://marmalade-repo.org/packages/"))
+     (add-to-list 'package-archives
+                  '("melpa" .
+                    "http://melpa.milkbox.net/packages/"))
+
+     (package-initialize)
+   #+end_src
+
+** Theme
+   #+begin_src emacs-lisp
+     (load-theme 'solarized-dark t)
    #+end_src
 
 ** General shortcuts
@@ -44,10 +73,28 @@
        (tool-bar-mode -1))
      (ido-mode 1)
    #+end_src
+** Helm
 
-* Base editing features
+   #+begin_src emacs-lisp
+     (when (package-installed-p 'helm)
+       (require 'helm)
+       (global-set-key (kbd "M-x") 'helm-M-x)
+       (global-set-key (kbd "C-x C-f") 'helm-find-files)
+       (global-set-key (kbd "C-x b") 'helm-buffers-list)
+       (global-set-key (kbd "C-x C-b") 'helm-buffers-list))
+   #+end_src
+** Keyboard macros
 
-** Programming modes
+   #+begin_src emacs-lisp
+     (fset 'perso-show-installed-packages
+        (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217843 111 dead-circumflex 32 73 return] 0 "%d")) arg)))
+   #+end_src
+* Development
+
+  I put in this part all configuration related to programming modes
+  and text-editing.
+
+** Base editing features
 
    Base settings for programming modes
 
@@ -63,8 +110,6 @@
      (when (>= emacs-major-version 24)
        (require 'iso-transl))
    #+end_src
-
-
 
 ** EDE
 
@@ -87,261 +132,220 @@
       (global-set-key (kbd "C-s-<return>") 'semantic-ia-fast-jump)
     #+end_src
 
-* Package
-  Installing repositories
+** Flymake / flycheck
 
-  #+begin_src emacs-lisp
-    (require 'package)
+*** Path settings
 
-    (when (< emacs-major-version 24)
-      (add-to-list 'package-archives
-                   '("gnu" .
-                     "http://elpa.gnu.org/packages/")))
-
-    (add-to-list 'package-archives
-                 '("marmalade" .
-                   "http://marmalade-repo.org/packages/"))
-    (add-to-list 'package-archives
-                 '("melpa" .
-                   "http://melpa.milkbox.net/packages/"))
-
-    (package-initialize)
-  #+end_src
-
-* Theme
-  #+begin_src emacs-lisp
-    (load-theme 'solarized-dark t)
-  #+end_src
-
-* Flymake / flycheck
-
-** Path settings
-
-  It is necesary to include the system environment's path into emacs path in order
-  for flycheck to work.
-
-  #+begin_src emacs-lisp
-    (require 'exec-path-from-shell)
-    (exec-path-from-shell-initialize)
-  #+end_src
-
-** Bootstrap
+   It is necesary to include the system environment's path into emacs path in order
+   for flycheck to work on Emacs Lisp files.
 
    #+begin_src emacs-lisp
-     (if (require 'flycheck nil :no-error)
-         (add-hook 'after-init-hook #'global-flycheck-mode)
-         (add-hook 'find-file-hook 'flymake-find-file-hook))
-
-     (add-hook 'php-mode-hook 'flymake-phpmd-setup)
+     (require 'exec-path-from-shell)
+     (exec-path-from-shell-initialize)
    #+end_src
 
-** Shortcuts
+*** Bootstrap
 
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
-   #+end_src
+    #+begin_src emacs-lisp
+      (if (require 'flycheck nil :no-error)
+          (add-hook 'after-init-hook #'global-flycheck-mode)
+          (add-hook 'find-file-hook 'flymake-find-file-hook))
 
-* Helm
-
-  #+begin_src emacs-lisp
-    (when (package-installed-p 'helm)
-      (require 'helm)
-      (global-set-key (kbd "M-x") 'helm-M-x)
-      (global-set-key (kbd "C-x C-f") 'helm-find-files)
-      (global-set-key (kbd "C-x b") 'helm-buffers-list)
-      (global-set-key (kbd "C-x C-b") 'helm-buffers-list))
-  #+end_src
-
-* Auto-completion
-
-** Auto-complete
-
-   Auto-complete is disabled, I use company instead.
-
-   #+begin_src emacs-lisp :tangle no :exports none
-     (require 'auto-complete)
-     (add-to-list 'ac-modes 'php-mode)
-     (add-to-list 'ac-modes 'js-mode)
-     (global-auto-complete-mode t)
-   #+end_src
-
-** Company
-
-   #+begin_src emacs-lisp
-    (when (package-installed-p 'company)
-      (require 'company)
-      (defvar company-backends)
-
-      (when (package-installed-p 'company-tern)
-        (add-to-list 'company-backends 'company-tern))
-      (add-hook 'after-init-hook 'global-company-mode))
-   #+end_src
-
-* Projectile
-
-  #+begin_src emacs-lisp
-   (when (require 'projectile nil :no-error)
-     (projectile-global-mode 1))
-  #+end_src
-
-* Tern
-
-** Bootstrap
-
-  #+begin_src emacs-lisp
-    (add-hook 'js-mode-hook (lambda ()
-                               (when (package-installed-p 'tern)
-                                 (tern-mode t))))
-  #+end_src
-
-
-**  Auto-complete
-
-    Disabled in favor of company
-
-    #+begin_src emacs-lisp :tangle no :exports none
-      (eval-after-load 'tern
-        '(progn
-           (require 'tern-auto-complete)
-           (tern-ac-setup)))
+      (add-hook 'php-mode-hook 'flymake-phpmd-setup)
     #+end_src
 
-** Company
+*** Shortcuts
+
+    #+begin_src emacs-lisp
+      (global-set-key (kbd "C-M-d") 'flymake-display-err-menu-for-current-line)
+    #+end_src
+
+** Auto-completion
+
+*** Auto-complete
+
+    Auto-complete is disabled, I use company instead.
+
+    #+begin_src emacs-lisp :tangle no :exports none
+      (require 'auto-complete)
+      (add-to-list 'ac-modes 'php-mode)
+      (add-to-list 'ac-modes 'js-mode)
+      (global-auto-complete-mode t)
+    #+end_src
+
+*** Company
+
+    #+begin_src emacs-lisp
+     (when (package-installed-p 'company)
+       (require 'company)
+       (defvar company-backends)
+
+       (when (package-installed-p 'company-tern)
+         (add-to-list 'company-backends 'company-tern))
+       (add-hook 'after-init-hook 'global-company-mode))
+    #+end_src
+
+** Projectile
 
    #+begin_src emacs-lisp
-     (when (package-installed-p 'company-tern)
-       (add-hook 'js-mode-hook (lambda ()
-                                 (company-tern t))))
+    (when (require 'projectile nil :no-error)
+      (projectile-global-mode 1))
    #+end_src
-
-* TSS
+** Eldoc
 
    #+begin_src emacs-lisp
-     (add-to-list 'load-path (concat personalconf--custom-lisp-dir "/emacs-tss"))
-
-     (when (require 'tss nil :noerror)
-       (defvar tss-popup-help-key)
-       (defvar tss-jump-to-definition-key)
-       (defvar tss-ac-trigger-command-keys)
-
-
-       (require 'typescript)
-       (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
-
-       ;; Key bindings
-       (setq tss-popup-help-key "C-:")
-       (setq tss-jump-to-definition-key "C->")
-
-       (add-to-list 'tss-ac-trigger-command-keys "=")
-       (tss-config-default))
+    (when (package-installed-p 'eldoc)
+      (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+      (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+      (add-hook 'php-mode-hook 'eldoc-mode))
    #+end_src
 
-* Web mode
+** Tern
 
-  #+begin_src emacs-lisp
-   (add-to-list 'auto-mode-alist '("\\.html\\.phtml\\'" . web-mode))
-  #+end_src
+*** Bootstrap
 
-* Emacs Lisp development
+   #+begin_src emacs-lisp
+     (add-hook 'js-mode-hook (lambda ()
+                                (when (package-installed-p 'tern)
+                                  (tern-mode t))))
+   #+end_src
 
-   A shortcut for eval buffer, and I can't remember what the load path is for...
 
-  #+begin_src emacs-lisp
-   (defvar flycheck-emacs-lisp-load-path)
+***  Auto-complete
 
-   (add-hook 'emacs-lisp-mode-hook (lambda ()
-                                     (setq flycheck-emacs-lisp-load-path load-path)
-                                     (local-set-key (kbd "C-c C-b") 'eval-buffer)))
-  #+end_src
+     Disabled in favor of company
 
-* Eldoc
+     #+begin_src emacs-lisp :tangle no :exports none
+       (eval-after-load 'tern
+         '(progn
+            (require 'tern-auto-complete)
+            (tern-ac-setup)))
+     #+end_src
 
-  #+begin_src emacs-lisp
-   (when (package-installed-p 'eldoc)
-     (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-     (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
-     (add-hook 'php-mode-hook 'eldoc-mode))
-  #+end_src
+*** Company
 
-* Paredit
+    #+begin_src emacs-lisp
+      (when (package-installed-p 'company-tern)
+        (add-hook 'js-mode-hook (lambda ()
+                                  (company-tern t))))
+    #+end_src
+** TSS
 
-  #+begin_src emacs-lisp
-    (when (package-installed-p 'paredit)
-      (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-      (add-hook 'lisp-interaction-mode-hook 'paredit-mode)
-      (add-hook 'clojure-mode-hook 'paredit-mode))
-  #+end_src
+    #+begin_src emacs-lisp
+      (add-to-list 'load-path (concat personalconf--custom-lisp-dir "/emacs-tss"))
 
-* Gnus
+      (when (require 'tss nil :noerror)
+        (defvar tss-popup-help-key)
+        (defvar tss-jump-to-definition-key)
+        (defvar tss-ac-trigger-command-keys)
 
-  I use mu4e and elfeed now, so this section is disabled.
 
-  #+begin_src emacs-lisp :tangle no :exports none
-    (require 'epa-file)
-    (epa-file-enable)
+        (require 'typescript)
+        (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
-    (eval-after-load 'gnus '(progn
-                              (defvar gnus-select-method)
-                              (defvar gnus-secondary-select-methods)
-                              (defvar gnus-posting-styles)
+        ;; Key bindings
+        (setq tss-popup-help-key "C-:")
+        (setq tss-jump-to-definition-key "C->")
 
-                              (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+        (add-to-list 'tss-ac-trigger-command-keys "=")
+        (tss-config-default))
+    #+end_src
 
-                              (setq gnus-select-method
-                                    '(nnimap "perso"
-                                             (nnimap-address "imap.gmail.com")
-                                             (nnimap-authinfo-file ,personalconf--authinfo-file)))
-                              (setq gnus-secondary-select-methods
-                                    `((nnimap "telecom"
-                                              (nnimap-address "z.mines-telecom.fr")
-                                              (nnimap-authinfo-file ,personalconf--authinfo-file))
-                                      (nnimap "inovia"
+** Web mode
+
+   #+begin_src emacs-lisp
+    (add-to-list 'auto-mode-alist '("\\.html\\.phtml\\'" . web-mode))
+   #+end_src
+
+** Lisp
+*** Emacs Lisp development
+
+     A shortcut for eval buffer, and I can't remember what the load path is for...
+
+    #+begin_src emacs-lisp
+     (defvar flycheck-emacs-lisp-load-path)
+
+     (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                       (setq flycheck-emacs-lisp-load-path load-path)
+                                       (local-set-key (kbd "C-c C-b") 'eval-buffer)))
+    #+end_src
+
+*** Paredit
+
+    #+begin_src emacs-lisp
+      (when (package-installed-p 'paredit)
+        (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+        (add-hook 'lisp-interaction-mode-hook 'paredit-mode)
+        (add-hook 'clojure-mode-hook 'paredit-mode))
+    #+end_src
+* Mailing
+
+  I put in this part all configuration related to mailing, and
+  communication in general.
+
+** Gnus
+
+   I use mu4e and elfeed now, so this section is disabled.
+
+   #+begin_src emacs-lisp :tangle no :exports none
+     (require 'epa-file)
+     (epa-file-enable)
+
+     (eval-after-load 'gnus '(progn
+                               (defvar gnus-select-method)
+                               (defvar gnus-secondary-select-methods)
+                               (defvar gnus-posting-styles)
+
+                               (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+
+                               (setq gnus-select-method
+                                     '(nnimap "perso"
                                               (nnimap-address "imap.gmail.com")
-                                              (nnimap-authinfo-file ,personalconf--authinfo-file))
-                                      (nnrss "http://planet.lisp.org/rss20.xml")
-                                      (nnrss "http://celeron.55.lt/blog/?feed=rss2")))
-                              (setq gnus-posting-styles
-                                    '((".*"
-                                       (name "Steven Rémot"))
-                                      ("perso"
-                                       (address "steven.remot@gmail.com"))
-                                      ("telecom"
-                                       (address "steven.remot@telecom-paristech.fr"))
-                                      ("inovia"
-                                       (address "steven.remot@inovia-team.com"))))))
-  #+end_src
+                                              (nnimap-authinfo-file ,personalconf--authinfo-file)))
+                               (setq gnus-secondary-select-methods
+                                     `((nnimap "telecom"
+                                               (nnimap-address "z.mines-telecom.fr")
+                                               (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                       (nnimap "inovia"
+                                               (nnimap-address "imap.gmail.com")
+                                               (nnimap-authinfo-file ,personalconf--authinfo-file))
+                                       (nnrss "http://planet.lisp.org/rss20.xml")
+                                       (nnrss "http://celeron.55.lt/blog/?feed=rss2")))
+                               (setq gnus-posting-styles
+                                     '((".*"
+                                        (name "Steven Rémot"))
+                                       ("perso"
+                                        (address "steven.remot@gmail.com"))
+                                       ("telecom"
+                                        (address "steven.remot@telecom-paristech.fr"))
+                                       ("inovia"
+                                        (address "steven.remot@inovia-team.com"))))))
+   #+end_src
 
-* BBDB
+** BBDB
 
-  Mu4e Handles contacts correctly, so this section is disabled.
+   Mu4e Handles contacts correctly, so this section is disabled.
 
-  #+begin_src emacs-lisp :tangle no :exports none
-    (when (require 'bbdb nil :no-error)
-      (defvar gnus-summary-mode-map)
-      (defvar bbdb-message-all-addresses)
+   #+begin_src emacs-lisp :tangle no :exports none
+     (when (require 'bbdb nil :no-error)
+       (defvar gnus-summary-mode-map)
+       (defvar bbdb-message-all-addresses)
 
-      (bbdb-initialize 'gnus 'message)
-      ;; (bbdb-mua-auto-update-init 'gnus 'message)
+       (bbdb-initialize 'gnus 'message)
+       ;; (bbdb-mua-auto-update-init 'gnus 'message)
 
-      ;; (add-hook 'message-mode-hook (lambda ()
-      ;; (local-set-key (kbd "C-c ;") 'bbdb-complete-name)))
-      )
-  #+end_src
+       ;; (add-hook 'message-mode-hook (lambda ()
+       ;; (local-set-key (kbd "C-c ;") 'bbdb-complete-name)))
+       )
+   #+end_src
 
-* Mu4e
+** Mu4e
 
-  #+begin_src emacs-lisp
-    (require 'mu4e-init)
-  #+end_src
+   #+begin_src emacs-lisp
+     (require 'mu4e-init)
+   #+end_src
 
-* Keyboard macros
-
-  #+begin_src emacs-lisp
-    (fset 'perso-show-installed-packages
-       (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217843 111 dead-circumflex 32 73 return] 0 "%d")) arg)))
-  #+end_src
-
-* Disabled features
+* Enabled features
 
   #+begin_src emacs-lisp
     (put 'erase-buffer 'disabled nil)
