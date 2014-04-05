@@ -1,13 +1,13 @@
 ;;; gulp.el --- Gulp support fur Emacs
 
 ;;; Commentary:
-;;
+;; TODO Make gulp restart work
 
 ;;; Code:
 (defgroup gulp
   '()
   "Gulp support."
-  :group 'emacs)
+  :group 'tools)
 
 (defcustom gulp-executable "gulp"
   "Path to gulp executable."
@@ -23,6 +23,12 @@
   "Buffer name for gulp output buffer."
   :type 'string
   :group 'gulp)
+
+(defvar-local gulp-task ""
+  "Gulp task run in the current buffer.")
+
+(defvar-local gulp-directory ""
+  "Gulp directory for current gulp task.")
 
 (defun gulp-get-root (directory)
   "Return the parent directory containing the gulpfile.
@@ -41,6 +47,29 @@ Return nil of no gulp file has been found."
   "Open a buffer for gulp output."
   (get-buffer-create gulp-buffer-name))
 
+(defun gulp-process-sentinel (process event)
+  "Watch the modifications for gulp PROCESS.
+
+EVENT is the proces' status change."
+  (when (string-match-p "exited abnormally" event)
+    (message (propertize "Gulp process stopped unexpectedly" 'face 'error))))
+
+(defun gulp-create-process-for-task (file-name task)
+  "Launch the gulp process in FILE-NAME for TASK."
+  (setq default-directory (gulp-get-root (if (file-directory-p file-name)
+                                             file-name
+                                           (file-name-directory file-name)))
+        gulp-task task
+        gulp-directory default-directory)
+  (if default-directory
+      (let ((process (start-process "gulp" (current-buffer) gulp-executable task)))
+        (set-process-sentinel process 'gulp-process-sentinel)
+        (gulp-mode))
+    (setq default-directory "")
+    (error "Cannot find gulp file")
+    (kill-buffer)))
+
+;;;###autoload
 (defun gulp-start-task ()
   "Start a gulp task in a specified buffer.
 
@@ -49,19 +78,27 @@ TASK is a string specifying the task to start."
   (let ((task (read-string "Enter a gulp task : "))
         (file-name (buffer-file-name)))
     (with-current-buffer (gulp-open-buffer)
-      (setq default-directory (gulp-get-root (if (file-directory-p file-name)
-                                                 file-name
-                                                 (file-name-directory file-name))))
-      (if default-directory
-          (progn
-            (start-process "gulp" (current-buffer) gulp-executable task)
-            (gulp-mode))
-        (setq default-directory "")
-        (error "Cannot find gulp file")
-        (kill-buffer)))))
+      (gulp-create-process-for-task file-name task))))
+
+(defun gulp-restart-task ()
+  "Restart the gulp task run in the current buffer."
+  (interactive)
+  (with-current-buffer (gulp-open-buffer)
+    (gulp-create-process-for-task gulp-directory gulp-task)))
+
+;;;;;;;
+;; Mode
+;;;;;;;
+
+(defvar gulp-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "g") 'gulp-restart-task)
+    map)
+  "Keymap for `gulp-mode'.")
 
 (define-derived-mode gulp-mode compilation-mode "gulp"
-  "Major mode for gulp execution.")
+  "Major mode for gulp execution.
+\\{gulp-mode-map}")
 
 
 (provide 'gulp)
