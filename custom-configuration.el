@@ -6,7 +6,7 @@
  '(auth-source-save-behavior nil)
  '(bbdb-message-all-addresses t)
  '(bbdb-mua-auto-update-p (quote query))
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(custom-safe-themes (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(ecb-layout-window-sizes (quote (("left9" (ecb-methods-buffer-name 0.15476190476190477 . 0.9772727272727273)) ("left14" (ecb-directories-buffer-name 0.15476190476190477 . 0.7272727272727273) (ecb-history-buffer-name 0.15476190476190477 . 0.25)))))
  '(ecb-options-version "2.40")
  '(electric-indent-mode t)

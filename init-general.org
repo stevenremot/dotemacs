@@ -229,6 +229,14 @@
         (add-hook 'js-mode-hook (lambda ()
                                   (company-tern t))))
     #+end_src
+** Gulp
+
+   Loading a personal gulp script (that should be completed and published one day).
+
+   #+begin_src emacs-lisp
+     (autoload 'gulp-start-task "gulp" "Start a gulp task." t)
+   #+end_src
+
 ** TSS
 
     #+begin_src emacs-lisp
