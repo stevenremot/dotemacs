@@ -1,0 +1,3 @@
+[submodule "site-lisp/gulpjs"]
+	path = site-lisp/gulpjs
+	url = git@github.com:stevenremot/emacs-gulpjs.git

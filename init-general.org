@@ -234,6 +234,7 @@
    Loading a personal gulp script (that should be completed and published one day).
 
    #+begin_src emacs-lisp
+     (add-to-list 'load-path (concat personalconf--custom-lisp-dir "gulpjs/"))
      (autoload 'gulpjs-start-task "gulpjs" "Start a gulp task." t)
    #+end_src
 
