@@ -234,7 +234,7 @@
    Loading a personal gulp script (that should be completed and published one day).
 
    #+begin_src emacs-lisp
-     (autoload 'gulp-start-task "gulp" "Start a gulp task." t)
+     (autoload 'gulpjs-start-task "gulpjs" "Start a gulp task." t)
    #+end_src
 
 ** TSS

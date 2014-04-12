@@ -4,12 +4,28 @@
 session.*
 semanticdb/*
 elpa/*
+eshell
+image-dired
 TAGS
+projects.el
+ede-projects.el
+bookmarks
+ac-comphist.dat
+thumbs
+tramp
+request
 
 # Local initialization file
 ###########################
 
 init-local.el
+init-general.el
+
+# Compile files
+###############
+
+*.pyc
+*.elc
 
 # Backup files
 ##############
