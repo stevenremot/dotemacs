@@ -85,12 +85,26 @@
        (global-set-key (kbd "C-x b") 'helm-buffers-list)
        (global-set-key (kbd "C-x C-b") 'helm-buffers-list))
    #+end_src
+
 ** Keyboard macros
+
+   Cette macro permet d'avoir une liste des packages qui vont être
+   installés.
 
    #+begin_src emacs-lisp
      (fset 'perso-show-installed-packages
-        (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217843 111 dead-circumflex 32 73 return] 0 "%d")) arg)))
+           (lambda (&optional arg)
+             "Show installed packages."
+             (interactive "p")
+             (kmacro-exec-ring-item
+              (quote ([134217843 111 dead-circumflex 32 73 return] 0 "%d")) arg)))
+
+     (eval-after-load 'package
+       '(define-key package-menu-mode-map
+          (kbd "C-c s")
+          'perso-show-installed-packages))
    #+end_src
+
 * Development
 
   I put in this part all configuration related to programming modes
@@ -289,6 +303,15 @@
         (add-hook 'lisp-interaction-mode-hook 'paredit-mode)
         (add-hook 'clojure-mode-hook 'paredit-mode))
     #+end_src
+** PlantUML
+
+   This sets up plantuml-mode :
+
+   #+begin_src emacs-lisp
+     (eval-after-load 'plantuml-mode
+       (setq plantuml-jar-path (concat personalconf--basedir "programs/plantuml.jar")))
+   #+end_src
+
 * Mailing
 
   I put in this part all configuration related to mailing, and

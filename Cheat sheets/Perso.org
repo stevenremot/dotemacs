@@ -7,6 +7,12 @@
   | C-s-t | multi-term    | Terminal    |
   | C-s-s | speedbar      |             |
 
+* Package
+
+  | Key   | Function name                 | Description |
+  |-------+-------------------------------+-------------|
+  | C-c s | perso-show-installed-packages |             |
+
 * Semantic
 
   | Key          | Function name                    | Description        |
