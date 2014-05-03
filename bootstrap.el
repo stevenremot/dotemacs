@@ -31,6 +31,7 @@
               company
               eldoc
               solarized-theme
+              powerline
               ))
     (basic-emacs24 . (flycheck
                       ))
