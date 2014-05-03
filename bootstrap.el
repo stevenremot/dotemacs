@@ -20,6 +20,8 @@
 ;; * project - Packages for project management (projectile)
 ;; * web - Packages for web development
 ;; * web-emacs24 - Packages for web development intended to be used at least on Emacs 24
+;; * Lisp - For work with Lisp in general
+;; * clojure - For work with clojure
 
 ;;; Code:
 
@@ -32,6 +34,7 @@
               eldoc
               solarized-theme
               powerline
+              helm
               ))
     (basic-emacs24 . (flycheck
                       ))
@@ -50,7 +53,9 @@
     (lisp . (paredit))
     (clojure . (clojure-mode
                 cider
-                clojurescript-mode))
+                clojurescript-mode
+                cljsbuild-mode
+                ))
     )
   "Association between desired environment and packages.")
 
