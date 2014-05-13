@@ -374,6 +374,19 @@
        (setq plantuml-jar-path (concat personalconf--basedir "programs/plantuml.jar")))
    #+end_src
 
+** TLSD
+
+   #+begin_src emacs-lisp
+     (defun tlsd-start-header ()
+       "Insert the base content for a TLSD header."
+       (interactive)
+       (c++-mode)
+       (srecode-insert "file:tlsd-header-base"))
+   #+end_src
+
+   #+RESULTS:
+   : tlsd-start-header
+
 * Mailing
 
   I put in this part all configuration related to mailing, and

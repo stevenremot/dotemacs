@@ -7,6 +7,7 @@
  '(bbdb-message-all-addresses t)
  '(bbdb-mua-auto-update-p (quote query))
  '(c-basic-offset 4)
+ '(c-offsets-alist (quote ((substatement-open . 0))))
  '(custom-safe-themes (quote ("e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" "7dd515d883520286fc8936ce32381fb01b978d0d7cfb6fe56f7f55d8accbf63a" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(display-time-24hr-format t)
  '(ecb-layout-window-sizes (quote (("left9" (ecb-methods-buffer-name 0.15476190476190477 . 0.9772727272727273)) ("left14" (ecb-directories-buffer-name 0.15476190476190477 . 0.7272727272727273) (ecb-history-buffer-name 0.15476190476190477 . 0.25)))))
