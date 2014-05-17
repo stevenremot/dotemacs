@@ -5,8 +5,11 @@
 
 ;;; Code:
 
+
 (eval-after-load 'mu4e
   (progn
+    (require 'auth-source)
+
     (defvar mu4e-maildir)
     (defvar mu4e-sent-folder)
     (defvar mu4e-drafts-folder)
@@ -52,30 +55,35 @@
           mu4e-get-mail-command "offlineimap"
           mu4e-update-interval 300)
 
+
+
     (defvar my-mu4e-account-alist
-      '(("Perso"
+      `(("Perso"
          (user-mail-address "steven.remot@gmail.com")
-          (smtpmail-default-smtp-server "smtp.gmail.com")
-          (smtpmail-local-domain "gmail.com")
-          (smtpmail-smtp-server "smtp.gmail.com")
-          (smtpmail-smtp-service 587)
-          (mu4e-sent-folder "/Perso/Sent")
-          (mu4e-drafts-folder "/Perso/Drafts"))
+         (smtpmail-default-smtp-server "smtp.gmail.com")
+         (smtpmail-local-domain "gmail.com")
+         (smtpmail-smtp-server "smtp.gmail.com")
+         (smtpmail-smtp-service 587)
+         (smtpmail-smtp-user ,(auth-source-user-or-password "login" "perso" "imaps"))
+         (mu4e-sent-folder "/Perso/Sent")
+         (mu4e-drafts-folder "/Perso/Drafts"))
         ("Telecom"
          (user-mail-address "steven.remot@telecom-paristech.fr")
          (smtpmail-default-smtp-server "z.mines-telecom.fr")
          (smtpmail-smtp-server "z.mines-telecom.fr")
          (smtpmail-smtp-service 587)
+         (smtpmail-smtp-user ,(auth-source-user-or-password "login" "telecom" "imaps"))
          (mu4e-sent-folder "/Telecom/Sent")
          (mu4e-drafts-folder "/Telecom/Drafts"))
         ("Inovia"
          (user-mail-address "steven.remot@inovia-team.com")
-          (smtpmail-default-smtp-server "smtp.gmail.com")
-          (smtpmail-local-domain "gmail.com")
-          (smtpmail-smtp-server "smtp.gmail.com")
-          (smtpmail-smtp-service 587)
-          (mu4e-sent-folder "/Inovia/Sent")
-          (mu4e-drafts-folder "/Inovia/Drafts"))))
+         (smtpmail-default-smtp-server "smtp.gmail.com")
+         (smtpmail-local-domain "gmail.com")
+         (smtpmail-smtp-server "smtp.gmail.com")
+         (smtpmail-smtp-service 587)
+         (smtpmail-smtp-user ,(auth-source-user-or-password "login" "inovia" "imaps"))
+         (mu4e-sent-folder "/Inovia/Sent")
+         (mu4e-drafts-folder "/Inovia/Drafts"))))
 
     (defun my-mu4e-set-account ()
       "Set the account for composing a message."
@@ -99,8 +107,7 @@
     (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
     (setq mu4e-html2text-command
-          "html2markdown | grep -v '&nbsp_place_holder;'")
-    ))
+          "html2markdown | grep -v '&nbsp_place_holder;'")))
 
 (provide 'mu4e-init)
 
