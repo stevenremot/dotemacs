@@ -3,6 +3,7 @@ set mode "c++-mode"
 set comment "//"
 set comment-start "/*"
 set comment-end "*/"
+set local-var-decl "Local variables:"
 set cpp-local-var "mode: c++"
 
 context file
@@ -31,13 +32,14 @@ template tlsd-header-base
 #ifndef {{?header-guard-base}}_H
 #define {{header-guard-base}}_H
 
-namespace {{?namespace}} { {{^}}
+namespace {{?namespace}}
+{ {{^}}
 }
 
 #endif
 
 {{comment}} Emacs local variables
-{{comment}} Local variables:
+{{comment}} {{local-var-decl}}
 {{comment}} {{cpp-local-var}}
 {{comment}} End:
 ----
