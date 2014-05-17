@@ -376,7 +376,11 @@
 
 ** TLSD
 
+   Setup templates and special functions for TLSD development.
+
    #+begin_src emacs-lisp
+     (global-srecode-minor-mode 1)
+
      (defun tlsd-start-header ()
        "Insert the base content for a TLSD header."
        (interactive)
@@ -384,8 +388,14 @@
        (srecode-insert "file:tlsd-header-base"))
    #+end_src
 
-   #+RESULTS:
-   : tlsd-start-header
+** Haskell
+
+   Haskell mode configuration
+
+   #+begin_src emacs-lisp
+     (when (package-installed-p 'haskell-mode)
+       (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
+   #+end_src
 
 * Mailing
 
