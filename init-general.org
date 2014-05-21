@@ -37,15 +37,23 @@
                     '("gnu" .
                       "http://elpa.gnu.org/packages/")))
 
+     ;; (add-to-list 'package-archives
+     ;;              '("melpa" .
+     ;;                "http://melpa.milkbox.net/packages/"))
+
+     (add-to-list 'package-archives
+                  '("stable-melpa" .
+                    "http://melpa-stable.milkbox.net/packages/"))
+
      (add-to-list 'package-archives
                   '("marmalade" .
                     "http://marmalade-repo.org/packages/"))
-     (add-to-list 'package-archives
-                  '("melpa" .
-                    "http://melpa.milkbox.net/packages/"))
 
      (package-initialize)
    #+end_src
+
+   #+RESULTS:
+   : t
 
 ** Theme
 
@@ -114,12 +122,17 @@
         (powerline-personal-theme))
     #+end_src
 
-
 ** General shortcuts
+
+   Personal shortcuts to functionnalities I frequently use. I also
+   bounded =C-z= to =undo= because the original functionnality of this
+   key is really annoying.
 
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-s-t") (lambda () (interactive) (eshell t)))
      (global-set-key (kbd "C-s-s") 'speedbar)
+
+     (global-set-key (kbd "C-z") 'undo)
    #+end_src
 
 ** Convenience features
