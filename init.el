@@ -9,6 +9,9 @@
 ;;
 ;;; Code:
 
+;; I need to override emacs' defautl CEDET before everything else
+(load-file "site-lisp/cedet/cedet-devel-load.el")
+
 (defvar dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (require 'org)

@@ -1,3 +1,6 @@
 [submodule "site-lisp/gulpjs"]
 	path = site-lisp/gulpjs
 	url = git@github.com:stevenremot/emacs-gulpjs.git
+[submodule "site-lisp/cedet"]
+	path = site-lisp/cedet
+	url = http://git.randomsample.de/cedet.git

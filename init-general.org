@@ -209,7 +209,6 @@
 *** Bootstrapping
 
    #+begin_src emacs-lisp
-     (load-file (concat personalconf--custom-lisp-dir "cedet-1.1/common/cedet.el"))
      (global-ede-mode 1)
 
      (semantic-load-enable-gaudy-code-helpers)
