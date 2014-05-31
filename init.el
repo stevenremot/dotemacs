@@ -10,9 +10,10 @@
 ;;; Code:
 
 ;; I need to override emacs' defautl CEDET before everything else
-(load-file "site-lisp/cedet/cedet-devel-load.el")
 
 (defvar dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
+
+(load-file (concat dotfiles-dir "site-lisp/cedet/cedet-devel-load.el"))
 
 (require 'org)
 ;; load up all literate org-mode files in this directory
