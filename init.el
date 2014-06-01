@@ -9,11 +9,11 @@
 ;;
 ;;; Code:
 
-;; I need to override emacs' defautl CEDET before everything else
-
 (defvar dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
+;; I need to override emacs' defautl CEDET before everything else
 (load-file (concat dotfiles-dir "site-lisp/cedet/cedet-devel-load.el"))
+
 
 (require 'org)
 ;; load up all literate org-mode files in this directory
@@ -22,3 +22,4 @@
 (provide 'init)
 
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)
