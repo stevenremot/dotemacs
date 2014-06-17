@@ -6,6 +6,7 @@
   |-------+---------------+-------------|
   | C-s-t | multi-term    | Terminal    |
   | C-s-s | speedbar      |             |
+  | C-:   | helm-company  | Completion  |
 
 * Package
 

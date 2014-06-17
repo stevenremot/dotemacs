@@ -266,13 +266,17 @@
 *** Company
 
     #+begin_src emacs-lisp
-     (when (package-installed-p 'company)
-       (require 'company)
-       (defvar company-backends)
+      (when (package-installed-p 'company)
+        (require 'company)
+        (defvar company-backends)
 
-       (when (package-installed-p 'company-tern)
-         (add-to-list 'company-backends 'company-tern))
-       (add-hook 'after-init-hook 'global-company-mode))
+        (when (package-installed-p 'company-tern)
+          (add-to-list 'company-backends 'company-tern))
+
+        (when (package-installed-p 'helm-company)
+          (global-set-key (kbd "C-:") 'helm-company))
+
+        (add-hook 'after-init-hook 'global-company-mode))
     #+end_src
 
 ** Projectile
