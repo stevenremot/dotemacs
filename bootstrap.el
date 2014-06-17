@@ -35,11 +35,13 @@
               solarized-theme
               powerline
               helm
+              helm-company
               ))
     (basic-emacs24 . (flycheck
                       ))
     (mailing . (bbdb))
     (project . (projectile
+                helm-projectile
                 magit
                 ))
     (web . (web-mode
