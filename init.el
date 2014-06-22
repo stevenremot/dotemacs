@@ -23,6 +23,8 @@
                             "clojure"
                             "lisp"
                             "tlsd"
+                            "haskell"
+                            "mu4e"
                             ))
 
 (defun my-init-modules (modules)
