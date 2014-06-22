@@ -19,6 +19,7 @@
                             "eldoc"
                             "js"
                             ;; "typescript"
+                            "web-mode"
                             ))
 
 (defun my-init-modules (modules)
