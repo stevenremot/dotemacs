@@ -25,6 +25,7 @@
                             "tlsd"
                             "haskell"
                             "mu4e"
+                            "local"
                             ))
 
 (defun my-init-modules (modules)

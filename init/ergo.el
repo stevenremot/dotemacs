@@ -26,6 +26,8 @@
 (when (>= emacs-major-version 24)
   (require 'iso-transl))
 
+(put 'erase-buffer 'disabled nil)
+
 (provide 'init/ergo)
 
 ;;; ergo.el ends here
