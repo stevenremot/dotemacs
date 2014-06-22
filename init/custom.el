@@ -13,6 +13,6 @@
 
 (add-to-list 'load-path my-site-lisp)
 
-(provide 'custom)
+(provide 'init/custom)
 
 ;;; custom.el ends here
