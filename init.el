@@ -11,7 +11,8 @@
                             "package"
                             "theme"
                             "ergo"
-                            "helm"))
+                            "helm"
+                            "cedet"))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."
