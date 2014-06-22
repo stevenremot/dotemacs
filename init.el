@@ -13,7 +13,8 @@
                             "ergo"
                             "helm"
                             "cedet"
-                            "flycheck"))
+                            "flycheck"
+                            "company"))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."
