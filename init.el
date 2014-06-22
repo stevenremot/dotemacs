@@ -10,7 +10,8 @@
 (defconst my-init-modules '("custom"
                             "package"
                             "theme"
-                            "ergo"))
+                            "ergo"
+                            "helm"))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."
