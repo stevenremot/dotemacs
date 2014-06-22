@@ -20,6 +20,7 @@
                             "js"
                             ;; "typescript"
                             "web-mode"
+                            "clojure"
                             "lisp"
                             ))
 
