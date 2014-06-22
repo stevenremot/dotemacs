@@ -16,6 +16,7 @@
                             "flycheck"
                             "company"
                             "projectile"
+                            "eldoc"
                             ))
 
 (defun my-init-modules (modules)
