@@ -1,25 +1,20 @@
 ;;; init.el --- Where all the magic begins
 ;;
-;; This file loads Org-mode and then loads the rest of our Emacs initialization from Emacs lisp
-;; embedded in literate Org-mode files.
-
-;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
 
 ;;; Commentary:
 ;;
 ;;; Code:
 
-(defvar dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
+(defconst my-confdir (file-name-directory (or buffer-file-name load-file-name)))
+(defconst my-init-dir (concat my-confdir "init/"))
+(defconst my-init-modules '("custom"))
 
-;; I need to override emacs' defautl CEDET before everything else
-(load-file (concat dotfiles-dir "site-lisp/cedet/cedet-devel-load.el"))
+(defun my-init-modules (modules)
+  "Launch MODULES' initialization."
+  (dolist (module modules)
+    (load-file (concat my-init-dir module ".el"))))
 
-
-(require 'org)
-;; load up all literate org-mode files in this directory
-(mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
+(my-init-modules my-init-modules)
 
 (provide 'init)
-
 ;;; init.el ends here
-(put 'narrow-to-region 'disabled nil)
