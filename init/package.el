@@ -25,6 +25,9 @@
 
 (package-initialize)
 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
 (provide 'init/package)
 
 ;;; package.el ends here
