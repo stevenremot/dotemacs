@@ -22,6 +22,7 @@
                             "web-mode"
                             "clojure"
                             "lisp"
+                            "tlsd"
                             ))
 
 (defun my-init-modules (modules)

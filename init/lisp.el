@@ -10,7 +10,7 @@
           (lambda ()
             (setq flycheck-emacs-lisp-load-path load-path)))
 
-(define-key 'emacs-lisp-mode-map (kbd "C-c C-b") 'eval-buffer)
+(define-key emacs-lisp-mode-map (kbd "C-c C-b") 'eval-buffer)
 
 (use-package paredit
   :init (progn
