@@ -12,7 +12,8 @@
                             "theme"
                             "ergo"
                             "helm"
-                            "cedet"))
+                            "cedet"
+                            "flycheck"))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."
