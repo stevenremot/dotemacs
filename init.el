@@ -18,6 +18,7 @@
                             "projectile"
                             "eldoc"
                             "js"
+                            ;; "typescript"
                             ))
 
 (defun my-init-modules (modules)
