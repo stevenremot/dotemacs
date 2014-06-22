@@ -15,6 +15,17 @@
   (menu-bar-mode -1))
 (ido-mode 1)
 
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(show-paren-mode 1)
+
+(column-number-mode 1)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; In order to make dead-circumflex work on emacs 24
+(when (>= emacs-major-version 24)
+  (require 'iso-transl))
+
 (provide 'init/ergo)
 
 ;;; ergo.el ends here
