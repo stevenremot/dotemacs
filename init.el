@@ -7,7 +7,9 @@
 
 (defconst my-confdir (file-name-directory (or buffer-file-name load-file-name)))
 (defconst my-init-dir (concat my-confdir "init/"))
-(defconst my-init-modules '("custom"))
+(defconst my-init-modules '("custom"
+                            "package"
+                            "theme"))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."
