@@ -20,6 +20,7 @@
                             "js"
                             ;; "typescript"
                             "web-mode"
+                            "lisp"
                             ))
 
 (defun my-init-modules (modules)
