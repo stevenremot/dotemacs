@@ -14,7 +14,9 @@
                             "helm"
                             "cedet"
                             "flycheck"
-                            "company"))
+                            "company"
+                            "projectile"
+                            ))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."
