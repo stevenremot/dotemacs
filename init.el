@@ -17,6 +17,7 @@
                             "company"
                             "projectile"
                             "eldoc"
+                            "js"
                             ))
 
 (defun my-init-modules (modules)
