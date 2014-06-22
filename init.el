@@ -9,7 +9,8 @@
 (defconst my-init-dir (concat my-confdir "init/"))
 (defconst my-init-modules '("custom"
                             "package"
-                            "theme"))
+                            "theme"
+                            "shortcuts"))
 
 (defun my-init-modules (modules)
   "Launch MODULES' initialization."

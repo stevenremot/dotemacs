@@ -62,6 +62,6 @@
 (use-package powerline
              :init (my-powerline-theme))
 
-(provide 'theme)
+(provide 'init/theme)
 
 ;;; theme.el ends here
