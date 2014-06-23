@@ -18,11 +18,6 @@
      (kbd "C-c s")
      'my-show-installed-packages))
 
-(eval-after-load 'package
-  '(define-key package-menu-mode-map
-     (kbd "C-c s")
-     'perso-show-installed-packages))
-
 (when (< emacs-major-version 24)
   (add-to-list 'package-archives
                '("gnu" .
