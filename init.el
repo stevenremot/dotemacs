@@ -23,7 +23,7 @@
                             "lisp"
                             "tlsd"
                             "haskell"
-                            "mu4e"
+                            ;; "mu4e"
                             "local"
                             ))
 
