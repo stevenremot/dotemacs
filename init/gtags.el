@@ -6,7 +6,7 @@
 (require 'use-package)
 
 (use-package ggtags
-  :init (add-hook 'text-mode-hook (lambda () (ggtags-mode 1))))
+  :init (add-hook 'prog-mode-hook (lambda () (ggtags-mode 1))))
 
 (provide 'init/gtags)
 
