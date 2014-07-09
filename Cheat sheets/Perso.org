@@ -10,9 +10,9 @@
 
 * Package
 
-  | Key   | Function name                 | Description |
-  |-------+-------------------------------+-------------|
-  | C-c s | perso-show-installed-packages |             |
+  | Key   | Function name              | Description |
+  |-------+----------------------------+-------------|
+  | C-c s | my-show-installed-packages |             |
 
 * Semantic
 
