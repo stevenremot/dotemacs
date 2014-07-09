@@ -12,7 +12,8 @@
                             "theme"
                             "ergo"
                             "helm"
-                            "cedet"
+                            ;; "cedet"
+                            "gtags"
                             "flycheck"
                             "company"
                             "project"
@@ -21,10 +22,10 @@
                             "web"
                             "clojure"
                             "lisp"
-                            "tlsd"
+                            ;; "tlsd"
                             "haskell"
                             ;; "mu4e"
-                            "local"
+                            ;; "local"
                             ))
 
 (defun my-init-modules (modules)
