@@ -5,6 +5,7 @@
 ;;; Code:
 (defvar my-site-lisp)
 (load-file (concat my-site-lisp "cedet/cedet-devel-load.el"))
+(load-file (concat my-site-lisp "cedet/contrib/cedet-contrib-load.el"))
 
 (global-ede-mode 1)
 
