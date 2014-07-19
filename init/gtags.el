@@ -5,8 +5,14 @@
 ;;; Code:
 (require 'use-package)
 
+(defun my-enable-ggtags ()
+  "Enable ggtags mode on different hooks."
+  (dolist (mode '(text-mode php-mode))
+    (add-hook (intern (concat (symbol-name mode) "-hook"))
+              (lambda () (ggtags-mode 1)))))
+
 (use-package ggtags
-  :init (add-hook 'prog-mode-hook (lambda () (ggtags-mode 1))))
+  :init (my-enable-ggtags))
 
 (provide 'init/gtags)
 
