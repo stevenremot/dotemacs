@@ -7,7 +7,7 @@
 
 (defun my-enable-ggtags ()
   "Enable ggtags mode on different hooks."
-  (dolist (mode '(text-mode php-mode))
+  (dolist (mode '(text-mode php-mode web-mode))
     (add-hook (intern (concat (symbol-name mode) "-hook"))
               (lambda () (ggtags-mode 1)))))
 
