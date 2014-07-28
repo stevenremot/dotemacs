@@ -12,6 +12,8 @@
 (semantic-load-enable-gaudy-code-helpers)
 (semantic-load-enable-all-exuberent-ctags-support)
 
+(global-set-key (kbd "C-c -") 'senator-fold-tag-toggle)
+
 (provide 'init/cedet)
 
 ;;; cedet.el ends here
