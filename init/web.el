@@ -8,7 +8,23 @@
 (use-package web-mode
   :mode "\\.p?html\\'")
 
-(use-package php-mode)
+(defmacro my-define-srecode-inserter (name template-name)
+  "Create a template caller function.
+
+NAME is the function's name
+TEMPLATE-NAME is the name of the template."
+  `(defun ,name ()
+     ,(concat "Insert template " template-name)
+     (interactive)
+     (srecode-insert ,template-name)))
+
+(my-define-srecode-inserter my-php-insert-classdef "declaration:php-classdef")
+(my-define-srecode-inserter my-php-insert-attrdef "declaration:php-attrdef")
+
+
+(use-package php-mode
+  :bind (("C-c s c" . my-php-insert-classdef)
+         ("C-c s a" . my-php-insert-attrdef)))
 
 (use-package tern
   :init (add-hook 'js-mode-hook (lambda () (tern-mode t))))
