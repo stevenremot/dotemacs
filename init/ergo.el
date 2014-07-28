@@ -26,7 +26,9 @@
 (when (>= emacs-major-version 24)
   (require 'iso-transl))
 
+;; Enabled features
 (put 'erase-buffer 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
 (provide 'init/ergo)
 
