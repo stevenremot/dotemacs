@@ -11,6 +11,7 @@
                             "package"
                             "theme"
                             "ergo"
+                            "jabber"
                             "helm"
                             "cedet"
                             "gtags"
