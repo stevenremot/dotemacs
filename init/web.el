@@ -22,11 +22,26 @@ TEMPLATE-NAME is the name of the template."
 (my-define-srecode-inserter my-php-insert-attrdef "declaration:php-attrdef")
 (my-define-srecode-inserter my-php-insert-methoddef "declaration:php-methoddef")
 
+(defun my-php-generate-func-doc ()
+  "Generate documentation for a function tag."
+  (interactive)
+  (let* ((tag (semantic-current-tag))
+         (args (semantic-tag-function-arguments tag))
+         base-point)
+    (php-beginning-of-defun)
+    (open-line 1)
+    (setq base-point (point))
+    (insert "/**\n")
+    (dolist (arg args)
+      (insert (format " * @param %s\n" (semantic-tag-name arg))))
+    (insert " */")
+    (indent-region base-point (point))))
 
 (use-package php-mode
   :bind (("C-c s c" . my-php-insert-classdef)
          ("C-c s a" . my-php-insert-attrdef)
-         ("C-c s m" . my-php-insert-methoddef)))
+         ("C-c s m" . my-php-insert-methoddef)
+         ("C-c s d" . my-php-generate-func-doc)))
 
 (use-package tern
   :init (add-hook 'js-mode-hook (lambda () (tern-mode t))))
