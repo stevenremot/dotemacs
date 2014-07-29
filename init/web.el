@@ -22,6 +22,13 @@ TEMPLATE-NAME is the name of the template."
 (my-define-srecode-inserter my-php-insert-attrdef "declaration:php-attrdef")
 (my-define-srecode-inserter my-php-insert-methoddef "declaration:php-methoddef")
 
+(defun my-php-write-param-doc-line (type name)
+  "Insert a PHPDoc line for a param.
+
+TYPE is the type of the parameter.
+NAME is the name of the parameter."
+  (insert (format " * @param %s %s\n" type name)))
+
 (defun my-php-generate-func-doc ()
   "Generate documentation for a function tag."
   (interactive)
@@ -33,7 +40,9 @@ TEMPLATE-NAME is the name of the template."
     (setq base-point (point))
     (insert "/**\n")
     (dolist (arg args)
-      (insert (format " * @param %s\n" (semantic-tag-name arg))))
+      (my-php-write-param-doc-line "multitype:" (semantic-tag-name arg)))
+    (insert " *\n")
+    (insert (format " * @return %s\n" (read-string "Return type : ")))
     (insert " */")
     (indent-region base-point (point))))
 
