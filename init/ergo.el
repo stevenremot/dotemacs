@@ -26,6 +26,13 @@
 (when (>= emacs-major-version 24)
   (require 'iso-transl))
 
+(defvar my-confdir)
+
+(defun my-switch-ctrl-caps-lock ()
+  "Switch ctrl and caps lock keys on keyboard."
+  (interactive)
+  (shell-command (concat "xmodmap " my-confdir "xmodmap")))
+
 (put 'erase-buffer 'disabled nil)
 
 (provide 'init/ergo)
