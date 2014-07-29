@@ -20,11 +20,13 @@ TEMPLATE-NAME is the name of the template."
 
 (my-define-srecode-inserter my-php-insert-classdef "declaration:php-classdef")
 (my-define-srecode-inserter my-php-insert-attrdef "declaration:php-attrdef")
+(my-define-srecode-inserter my-php-insert-methoddef "declaration:php-methoddef")
 
 
 (use-package php-mode
   :bind (("C-c s c" . my-php-insert-classdef)
-         ("C-c s a" . my-php-insert-attrdef)))
+         ("C-c s a" . my-php-insert-attrdef)
+         ("C-c s m" . my-php-insert-methoddef)))
 
 (use-package tern
   :init (add-hook 'js-mode-hook (lambda () (tern-mode t))))
