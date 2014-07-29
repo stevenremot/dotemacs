@@ -11,6 +11,7 @@
                             "package"
                             "theme"
                             "ergo"
+                            "jabber"
                             "helm"
                             "cedet"
                             "gtags"
@@ -25,7 +26,7 @@
                             "tlsd"
                             "haskell"
                             ;; "mu4e"
-                            ;; "local"
+                            "local"
                             ))
 
 (defun my-init-modules (modules)

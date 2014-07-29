@@ -7,8 +7,8 @@
  '(bbdb-message-all-addresses t)
  '(bbdb-mua-auto-update-p (quote query))
  '(c-basic-offset 4)
- '(c-offsets-alist (quote ((substatement-open . 0) (arglist-intro . +) (arglist-close . 0))))
- '(custom-safe-themes (quote ("cd70962b469931807533f5ab78293e901253f5eeb133a46c2965359f23bfb2ea" "e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" "7dd515d883520286fc8936ce32381fb01b978d0d7cfb6fe56f7f55d8accbf63a" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(c-offsets-alist (quote ((substatement-open . 0) (arglist-intro . php-lineup-arglist-intro) (arglist-close . php-lineup-arglist-close))))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(display-time-24hr-format t)
  '(ecb-layout-window-sizes (quote (("left9" (ecb-methods-buffer-name 0.15476190476190477 . 0.9772727272727273)) ("left14" (ecb-directories-buffer-name 0.15476190476190477 . 0.7272727272727273) (ecb-history-buffer-name 0.15476190476190477 . 0.25)))))
  '(ecb-options-version "2.40")
@@ -43,4 +43,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hackernews-link-face ((t (:foreground "lime green")))))
+ '(hackernews-link-face ((t (:foreground "lime green"))) t))

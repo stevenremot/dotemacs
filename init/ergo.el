@@ -33,7 +33,9 @@
   (interactive)
   (shell-command (concat "xmodmap " my-confdir "xmodmap")))
 
+;; Enabled features
 (put 'erase-buffer 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
 (provide 'init/ergo)
 
