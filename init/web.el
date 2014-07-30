@@ -27,7 +27,7 @@ TEMPLATE-NAME is the name of the template."
 
 TYPE is the type of the parameter.
 NAME is the name of the parameter."
-  (insert (format " * @param %s %s\n" type name)))
+  (insert (format " * @param %s %s\n" (if type type "mixed") name)))
 
 (defun my-php-generate-func-doc ()
   "Generate documentation for a function tag."
@@ -40,7 +40,7 @@ NAME is the name of the parameter."
     (setq base-point (point))
     (insert "/**\n")
     (dolist (arg args)
-      (my-php-write-param-doc-line "multitype:" (semantic-tag-name arg)))
+      (my-php-write-param-doc-line (semantic-tag-type arg) (semantic-tag-name arg)))
     (insert " *\n")
     (insert (format " * @return %s\n" (read-string "Return type : ")))
     (insert " */")
