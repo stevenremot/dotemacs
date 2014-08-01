@@ -29,18 +29,44 @@ TYPE is the type of the parameter.
 NAME is the name of the parameter."
   (insert (format " * @param %s %s\n" (if type type "mixed") name)))
 
+(defun my-php-get-func-arguments (tag)
+  "Return arguments of TAG function.
+
+Return a result as '((type1 arg1) (type2 arg2) ... )"
+  (mapcar
+   (lambda (arg-tag)
+     (list (semantic-tag-type arg-tag)
+           (semantic-tag-name arg-tag)))
+   (semantic-tag-function-arguments tag)))
+
+(defun my-php-align-col (rows col-number)
+  "Align cells of ROWS for column COL-NUMBER.
+
+This operation is done in place."
+  (let ((max-length (apply 'max
+                           (mapcar
+                            (lambda (row) (length (nth (1- col-number) row)))
+                            rows))))
+    (dolist (row rows)
+      (let ((cell (nth (1- col-number) row))
+            (spaces ""))
+        (dotimes (i (- max-length (length cell)))
+          (setq spaces (concat spaces " ")))
+        (setf (nth (1- col-number) row) (concat cell spaces))))))
+
 (defun my-php-generate-func-doc ()
   "Generate documentation for a function tag."
   (interactive)
   (let* ((tag (semantic-current-tag))
-         (args (semantic-tag-function-arguments tag))
+         (args (my-php-get-func-arguments tag))
          base-point)
+    (my-php-align-col args 1)
     (php-beginning-of-defun)
     (open-line 1)
     (setq base-point (point))
     (insert "/**\n")
     (dolist (arg args)
-      (my-php-write-param-doc-line (semantic-tag-type arg) (semantic-tag-name arg)))
+      (my-php-write-param-doc-line (nth 0 arg) (nth 1 arg)))
     (insert " *\n")
     (insert (format " * @return %s\n" (read-string "Return type : ")))
     (insert " */")
