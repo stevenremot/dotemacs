@@ -10,6 +10,7 @@
   :init (exec-path-from-shell-initialize))
 
 (use-package flycheck
+  :ensure flycheck
   :init (global-flycheck-mode))
 
 (provide 'init/flycheck)

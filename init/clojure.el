@@ -5,10 +5,14 @@
 ;;; Code:
 (require 'use-package)
 
-(use-package cider)
-(use-package clojure-mode)
-(use-package clojurescript-mode)
-(use-package cljsbuild-mode)
+(use-package cider
+  :ensure cider)
+(use-package clojure-mode
+  :ensure clojure-mode)
+(use-package clojurescript-mode
+  :ensure clojurescript-mode)
+(use-package cljsbuild-mode
+  :ensure cljsbuild-mode)
 
 (provide 'init/clojure)
 ;;; clojure.el ends here

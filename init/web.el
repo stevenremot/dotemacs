@@ -6,6 +6,7 @@
 (require 'use-package)
 
 (use-package web-mode
+  :ensure web-mode
   :mode "\\.p?html\\'")
 
 (defmacro my-define-srecode-inserter (name template-name)
@@ -78,15 +79,18 @@ This operation is done in place."
     (end-of-line)))
 
 (use-package php-mode
+  :ensure php-mode
   :bind (("C-c s c" . my-php-insert-classdef)
          ("C-c s a" . my-php-insert-attrdef)
          ("C-c s m" . my-php-insert-methoddef)
          ("C-c s d" . my-php-generate-func-doc)))
 
 (use-package tern
+  :ensure tern
   :init (add-hook 'js-mode-hook (lambda () (tern-mode t))))
 
 (use-package company-tern
+  :ensure company-tern
   :init (add-hook 'js-mode-hook (lambda () (company-tern t))))
 
 (defvar my-site-lisp)

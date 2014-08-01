@@ -6,11 +6,14 @@
 (require 'use-package)
 
 (use-package projectile
+  :ensure projectile
   :init (projectile-global-mode 1))
 
-(use-package helm-projectile)
+(use-package helm-projectile
+  :ensure helm-projectile)
 
-(use-package magit)
+(use-package magit
+  :ensure magit)
 
 (provide 'init/project)
 

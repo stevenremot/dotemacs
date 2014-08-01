@@ -24,6 +24,7 @@
                  (:password . ,password))))))))
 
 (use-package jabber
+  :ensure jabber
   :init (my-jabber-setup))
 
 (provide 'init/jabber)

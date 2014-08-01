@@ -13,6 +13,7 @@
 (define-key emacs-lisp-mode-map (kbd "C-c C-b") 'eval-buffer)
 
 (use-package paredit
+  :ensure paredit
   :init (progn
           (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
           (add-hook 'lisp-interaction-mode-hook 'paredit-mode)

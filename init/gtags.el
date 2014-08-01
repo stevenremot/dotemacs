@@ -12,6 +12,7 @@
               (lambda () (ggtags-mode 1)))))
 
 (use-package ggtags
+  :ensure ggtags
   :init (my-enable-ggtags))
 
 (provide 'init/gtags)
