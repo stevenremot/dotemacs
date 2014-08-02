@@ -62,22 +62,20 @@ This operation is done in place."
   (let* ((tag (semantic-current-tag))
          (args (my-php-get-func-arguments tag))
          base-point
-         description-point)
+         description-point
+         end-point)
     (my-php-align-col args 1)
     (php-beginning-of-defun)
     (open-line 1)
     (setq base-point (point))
     (insert "/**\n")
     (insert " * \n")
-    (setq description-point (point))
     (dolist (arg args)
       (my-php-write-param-doc-line (nth 0 arg) (nth 1 arg)))
     (insert " *\n")
     (insert (format " * @return %s\n" (read-string "Return type : ")))
     (insert " */")
-    (indent-region base-point (point))
-    (goto-char description-point)
-    (end-of-line)))
+    (indent-region base-point (point))))
 
 (use-package php-mode
   :ensure php-mode
