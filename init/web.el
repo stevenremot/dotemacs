@@ -44,16 +44,17 @@ Return a result as '((type1 arg1) (type2 arg2) ... )"
   "Align cells of ROWS for column COL-NUMBER.
 
 This operation is done in place."
-  (let ((max-length (apply 'max
-                           (mapcar
-                            (lambda (row) (length (nth (1- col-number) row)))
-                            rows))))
-    (dolist (row rows)
-      (let ((cell (nth (1- col-number) row))
-            (spaces ""))
-        (dotimes (i (- max-length (length cell)))
-          (setq spaces (concat spaces " ")))
-        (setf (nth (1- col-number) row) (concat cell spaces))))))
+  (when rows
+    (let ((max-length (apply 'max
+                             (mapcar
+                              (lambda (row) (length (nth (1- col-number) row)))
+                              rows))))
+      (dolist (row rows)
+        (let ((cell (nth (1- col-number) row))
+              (spaces ""))
+          (dotimes (i (- max-length (length cell)))
+            (setq spaces (concat spaces " ")))
+          (setf (nth (1- col-number) row) (concat cell spaces)))))))
 
 (defun my-php-generate-func-doc ()
   "Generate documentation for a function tag."
