@@ -28,4 +28,5 @@ template php-methoddef :indent
 {{?protection}} function {{?function-name}} ({{^}})
 {
 }
+
 ----
