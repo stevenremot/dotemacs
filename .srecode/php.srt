@@ -25,7 +25,7 @@ template php-attrdef :indent
 
 template php-methoddef :indent
 ----
-{{?protection}} {{?function-name}} ({{^}})
+{{?protection}} function {{?function-name}} ({{^}})
 {
 }
 ----

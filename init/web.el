@@ -56,6 +56,16 @@ This operation is done in place."
             (setq spaces (concat spaces " ")))
           (setf (nth (1- col-number) row) (concat cell spaces)))))))
 
+(defun my-php-write-doc (doc)
+  "Insert DOC at the current point."
+  (let ((point nil))
+    (insert "/**\n")
+    ;; Insert lines
+    (insert " */")
+    (when point
+      ;; Go to point
+      )))
+
 (defun my-php-generate-func-doc ()
   "Generate documentation for a function tag."
   (interactive)

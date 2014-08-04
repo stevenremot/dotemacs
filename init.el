@@ -26,6 +26,7 @@
                             "tlsd"
                             "haskell"
                             ;; "mu4e"
+                            "redmine"
                             "local"
                             ))
 
