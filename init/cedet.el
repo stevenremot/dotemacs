@@ -31,6 +31,8 @@ INHERIT-INPUT-METHOD : see `read-string'"
                    default-value
                    inherit-input-method))
 
+(global-srecode-minor-mode 1)
+
 (provide 'init/cedet)
 
 ;;; cedet.el ends here
