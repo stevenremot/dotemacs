@@ -28,7 +28,12 @@ TEMPLATE-NAME is the name of the template."
 
 TYPE is the type of the parameter.
 NAME is the name of the parameter."
-  (insert (format " * @param %s %s\n" (if type type "mixed") name)))
+  (insert (format " * @param %s %s\n"
+                  (if (and (stringp type)
+                           (not (string= type "")))
+                      type
+                    "mixed")
+                  name)))
 
 (defun my-php-get-func-arguments (tag)
   "Return arguments of TAG function.
