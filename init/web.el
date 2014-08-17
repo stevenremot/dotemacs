@@ -99,13 +99,16 @@ This operation is done in place."
          ("C-c s m" . my-php-insert-methoddef)
          ("C-c s d" . my-php-generate-func-doc)))
 
+(use-package js3-mode
+  :ensure js3-mode)
+
 (use-package tern
   :ensure tern
-  :init (add-hook 'js-mode-hook (lambda () (tern-mode t))))
+  :init (add-hook 'js3-mode-hook (lambda () (tern-mode t))))
 
 (use-package company-tern
   :ensure company-tern
-  :init (add-hook 'js-mode-hook (lambda () (company-tern t))))
+  :init (add-hook 'js3-mode-hook (lambda () (company-tern t))))
 
 (defvar my-site-lisp)
 (add-to-list 'load-path (concat my-site-lisp "gulpjs/"))
