@@ -8,10 +8,6 @@
 (use-package projectile
   :ensure projectile
   :init (projectile-global-mode 1))
-  ;; Conflicts with svn, so using native cahing method for now.
-  :config (progn
-            (setq projectile-indexing-method 'native
-                  projectile-enable-caching t)))
 
 (use-package helm-projectile
   :ensure helm-projectile)
