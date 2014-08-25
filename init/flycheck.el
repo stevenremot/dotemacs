@@ -5,10 +5,6 @@
 ;;; Code:
 (require 'use-package)
 
-;; Required for emacs lisp flycheck to work
-(use-package exec-path-from-shell
-  :init (exec-path-from-shell-initialize))
-
 (use-package flycheck
   :ensure flycheck
   :init (global-flycheck-mode))
