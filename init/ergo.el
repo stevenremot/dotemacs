@@ -7,7 +7,7 @@
 (global-set-key (kbd "C-s-t") (lambda () (interactive) (eshell t)))
 (global-set-key (kbd "C-s-s") 'speedbar)
 
-(global-set-key (kbd "C-z") 'undo)
+(cua-mode 1)
 
 (require 'uniquify)
 (when window-system
