@@ -7,7 +7,8 @@
 
 (use-package web-mode
   :ensure web-mode
-  :mode "\\.p?html\\'")
+  :mode "\\.p?html\\'"
+  :config (add-hook 'web-mode-hook 'emmet-mode))
 
 (defmacro my-define-srecode-inserter (name template-name)
   "Create a template caller function.
@@ -102,6 +103,7 @@ This operation is done in place."
 (use-package js3-mode
   :ensure js3-mode)
 
+;; Tern
 (use-package tern
   :ensure tern
   :init (add-hook 'js3-mode-hook (lambda () (tern-mode t))))
@@ -109,6 +111,13 @@ This operation is done in place."
 (use-package company-tern
   :ensure company-tern
   :init (add-hook 'js3-mode-hook (lambda () (company-tern t))))
+
+;; Emmet
+(use-package emmet-mode
+  :ensure emmet-mode
+  :bind (("C-c C-c RET" . emmet-expand-line)
+         ("S-<left>" . emmet-prev-edit-point)
+         ("S-<right>" . emmet-next-edit-point)))
 
 (defvar my-site-lisp)
 (add-to-list 'load-path (concat my-site-lisp "gulpjs/"))
