@@ -7,9 +7,11 @@
 
 (defun my-enable-ggtags ()
   "Enable ggtags mode on different hooks."
-  (dolist (mode '(text-mode php-mode web-mode c++-mode python-mode prog-mode))
+  (dolist (mode '(fundamental-mode text-mode php-mode web-mode c++-mode python-mode prog-mode))
     (add-hook (intern (concat (symbol-name mode) "-hook"))
-              (lambda () (helm-gtags-mode 1)))))
+              (lambda ()
+                (ggtags-mode 1)
+                (helm-gtags-mode 1)))))
 
 (use-package ggtags
   :ensure ggtags)
