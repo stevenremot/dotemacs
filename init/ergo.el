@@ -4,7 +4,7 @@
 ;;
 ;;; Code:
 
-(global-set-key (kbd "C-s-t") (lambda () (interactive) (eshell t)))
+(global-set-key (kbd "C-s-t") (lambda () (interactive) (multi-term)))
 (global-set-key (kbd "C-s-s") 'speedbar)
 
 (cua-mode 1)
