@@ -2,12 +2,11 @@
 
 ;;; Commentary:
 ;;
+(require 'use-package)
 ;;; Code:
 
 (global-set-key (kbd "C-s-t") (lambda () (interactive) (multi-term)))
 (global-set-key (kbd "C-s-s") 'speedbar)
-
-(cua-mode 1)
 
 (require 'uniquify)
 (when window-system
@@ -41,6 +40,16 @@
   "Insert the buffer's file name into kill ring."
   (interactive)
   (kill-new (buffer-file-name)))
+
+
+;; Multiple cursors
+
+(use-package multiple-cursors
+  :ensure multiple-cursors
+  :init (progn
+          (global-set-key (kbd "C-<kp-2>") 'mc/mark-next-like-this)
+          (global-set-key (kbd "C-<kp-8>") 'mc/mark-previous-like-this)
+          (global-set-key (kbd "C-<kp-5>") 'mc/mark-all-dwim)))
 
 ;; Alignment
 
