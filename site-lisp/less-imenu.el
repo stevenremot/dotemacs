@@ -1,7 +1,8 @@
 ;;; less-imenu.el --- Imenu support for LESS files
+;;; Version: 0.1
 
 ;;; Commentary:
-;;
+;; TODO: "Function" => "Selector"
 (require 's)
 ;;; Code:
 
@@ -66,7 +67,7 @@ Modify ENTRIES in-place."
       (less-imenu-go-to-selector-beginning)
       (setq selector (if (string= parent "")
                          (s-trim (buffer-substring (point) end))
-                       (concat parent " " (s-trim (buffer-substring (point) end)))))
+                       (concat parent " | " (s-trim (buffer-substring (point) end)))))
       (goto-char end)
       (add-to-list 'entries (cons selector (point)))
       (setq internal-bound (less-imenu-find-brace-end))
@@ -75,11 +76,17 @@ Modify ENTRIES in-place."
       (goto-char internal-bound)
       entries)))
 
+;;;###autoload
 (defun less-imenu-create-index ()
   "Create Imenu tree for current Less buffer."
   (save-excursion
     (goto-char (point-min))
     (less-imenu-integrate-sub-selectors "" (point-max))))
+
+;;;###autoload
+(add-hook 'less-css-mode-hook (lambda ()
+                                (setq imenu-create-index-function 'less-imenu-create-index)
+                                (imenu-add-to-menubar "Selectors")))
 
 (provide 'less-imenu)
 
