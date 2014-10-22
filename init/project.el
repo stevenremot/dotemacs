@@ -15,6 +15,8 @@ nicely with TRAMP."
                   js3-mode-hook
                   conf-mode-hook
                   dired-mode-hook
+                  less-css-mode-hook
+                  nxml-mode-hook
                   org-mode-hook))
     (add-hook mode 'projectile-mode)))
 
