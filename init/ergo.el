@@ -27,6 +27,8 @@
 
 (defvar my-confdir)
 
+(global-set-key (kbd "C-z") 'undo)
+
 ;; Keyboard
 
 (defun my-switch-ctrl-caps-lock ()
