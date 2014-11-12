@@ -105,11 +105,14 @@ This operation is done in place."
   :bind (("C-c s c" . my-php-insert-classdef)
          ("C-c s a" . my-php-insert-attrdef)
          ("C-c s m" . my-php-insert-methoddef)
-         ("C-c s d" . my-php-generate-func-doc)))
+         ("C-c s d" . my-php-generate-func-doc))
+  :config (add-hook 'php-mode-hook (lambda () (add-hook 'before-save-hook 'delete-trailing-whitespace))))
 
 (use-package js2-mode
   :ensure js2-mode
-  :config (add-hook 'js2-mode-hook 'skewer-mode))
+  :config (progn
+            (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+            (add-hook 'js2-mode-hook 'skewer-mode)))
 
 (use-package css-mode
   :config (add-hook 'css-mode-hook 'skewer-mode))
@@ -133,7 +136,9 @@ This operation is done in place."
 
 (use-package company-tern
   :ensure company-tern
-  :init (add-hook 'js2-mode-hook (lambda () (company-tern t))))
+  :init (progn
+          (add-to-list 'company-backends 'company-tern)
+          (add-hook 'js2-mode-hook (lambda () (company-tern t)))))
 
 ;; Emmet
 (use-package emmet-mode
