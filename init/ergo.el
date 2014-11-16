@@ -27,6 +27,8 @@
 
 (defvar my-confdir)
 
+(global-set-key (kbd "C-z") 'undo)
+
 ;; Keyboard
 
 (defun my-switch-ctrl-caps-lock ()
@@ -110,6 +112,7 @@ See `my-align-apply-to-neighbours' for more information."
 ;; Enabled features
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 (provide 'init/ergo)
 
