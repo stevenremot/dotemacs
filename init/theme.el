@@ -26,11 +26,8 @@
                                                            powerline-default-separator
                                                            (cdr powerline-default-separator-dir))))
                           (lhs (list (powerline-raw "%*" nil 'l)
-                                     (powerline-buffer-size nil 'l)
                                      (powerline-raw mode-line-mule-info nil 'l)
                                      (powerline-buffer-id nil 'l)
-                                     (when (and (boundp 'which-func-mode) which-func-mode)
-                                       (powerline-raw which-func-format nil 'l))
                                      (powerline-raw " ")
                                      (funcall separator-left mode-line face1)
                                      (when (boundp 'erc-modified-channels-object)
@@ -39,6 +36,7 @@
                                      (powerline-raw "%4l" face1 'l)
                                      (powerline-raw ":" face1 'l)
                                      (powerline-raw "%3c" face1 'r)
+                                     (powerline-raw "[%3p]" face1 'l)
                                      ;; End lines
                                      (powerline-narrow face1 'l)
                                      (powerline-raw " " face1)
@@ -52,8 +50,6 @@
                                      (powerline-minor-modes face1 'l)
                                      ;; End modes
                                      (funcall separator-right face1 mode-line)
-                                     (powerline-raw " ")
-                                     (powerline-raw "%6p" nil 'r)
                                      (powerline-hud face2 face1))))
                      (concat (powerline-render lhs)
                              (powerline-fill face2 (powerline-width rhs))
