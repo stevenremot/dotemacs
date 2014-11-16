@@ -17,7 +17,8 @@ nicely with TRAMP."
                   dired-mode-hook
                   less-css-mode-hook
                   nxml-mode-hook
-                  org-mode-hook))
+                  org-mode-hook
+                  magit-mode-hook))
     (add-hook mode 'projectile-mode)))
 
 (use-package projectile
