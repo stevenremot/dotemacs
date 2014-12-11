@@ -106,13 +106,25 @@ This operation is done in place."
          ("C-c s a" . my-php-insert-attrdef)
          ("C-c s m" . my-php-insert-methoddef)
          ("C-c s d" . my-php-generate-func-doc))
-  :config (add-hook 'php-mode-hook (lambda () (add-hook 'before-save-hook 'delete-trailing-whitespace))))
+  :config (add-hook 'php-mode-hook
+                    (lambda ()
+                      (defvar company-backends)
+                      (defvar company-semantic-modes)
+                      ;; We narrow company to only semantic and GNU Global
+                      (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
+                      (add-to-list 'company-semantic-modes 'php-mode)
+                      ;; php-mode removes whitespace hook, let's add it again
+                      (add-hook 'before-save-hook 'delete-trailing-whitespace))))
 
 (use-package js2-mode
   :ensure js2-mode
   :config (progn
             (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
             (add-hook 'js2-mode-hook 'skewer-mode)))
+
+(use-package js2-refactor
+  :ensure js2-refactor
+  :config (js2r-add-keybindings-with-prefix "C-S-r"))
 
 (use-package css-mode
   :config (add-hook 'css-mode-hook 'skewer-mode))
@@ -155,6 +167,9 @@ This operation is done in place."
 (fset 'my-open-file-geben
    [?\M-x ?m ?y ?  ?k ?i ?l ?l ?  ?f ?i ?l ?e ?  ?n ?a ?m ?e return ?\C-x ?o ?\C-c ?f ?\C-a ?\C-k ?\C-v ?\M-y return])
 
+(use-package rainbow-mode
+  :init (progn (add-hook 'css-mode-hook 'rainbow-mode)
+               (add-hook 'less-css-mode-hook 'rainbow-mode)))
 
 (provide 'init/web)
 
