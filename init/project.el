@@ -15,17 +15,21 @@ nicely with TRAMP."
                   js3-mode-hook
                   conf-mode-hook
                   dired-mode-hook
+                  css-mode-hook
                   less-css-mode-hook
                   nxml-mode-hook
                   org-mode-hook
-                  magit-mode-hook))
+                  magit-mode-hook
+                  vc-dir-mode-hook))
     (add-hook mode 'projectile-mode)))
 
 (use-package projectile
   :ensure projectile
   :init (init-project-add-projectile-hooks)
   ;; Conflicts with svn, so using native cahing method for now.
-  :config (progn (setq projectile-enable-caching t)))
+  :config (progn
+            (setq projectile-enable-caching t)
+            (add-hook 'vc-checkout-hook  'projectile-regenerate-tags)))
 
 (use-package helm-projectile
   :ensure helm-projectile)
