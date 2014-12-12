@@ -29,6 +29,7 @@
 (defvar my-confdir)
 
 (global-set-key (kbd "C-z") 'undo)
+(delete-selection-mode 1)
 
 ;; Keyboard
 
