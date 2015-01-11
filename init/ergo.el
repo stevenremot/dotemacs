@@ -21,7 +21,9 @@
 (show-paren-mode 1)
 
 (column-number-mode 1)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'(lambda ()
+                                (unless buffer-read-only
+                                  (delete-trailing-whitespace))))
 
 ;; In order to make dead-circumflex work on emacs 24
 (when (>= emacs-major-version 24)
