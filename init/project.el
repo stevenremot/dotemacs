@@ -20,7 +20,9 @@ nicely with TRAMP."
                   nxml-mode-hook
                   org-mode-hook
                   magit-mode-hook
-                  vc-dir-mode-hook))
+                  vc-dir-mode-hook
+                  magit-mode-hook
+                  text-mode-hook))
     (add-hook mode 'projectile-mode)))
 
 (use-package projectile
