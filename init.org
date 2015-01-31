@@ -30,9 +30,9 @@
    - [X] custom
    - [X] package
    - [X] theme
+   - [X] cedet
    - [X] ergo
    - [X] helm
-   - [X] cedet
    - [X] jabber
    - [X] gtags
    - [X] flycheck
