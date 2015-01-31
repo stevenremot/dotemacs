@@ -1,0 +1,19 @@
+#+TITLE: Helm configuration
+
+* Shortcuts
+
+  #+name: shortcuts
+  | Key     | Command           |
+  |---------+-------------------|
+  | M-x     | helm-M-x          |
+  | C-x C-f | helm-find-files   |
+  | C-x b   | helm-buffers-list |
+  | C-x C-b | helm-buffers-list |
+
+* Package loading
+
+  #+BEGIN_SRC emacs-lisp :var shortcuts=shortcuts
+    (use-package helm
+      :ensure
+      :init (my-set-global-keys-from-org-table shortcuts))
+  #+END_SRC
