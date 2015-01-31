@@ -1,0 +1,21 @@
+#+TITLE: Configure custom settings and sources
+
+* Separate custom configuration from init.el
+
+  This is not really handy to have the automatic custom properties set
+  in =init.el=. Let's put it in another file.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq custom-file (concat my-confdir "custom-configuration.el"))
+    (load-file custom-file)
+  #+END_SRC
+
+* Add own site-lisp to load path
+
+  I put some code in a separate =site-lisp= dir. Let's add it to the
+  load path.
+
+  #+BEGIN_SRC emacs-lisp
+    (defconst my-site-lisp (concat my-confdir "site-lisp/"))
+    (add-to-list 'load-path my-site-lisp)
+  #+END_SRC
