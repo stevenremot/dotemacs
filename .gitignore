@@ -27,6 +27,7 @@ init-general.el
 *.pyc
 *.elc
 init.el
+Makefile
 
 # Backup files
 ##############
