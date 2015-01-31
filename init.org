@@ -81,7 +81,6 @@
    #+BEGIN_SRC emacs-lisp
      (mapc #'my-load-module my-enabled-modules)
    #+END_SRC
-
 * Compilation
 
   In order to avoid loading Org on initialization, I compile Org
@@ -97,10 +96,7 @@ init.el: init.org
 init/%.el: init/%.org
 	emacs -Q -batch -l "ob-tangle" -eval "(org-babel-tangle-file \"$<\" \"$(notdir $@)\")"
 
-%.elc: %.el
-	emacs -Q -batch -eval "(byte-compile-file \"$<\")"
-
-all: init.elc $(MODULES:.org=.elc)
+all: init.elc $(MODULES:.org=.el)
   #+END_SRC
 
   To launch compilation from Emacs, use this function:
