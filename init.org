@@ -49,12 +49,16 @@
    - [ ] redmine
    - [X] local
 
+   These modules will be registered in ~my-enabled-modules~.
+
+   #+BEGIN_SRC emacs-lisp
+     (defconst my-enabled-modules '())
+   #+END_SRC
+
    This piece of code extracts the enabled modules from the list and
    put them in the ~my-enabled-modules~ variable.
 
    #+BEGIN_SRC emacs-lisp :var modules-list=modules-list
-     (defconst my-enabled-modules '())
-
      (dolist (item modules-list)
        (when (equal (string-match (rx "[CBON] ") item) 0)
          (push (substring item 7) my-enabled-modules)))
@@ -64,24 +68,11 @@
 
 ** Loading modules
 
-   This function loads the compiled Emacs lisp source for the provided module.
+   This function loads the compiled Emacs lisp for the provided module.
 
    #+BEGIN_SRC emacs-lisp
      (defun my-load-module (module)
-       (let* ((base (concat my-init-dir module))
-              (org (concat base ".org"))
-              (el (concat base ".el")))
-         (cond
-          ((file-readable-p org)
-           (message "Loading module %s as Org file..." module)
-           (org-babel-load-file org t)
-           (message "Module %s loaded" module))
-          ((file-readable-p el)
-           (message "Loading module %s as Emacs lisp source..." module)
-           (load-file el)
-           (message "Module %s loaded" module))
-          (t
-           (error "Could not find suitable source for module %s" module)))))
+       (load (concat my-init-dir module)))
    #+END_SRC
 
    With the previous helper functions, the code to load each enabled
@@ -90,3 +81,37 @@
    #+BEGIN_SRC emacs-lisp
      (mapc #'my-load-module my-enabled-modules)
    #+END_SRC
+
+* Compilation
+
+  In order to avoid loading Org on initialization, I compile Org
+  sources to Emacs lisp bytecode. This has been inspired by [[https://ryuslash.org/dotfiles/emacs/init.html][this nice
+  emacs conf]]. Here is the makefile :
+
+  #+BEGIN_SRC makefile :tangle Makefile
+MODULES = $(wildcard init/*.org)
+
+init.el: init.org
+	emacs -Q -batch -l "ob-tangle" -eval "(progn (setq org-src-preserve-indentation t) (org-babel-tangle-file \"$<\" \"$(notdir $@)\"))"
+
+init/%.el: init/%.org
+	emacs -Q -batch -l "ob-tangle" -eval "(org-babel-tangle-file \"$<\" \"$(notdir $@)\")"
+
+%.elc: %.el
+	emacs -Q -batch -eval "(byte-compile-file \"$<\")"
+
+all: init.elc $(MODULES:.org=.elc)
+  #+END_SRC
+
+  To launch compilation from Emacs, use this function:
+
+  #+BEGIN_SRC emacs-lisp
+    (defun my-compile-init-files ()
+      (interactive)
+      (let ((default-directory my-confdir))
+        (async-shell-command "make all")))
+  #+END_SRC
+
+# Local Variables:
+# org-src-preserve-indentation: t
+# End:
