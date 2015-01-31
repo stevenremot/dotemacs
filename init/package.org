@@ -1,0 +1,44 @@
+#+TITLE: Package system configuration
+
+* Requires
+
+  I will do operations on ~package~, so let's load it.
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'package)
+  #+END_SRC
+
+* Sources
+
+  These are the package repositories I want to fetch.
+
+  #+name: packages-spec
+  | name         | url                                 | enabled |
+  |--------------+-------------------------------------+---------|
+  | melpa        | http://melpa.org/packages/          | yes     |
+  | stable-melpa | http://stable.melpa.org/packages/   | yes     |
+  | marmalade    | http://marmalade-repo.org/packages/ | yes     |
+
+  Here is the code to load it from the previous table.
+
+  #+BEGIN_SRC emacs-lisp :var packages-spec=packages-spec
+    (dolist (line (cdr packages-spec))
+      (when (and (listp line) (string= "yes" (nth 2 line)))
+        (add-to-list 'package-archives (cons (car line) (cadr line)))))
+  #+END_SRC
+
+* Initialization
+
+  #+BEGIN_SRC emacs-lisp
+    (package-initialize)
+  #+END_SRC
+
+* use-package loading
+
+  I use ~use-package~ everywhere else in my configuration, so I need
+  to be sure it is installed there.
+
+  #+BEGIN_SRC emacs-lisp
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
+  #+END_SRC
