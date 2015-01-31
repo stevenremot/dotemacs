@@ -1,0 +1,92 @@
+#+TITLE: Emacs init startup
+
+* Directories
+
+  These are the directories commonly used in startup scripts.
+
+  - ~my-confdir~ refers to the directory in which emacs initialization
+    starts.
+  - ~my-init-dir~ is the directory in which the initialization modules
+    are defined.
+
+    #+BEGIN_SRC emacs-lisp
+      (defconst my-confdir (file-name-directory (or buffer-file-name load-file-name)))
+      (defconst my-init-dir (concat my-confdir "init/"))
+    #+END_SRC
+
+* Initialisation modules
+
+   I split my configuration in different modules so that I can enable /
+   disable one at will.
+
+   A module is either a =*.el= or =*.org= file placed in ~my-init-dir~.
+
+** Modules listing
+
+   These are all the modules. The modules with checked boxes will be
+   loaded.
+
+   #+name: modules-list
+   - [X] custom
+   - [X] package
+   - [X] theme
+   - [X] ergo
+   - [X] helm
+   - [X] cedet
+   - [X] jabber
+   - [X] gtags
+   - [X] flycheck
+   - [X] company
+   - [X] project
+   - [X] eldoc
+   - [ ] typescript
+   - [X] web
+   - [X] clojure
+   - [X] lisp
+   - [X] tlsd
+   - [X] haskell
+   - [ ] mu4e
+   - [ ] redmine
+   - [X] local
+
+   This piece of code extracts the enabled modules from the list and
+   put them in the ~my-enabled-modules~ variable.
+
+   #+BEGIN_SRC emacs-lisp :var modules-list=modules-list
+     (defconst my-enabled-modules '())
+
+     (dolist (item modules-list)
+       (when (equal (string-match (rx "[CBON] ") item) 0)
+         (push (substring item 7) my-enabled-modules)))
+
+     (setq my-enabled-modules (reverse my-enabled-modules))
+   #+END_SRC
+
+** Loading modules
+
+   This function loads the compiled Emacs lisp source for the provided module.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-load-module (module)
+       (let* ((base (concat my-init-dir module))
+              (org (concat base ".org"))
+              (el (concat base ".el")))
+         (cond
+          ((file-readable-p org)
+           (message "Loading module %s as Org file..." module)
+           (org-babel-load-file org t)
+           (message "Module %s loaded" module))
+          ((file-readable-p el)
+           (message "Loading module %s as Emacs lisp source..." module)
+           (load-file el)
+           (message "Module %s loaded" module))
+          (t
+           (error "Could not find suitable source for module %s" module)))))
+   #+END_SRC
+
+   With the previous helper functions, the code to load each enabled
+   modules is pretty straightforward:
+
+   #+BEGIN_SRC emacs-lisp
+     (mapc #'my-load-module my-enabled-modules)
+   #+END_SRC
