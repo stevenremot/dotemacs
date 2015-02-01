@@ -1,0 +1,72 @@
+#+TITLE: Cedet initialization
+
+* Loading
+
+  I do not use the CEDET shipped in Emacs. Instead, I have my own
+  branch so that I can work on =wisent-php=. I load this configuration
+  here.
+
+  #+BEGIN_SRC emacs-lisp
+    (load-file (concat my-site-lisp "cedet/cedet-devel-load.el"))
+    (load-file (concat my-site-lisp "cedet/contrib/cedet-contrib-load.el"))
+  #+END_SRC
+
+* Enabling features
+
+** EDE
+
+  #+BEGIN_SRC emacs-lisp
+    (global-ede-mode 1)
+  #+END_SRC
+
+** Semantic
+
+  I also use a lot of semantic. I use all gaudy helpers, except
+  completion. I want all my completion to be done with company to have
+  the same interface everywhere.
+
+  #+BEGIN_SRC emacs-lisp
+    (semantic-load-enable-gaudy-code-helpers)
+    (global-semantic-idle-completions-mode -1)
+  #+END_SRC
+
+** Senator
+
+   I don't really use tag folding, but I still set up a shortcut for
+   tag folding.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key (kbd "C-c -") 'senator-fold-tag-toggle)
+   #+END_SRC
+
+** Srecode
+
+   I used srecode in one project. I created some templates that
+   required to choose scope among scope proection keywords in
+   C++. ~my-read-protection~ is a ~completing-read~ configured to
+   choose between =private=, =public= and =protected=.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-read-protection (prompt &optional initial-input history default-value inherit-input-method)
+       "Read a protection from the minibuffer.
+
+     PROMPT is the prompt message
+     INITIAL-INPUT is the pre-filled input
+     HISTORY is the input history
+     DEFAULT-VALUE is value for no input.
+     INHERIT-INPUT-METHOD : see `read-string'"
+       (completing-read prompt
+                        '("public" "private" "protected")
+                        nil
+                        t
+                        initial-input
+                        history
+                        default-value
+                        inherit-input-method))
+   #+END_SRC
+
+   Then let's enable Srecode everywhere.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-srecode-minor-mode 1)
+   #+END_SRC
