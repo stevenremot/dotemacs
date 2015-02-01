@@ -45,6 +45,14 @@ elnode
 emms
 jabber-avatar-cache
 newsticker
+.mc-lists.el
+.org-id-locations
+calc.el
+projectile.cache
+projectile-bookmarks.eld
+.python-environments
+.litable-lists.el
+
 
 # srecode
 #########
