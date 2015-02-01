@@ -1,13 +1,3 @@
-;;; theme.el --- Theme initialization module
-
-;;; Commentary:
-;;
-;;; Code:
-(require 'use-package)
-
-(use-package solarized-theme
-  :ensure solarized-theme
-  :init (load-theme 'solarized-dark t))
 
 (defun my-powerline-theme ()
   "Setup the default mode-line."
@@ -59,6 +49,12 @@
   :ensure powerline
   :init (my-powerline-theme))
 
-(provide 'init/theme)
+;; (use-package solarized-theme
+;;   :ensure solarized-theme
+;;   :init (load-theme 'solarized-dark t))
 
-;;; theme.el ends here
+(use-package moe-theme
+  :ensure
+  :init (progn
+          (moe-dark)
+          (powerline-moe-theme)))
