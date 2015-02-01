@@ -8,7 +8,7 @@
 (defvar eshell-path-env)
 (defvar exec-path)
 
-(defconst my-added-path "/users/steven.remot/carbox-tools/vendor/bin")
+(defconst my-added-path "")
 
 (eval-after-load 'eshell
   '(setq eshell-path-env (concat eshell-path-env ":" my-added-path)))
