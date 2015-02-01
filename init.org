@@ -16,7 +16,7 @@
 
 * Org helpers
 
-  I define in this section some useful function to make my lisp code
+  I define in this section some useful functions to make my lisp code
   interact with Org elements.
 
 ** Key shortcuts
@@ -44,7 +44,9 @@ TABLE is an Org table in this format:
    I split my configuration in different modules so that I can enable /
    disable one at will.
 
-   A module is either a =*.el= or =*.org= file placed in ~my-init-dir~.
+   A module is either a =*.el= or =*.org= file placed in
+   ~my-init-dir~. However, only Emacs Lisp files will be loaded, org
+   files need to be tangled. See [[Compilation]] for more information.
 
 ** Modules listing
 
@@ -101,11 +103,12 @@ TABLE is an Org table in this format:
    #+END_SRC
 
    With the previous helper functions, the code to load each enabled
-   modules is pretty straightforward:
+   module is pretty straightforward:
 
    #+BEGIN_SRC emacs-lisp
      (mapc #'my-load-module my-enabled-modules)
    #+END_SRC
+
 * Compilation
 
   In order to avoid loading Org on initialization, I compile Org
