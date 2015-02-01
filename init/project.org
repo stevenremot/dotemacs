@@ -1,0 +1,69 @@
+#+TITLE: Project management initialization
+
+* Lexical binding
+
+  I want lexical binding in this file.
+
+  #+BEGIN_SRC emacs-lisp :padline no
+    ;; -*- lexical-binding: t -*-
+  #+END_SRC
+
+* Projectile
+** Enabled modes
+
+   I cannot use ~projectile-global-mode~ because it has compatibility
+   issues with TRAMP. Instead I activate it for these modes:
+
+   #+name: enabled-modes
+   - text
+   - prog
+   - js3
+   - conf
+   - dired
+   - css
+   - less-css
+   - nxml
+   - org
+   - magit
+   - vc
+
+   ~init-project-add-projectile-hooks~ is in charge of enabling
+   projectile for these modes.
+
+   #+BEGIN_SRC emacs-lisp :var enabled-modes=enabled-modes
+     (defun init-project-add-projectile-hooks ()
+       "Init projectile on supported modes."
+       (dolist (mode enabled-modes)
+         (add-hook (intern (concat mode "-mode-hook")) 'projectile-mode)))
+   #+END_SRC
+
+** Setup
+
+   In my projectile setup, I first enable caching because I work with
+   big SVN projects that are really slow to index? Then, I launch tag
+   regeneration each time I checkout files. Actually this is not that
+   good, because when I update the whole project, ~vc-checkout-hook~
+   is triggered for *each* updated file.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package projectile
+       :ensure projectile
+       :init (init-project-add-projectile-hooks)
+       :config (progn
+                 (setq projectile-enable-caching t)
+                 (add-hook 'vc-checkout-hook  'projectile-regenerate-tags)))
+   #+END_SRC
+
+** Helm
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-projectile
+       :ensure helm-projectile)
+   #+END_SRC
+
+* Magit
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package magit
+      :ensure magit)
+  #+END_SRC
