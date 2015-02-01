@@ -123,7 +123,7 @@ init.el: init.org
 init/%.el: init/%.org
 	emacs -Q -batch -l "ob-tangle" -eval "(org-babel-tangle-file \"$<\" \"$(notdir $@)\")"
 
-all: init.elc $(MODULES:.org=.el)
+all: init.el $(MODULES:.org=.el)
   #+END_SRC
 
   To launch compilation from Emacs, use this function:
