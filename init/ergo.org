@@ -20,7 +20,7 @@
 
 ** Ido mode
 
-   Ido is my minimal requirement for minibuffer interactive.
+   Ido is my minimal requirement for minibuffer interactivity.
 
    #+BEGIN_SRC emacs-lisp
      (ido-mode 1)
@@ -48,7 +48,7 @@
 ** Keyboard
 *** Shortcuts
 
-    I have some useful global shortcuts:
+    These are shortcuts for global commands I want direct access to.
 
     #+name: global-shortcuts
     | Shortcut | Command    |
@@ -84,12 +84,11 @@
         (require 'iso-transl))
     #+END_SRC
 ** Text editing
-
 *** Indentation
 
     Most of the time I want to indent with 4 spaces. So I disable
-    =indent-tabs-mode= to indent with spaces with =TAB=, and I set tab
-    width to 4 characters.
+    =indent-tabs-mode= to indent with spaces when I press =TAB=, and I
+    set tab width to 4 characters.
 
     #+BEGIN_SRC emacs-lisp
       (setq-default indent-tabs-mode nil)
@@ -116,7 +115,7 @@
 *** Setup common behaviour
 
     I don't enable =cua-mode= because it has some compatibility issues
-    with some modes and also some of my shortcuts, but I can still
+    with some modes and also some of my shortcuts, but I still can
     apply some tweaks to make Emacs behave a bit more like other
     common text editors.
 
@@ -129,7 +128,7 @@
 
     I don't want to let trailing whitespaces in the files I
     edit. However, calling =delete-trailing-whitespace= on a read only
-    buffer raises an error, si I must be sure it will be called only
+    buffer raises an error, so I must be sure it will be called only
     on writable buffers.
 
     #+BEGIN_SRC emacs-lisp
@@ -145,7 +144,7 @@
 * Helpers
 ** Copy current file name
 
-   This function simply put the current buffer's file name into the
+   This function simply puts the current buffer's file name into the
    kill ring. I use it mainly to debug a specific file on geben.
 
    #+BEGIN_SRC emacs-lisp
@@ -161,15 +160,15 @@
    This piece of code defines the command =my-align-pattern=, which
    aligns a provided pattern vertically. Using it in this code block:
 
-   > var a = 1;
-   > var aaa = 3;
-   > var aa = 2;
+     : var a = 1;
+     : var aaa = 3;
+     : var aa = 2;
 
    with the pattern "=" does:
 
-   > var a   = 1;
-   > var aaa = 3;
-   > var aa  = 2;
+     : var a   = 1;
+     : var aaa = 3;
+     : var aa  = 2;
 
    #+BEGIN_SRC emacs-lisp
      (defun my-align-detect-pattern (pattern)
