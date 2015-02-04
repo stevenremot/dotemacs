@@ -1,0 +1,248 @@
+#+title: User interface tweaks
+
+* Lexical binding
+
+  #+BEGIN_SRC emacs-lisp :padline no
+    ;; -*- lexical-binding: t -*-
+  #+END_SRC
+
+* Global ergonomy
+** Minimalist user interface
+
+   I don't use tool bar, menu bar and scroll bar that much, so I hide
+   them to have a minimalist UI with only things I need.
+
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode -1)
+     (menu-bar-mode -1)
+     (scroll-bar-mode -1)
+   #+END_SRC
+
+** Ido mode
+
+   Ido is my minimal requirement for minibuffer interactive.
+
+   #+BEGIN_SRC emacs-lisp
+     (ido-mode 1)
+   #+END_SRC
+
+** Uniquify
+
+   I load uniquify so that buffers with similar file names have better
+   name than =MyFile<N>=.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'uniquify)
+   #+END_SRC
+
+** Enabled features
+
+   These are the features disabled by default I enabled over the time.
+
+   #+BEGIN_SRC emacs-lisp
+     (put 'erase-buffer 'disabled nil)
+     (put 'narrow-to-region 'disabled nil)
+     (put 'upcase-region 'disabled nil)
+   #+END_SRC
+
+** Keyboard
+*** Shortcuts
+
+    I have some useful global shortcuts:
+
+    #+name: global-shortcuts
+    | Shortcut | Command    |
+    |----------+------------|
+    | C-s-t    | multi-term |
+    | C-s-s    | speedbar   |
+
+    #+BEGIN_SRC emacs-lisp :var global-shortcuts=global-shortcuts
+      (my-set-global-keys-from-org-table global-shortcuts)
+    #+END_SRC
+
+*** Ctrl and caps lock switching
+
+    I want Caps Lock and Ctrl to be inverted in my computer. However I
+    need to quickly come back to normal when someone else is using my
+    computer. Here is a function that calls an xmodmap script to toggle
+    the two keys.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-switch-ctrl-caps-lock ()
+        "Switch ctrl and caps lock keys on keyboard."
+        (interactive)
+        (shell-command (concat "xmodmap " my-confdir "xmodmap")))
+    #+END_SRC
+
+*** International keys
+
+    In order to make some french keys work on Emacs >= 24, It is
+    required to load =iso-transl=.
+
+    #+BEGIN_SRC emacs-lisp
+      (when (>= emacs-major-version 24)
+        (require 'iso-transl))
+    #+END_SRC
+** Text editing
+
+*** Indentation
+
+    Most of the time I want to indent with 4 spaces. So I disable
+    =indent-tabs-mode= to indent with spaces with =TAB=, and I set tab
+    width to 4 characters.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq-default indent-tabs-mode nil)
+      (setq-default tab-width 4)
+    #+END_SRC
+
+*** Show matching parenthesis
+
+    =show-paren-mode= makes it easier to see the parenthesis matching
+    the one at point.
+
+    #+BEGIN_SRC emacs-lisp
+      (show-paren-mode 1)
+    #+END_SRC
+
+*** Show column number
+
+    =column-number-mode= displays the current column in the mode line.
+
+    #+BEGIN_SRC emacs-lisp
+      (column-number-mode 1)
+    #+END_SRC
+
+*** Setup common behaviour
+
+    I don't enable =cua-mode= because it has some compatibility issues
+    with some modes and also some of my shortcuts, but I can still
+    apply some tweaks to make Emacs behave a bit more like other
+    common text editors.
+
+    #+BEGIN_SRC emacs-lisp
+      (delete-selection-mode 1)
+      (global-set-key (kbd "C-z") #'undo)
+    #+END_SRC
+
+*** Delete trailing whitespaces before saving
+
+    I don't want to let trailing whitespaces in the files I
+    edit. However, calling =delete-trailing-whitespace= on a read only
+    buffer raises an error, si I must be sure it will be called only
+    on writable buffers.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-delete-trailing-whitespaces-maybe ()
+        "Delete trailing whitespaces in a writable buffer."
+        (interactive)
+        (unless buffer-read-only
+          (delete-trailing-whitespace)))
+
+      (add-hook 'before-save-hook #'my-delete-trailing-whitespaces-maybe)
+    #+END_SRC
+
+* Helpers
+** Copy current file name
+
+   This function simply put the current buffer's file name into the
+   kill ring. I use it mainly to debug a specific file on geben.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-kill-file-name ()
+       "Insert the buffer's file name into kill ring."
+       (interactive)
+       (kill-new (buffer-file-name)))
+   #+END_SRC
+
+** Vertically align a pattern
+
+
+   This piece of code defines the command =my-align-pattern=, which
+   aligns a provided pattern vertically. Using it in this code block:
+
+   > var a = 1;
+   > var aaa = 3;
+   > var aa = 2;
+
+   with the pattern "=" does:
+
+   > var a   = 1;
+   > var aaa = 3;
+   > var aa  = 2;
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-align-detect-pattern (pattern)
+       "Return the point of PATTERN on the current line.
+
+     Return nil if it could not find it."
+       (save-excursion
+         (let ((line-start (line-beginning-position))
+               (line-end (line-end-position))
+               match-point)
+           (goto-char line-start)
+           (setq match-point (search-forward pattern nil t))
+           (if (and match-point
+                    (<= match-point line-end))
+               (match-beginning 0)
+             nil))))
+
+     (defun my-align-apply-to-neighbours (pattern callback)
+       "Walk on all the neighbour lines that have PATTERN.
+
+     Apply CALLBACK at each line.  Point is placed to matching position before
+     calling CALLBACK.
+     Walk from, up to down."
+       (save-excursion
+         (while (my-align-detect-pattern pattern)
+           (forward-line -1))
+         (forward-line 1)
+         (while (my-align-detect-pattern pattern)
+           (goto-char(my-align-detect-pattern pattern))
+           (funcall callback)
+           (forward-line 1))))
+
+     (defmacro my-align-with-neighbours (pattern &rest body)
+       "Walk on all neighbour lines with PATTERN and apply BODY to them.
+
+     Current point when body is executed is set to match point.
+
+     See `my-align-apply-to-neighbours' for more information."
+       (declare (indent defun))
+       `(my-align-apply-to-neighbours ,pattern
+                                      (lambda ()
+                                        ,@body)))
+
+     (defun my-align-pattern (pattern)
+       "Align all neighbour lines so that occurences of PATTERN are on the same column."
+       (interactive "sPattern: ")
+       (let ((max-col 0))
+         (save-excursion
+           (my-align-with-neighbours pattern
+             (setq max-col (max max-col (current-column))))
+           (when (> max-col 0)
+             (my-align-with-neighbours pattern
+               (let ((offset (- max-col (current-column))))
+                 (dotimes (_ offset)
+                   (insert " "))))))))
+   #+END_SRC
+
+* Multiple cursors
+
+  My multiple-cursors configuration is very basic, I mainly use it to
+  edit neighbour lines.
+
+  Here are my defined shortcuts:
+
+  #+name: multiple-cursors-shortcuts
+  | Key      | Command                    |
+  |----------+----------------------------|
+  | C-<kp-2> | mc/mark-next-like-this     |
+  | C-<kp-8> | mc/mark-previous-like-this |
+  | C-<kp-5> | mc/mark-all-dwim           |
+
+  #+BEGIN_SRC emacs-lisp :var multiple-cursors-shortcuts=multiple-cursors-shortcuts
+    (use-package multiple-cursors
+      :ensure multiple-cursors
+      :init (my-set-global-keys-from-org-table multiple-cursors-shortcuts))
+  #+END_SRC
