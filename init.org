@@ -72,7 +72,7 @@ TABLE is an Org table in this format:
    - [X] lisp
    - [X] tlsd
    - [X] haskell
-   - [ ] redmine
+   - [X] yasnippet
    - [X] local
 
    These modules will be registered in ~my-enabled-modules~.
