@@ -8,7 +8,7 @@
 
 * Enabled modules
 
-  I don't want to enabled yasnippet everywhere, because it rebinds TAB
+  I don't want to enable yasnippet everywhere, because it rebinds TAB
   in a way that is not suitable for everywhere, for example in shell
   sessions. I want it to be enabled in these modes :
 
@@ -28,7 +28,10 @@
 
 * Initialization
 
-  First I load yasnippet and add it to the required hooks.
+  I load yasnippet and add it to the required hooks.
+
+  My emacs configuration is not always in =~/.emacs.d/= so I also
+  tweak =yas-snippet-dirs= to load the sippets from the right place.
 
   #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
