@@ -31,7 +31,6 @@
   #+END_SRC
 
 * Eshell
-
 ** Visual commands
 
    The visual commands I use in Eshell are:
@@ -45,6 +44,8 @@
        "Add visual commands to eshell."
        (setq eshell-visual-commands (append eshell-visual-commands my-eshell-visual-commands)))
    #+END_SRC
+
+** Package loading
 
    At package loading, I want to setup the visual commands, and to
    synchronize eshell path environment with =exec-path=.
