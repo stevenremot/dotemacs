@@ -1,0 +1,60 @@
+#+title: Shells configuration module
+
+* Lexical binding
+
+  #+BEGIN_SRC emacs-lisp :padline no
+    ;; -*- lexical-binding: t -*-
+  #+END_SRC
+
+* Load environment paths
+
+  I use =exec-path-from-shell= in order to import paths setup in my
+  shell in Emacs.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package exec-path-from-shell
+      :init (exec-path-from-shell-initialize))
+  #+END_SRC
+
+* Personal paths
+
+  These are the paths I want to add to load paths.
+
+  #+name: my-added-paths
+  - ~/bin
+
+  These are added to =exec-path= so that I can access their content
+  when running a shell command interactively.
+
+  #+BEGIN_SRC emacs-lisp :var my-added-paths=my-added-paths
+    (setq exec-path (append exec-path my-added-paths))
+  #+END_SRC
+
+* Eshell
+
+** Visual commands
+
+   The visual commands I use in Eshell are:
+
+   #+name: my-eshell-visual-commands
+   - psql
+   - git
+
+   #+BEGIN_SRC emacs-lisp :var my-eshell-visual-commands=my-eshell-visual-commands
+     (defun my-add-eshell-visual-commands ()
+       "Add visual commands to eshell."
+       (setq eshell-visual-commands (append eshell-visual-commands my-eshell-visual-commands)))
+   #+END_SRC
+
+   At package loading, I want to setup the visual commands, and to
+   synchronize eshell path environment with =exec-path=.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-augment-eshell-path-env ()
+        (setq eshell-path-env (string-join exec-path ":")))
+
+      (use-package eshell
+        :config (progn
+                  (add-hook 'eshell-mode-hook #'my-augment-eshell-path-env)
+                  (my-add-eshell-visual-commands)))
+    #+END_SRC
