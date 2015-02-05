@@ -1,0 +1,24 @@
+#+title: Org initialization
+
+* Setup ob-http
+
+  [[https://github.com/zweifisch/ob-http][ob-http]] is a nice package to test Rest APIs. I make sure it is
+  installed.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ob-http
+      :ensure)
+  #+END_SRC
+
+* Loading org babel
+
+  I load some useful org-babel languages here.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package org
+      :config (org-babel-do-load-languages
+               'org-babel-load-languages
+               '((emacs-lisp . t)
+                 (sql . t)
+                 (http . t))))
+  #+END_SRC

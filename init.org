@@ -60,6 +60,7 @@ TABLE is an Org table in this format:
    - [X] cedet
    - [X] ergo
    - [X] helm
+   - [X] org
    - [X] jabber
    - [X] gtags
    - [X] flycheck
