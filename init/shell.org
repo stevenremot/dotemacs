@@ -52,7 +52,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (defun my-augment-eshell-path-env ()
-        (setq eshell-path-env (string-join exec-path ":")))
+        (setq eshell-path-env (string-join exec-path ":"))
+        (setenv "PATH" eshell-path-env))
 
       (use-package eshell
         :config (progn
