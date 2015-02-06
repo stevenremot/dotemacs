@@ -100,12 +100,17 @@ This operation is done in place."
     (insert " */")
     (indent-region base-point (point))))
 
+(defun my-insert-backslash ()
+  (interactive)
+  (insert "\\"))
+
 (use-package php-mode
   :ensure php-mode
   :bind (("C-c s c" . my-php-insert-classdef)
          ("C-c s a" . my-php-insert-attrdef)
          ("C-c s m" . my-php-insert-methoddef)
-         ("C-c s d" . my-php-generate-func-doc))
+         ("C-c s d" . my-php-generate-func-doc)
+         ("M-_" . my-insert-backslash))
   :config (add-hook 'php-mode-hook
                     (lambda ()
                       (defvar company-backends)
