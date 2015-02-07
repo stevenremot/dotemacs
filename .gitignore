@@ -58,3 +58,13 @@ projectile-bookmarks.eld
 #########
 
 srecode-map*
+cedet.el
+custom.el
+ergo.el
+helm.el
+org.el
+package.el
+project.el
+shell.el
+theme.el
+yasnippet.el
