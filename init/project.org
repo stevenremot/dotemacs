@@ -67,3 +67,15 @@
     (use-package magit
       :ensure magit)
   #+END_SRC
+* diff-hl
+
+  [[https://github.com/dgutov/diff-hl][diff-hl]] is a nice package that shows vc status for each line in the
+  visited file.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package diff-hl
+      :ensure
+      :init (progn
+              (global-diff-hl-mode 1)
+              (add-hook 'dired-mode-hook #'diff-hl-dired-mode)))
+  #+END_SRC
