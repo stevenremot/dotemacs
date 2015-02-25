@@ -38,11 +38,22 @@
    #+name: my-eshell-visual-commands
    - psql
    - git
+   - php
+   - zsh
+   - sudo
 
    #+BEGIN_SRC emacs-lisp :var my-eshell-visual-commands=my-eshell-visual-commands
      (defun my-add-eshell-visual-commands ()
        "Add visual commands to eshell."
        (setq eshell-visual-commands (append eshell-visual-commands my-eshell-visual-commands)))
+   #+END_SRC
+
+** Environment PATH
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-augment-eshell-path-env ()
+       (setq eshell-path-env (string-join exec-path ":"))
+       (setenv "PATH" eshell-path-env))
    #+END_SRC
 
 ** Package loading
@@ -51,12 +62,13 @@
    synchronize eshell path environment with =exec-path=.
 
     #+BEGIN_SRC emacs-lisp
-      (defun my-augment-eshell-path-env ()
-        (setq eshell-path-env (string-join exec-path ":"))
-        (setenv "PATH" eshell-path-env))
+      (defun my-setup-eshell ()
+        "Setup eshell buffer."
+        (my-augment-eshell-path-env))
+
+      (use-package em-term
+        :config (my-add-eshell-visual-commands))
 
       (use-package eshell
-        :config (progn
-                  (add-hook 'eshell-mode-hook #'my-augment-eshell-path-env)
-                  (my-add-eshell-visual-commands)))
+        :config (add-hook 'eshell-mode-hook #'my-setup-eshell))
     #+END_SRC
