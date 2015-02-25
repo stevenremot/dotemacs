@@ -63,22 +63,24 @@
 
 * Solarized
 
-  I don't use solarized right now.
-
   #+BEGIN_SRC emacs-lisp
-    ;; (use-package solarized-theme
-    ;;   :ensure solarized-theme
-    ;;   :init (load-theme 'solarized-dark t))
+    (use-package solarized-theme
+      :ensure solarized-theme
+      :init (load-theme 'solarized-dark t))
   #+END_SRC
 
 * Moe theme
 
   Moe, moe, kyun!
 
+  Moe colors are nice for powerline, but I still want my powerline
+  layout, so I call =my-powerline-theme= again.
+
   #+BEGIN_SRC emacs-lisp
-    (use-package moe-theme
-      :ensure
-      :init (progn
-              (moe-dark)
-              (powerline-moe-theme)))
+    ;; (use-package moe-theme
+    ;;   :ensure
+    ;;   :init (progn
+    ;;           (moe-dark)
+    ;;           (powerline-moe-theme)
+    ;;           (my-powerline-theme)))
   #+END_SRC
