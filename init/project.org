@@ -26,15 +26,20 @@
    - org
    - magit
    - vc
+   - fundamental
 
    ~init-project-add-projectile-hooks~ is in charge of enabling
    projectile for these modes.
 
    #+BEGIN_SRC emacs-lisp :var enabled-modes=enabled-modes
+     (defun my-turn-on-projectile ()
+       "Enable projectile for the current buffer."
+       (projectile-mode 1))
+
      (defun init-project-add-projectile-hooks ()
        "Init projectile on supported modes."
        (dolist (mode enabled-modes)
-         (add-hook (intern (concat mode "-mode-hook")) 'projectile-mode)))
+         (add-hook (intern (concat mode "-mode-hook")) #'my-turn-on-projectile)))
    #+END_SRC
 
 ** Setup
