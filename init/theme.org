@@ -56,17 +56,17 @@
 ** Setup
 
    #+BEGIN_SRC emacs-lisp
-     (use-package powerline
-       :ensure powerline
-       :init (my-powerline-theme))
+     ;; (use-package powerline
+     ;;  :ensure powerline
+     ;;  :init (my-powerline-theme))
    #+END_SRC
 
 * Solarized
 
   #+BEGIN_SRC emacs-lisp
-    (use-package solarized-theme
-      :ensure solarized-theme
-      :init (load-theme 'solarized-dark t))
+    ;; (use-package solarized-theme
+    ;;   :ensure solarized-theme
+    ;;   :init (load-theme 'solarized-dark t))
   #+END_SRC
 
 * Moe theme
@@ -77,10 +77,13 @@
   layout, so I call =my-powerline-theme= again.
 
   #+BEGIN_SRC emacs-lisp
-    ;; (use-package moe-theme
-    ;;   :ensure
-    ;;   :init (progn
-    ;;           (moe-dark)
-    ;;           (powerline-moe-theme)
-    ;;           (my-powerline-theme)))
+    (use-package moe-theme
+      :ensure
+      :config (progn
+              (moe-dark)
+              (use-package powerline
+                :ensure powerline
+                :init (progn
+                        (powerline-moe-theme)
+                        (my-powerline-theme)))))
   #+END_SRC
