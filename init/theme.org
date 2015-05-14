@@ -163,8 +163,10 @@
                mode-line-position
                (vc-mode vc-mode)
                "  "
-               mode-line-modes
+               mode-name
                mode-line-misc-info
+               "  "
+               (mode-line-process ,(propertize "{%s}" 'face 'mode-line-emphasis))
                mode-line-end-spaces)))
    #+END_SRC
 
