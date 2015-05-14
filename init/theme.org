@@ -1,6 +1,10 @@
 #+title: Theme setup
 
 * Powerline
+
+  Currently disabled, I am switching to a custom mode line
+  configuration. See [[Mode%20line][Mode line]] section to see the new configuration.
+
 ** Custom theme
 
   I use a slightly tuned powerline theme.
@@ -61,13 +65,120 @@
      ;;  :init (my-powerline-theme))
    #+END_SRC
 
-* Solarized
+* Mode line
+** Faces
 
-  #+BEGIN_SRC emacs-lisp
-    ;; (use-package solarized-theme
-    ;;   :ensure solarized-theme
-    ;;   :init (load-theme 'solarized-dark t))
-  #+END_SRC
+   A basic color theme for the mode line.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-mode-line-color-theme ()
+       "Define a color theme for the mode line."
+       (interactive)
+       (custom-set-faces
+        '(mode-line
+          ((((class color))
+            :background "black" :foreground "Gainsboro" :family "Calibri" :height 0.8)))
+
+        '(mode-line-inactive
+          ((((class color))
+            :background "DimGray" :family "Calibri" :height 0.8)))
+
+        '(mode-line-buffer-id
+          ((((class color))
+            :background nil :foreground nil :font-family nil :weight bold)))))
+
+   #+END_SRC
+
+** Widgets
+
+   These are custom widgets for setting up the mode line.
+
+
+*** File status
+
+    This widget gives information on the status of a file using a color code :
+
+    - Dark green: Buffer is readable and in sync with the file
+    - Light green: Buffer is readable and modified since
+    - Grey: Buffer is read-only
+
+    When the file has been modified outside of Emacs, an exclamation
+    mark if shown.
+
+    #+BEGIN_SRC emacs-lisp
+      (defface my-mode-line-file-status-default
+        '((((class color))
+           :background "#002000"
+           :weight bold
+           :family "Inconsolata"
+           :inherit mode-line))
+        "Face for a writable not modified file status mode line.")
+
+      (defface my-mode-line-file-status-modified
+          '((((class color))
+             :background "#006000"
+             :weight bold
+           :family "Inconsolata"
+             :inherit mode-line))
+          "Face for a modified buffer file status mode line.")
+
+      (defface my-mode-line-file-status-read-only
+        '((((class color))
+           :background "#202020"
+           :weight bold
+           :family "Inconsolata"
+           :inherit mode-line))
+        "Face for a read-only buffer")
+
+      (defvar my-mode-line-file-status
+        '(:eval
+          (let ((face (cond
+                       ((buffer-modified-p)
+                        (quote my-mode-line-file-status-modified))
+                       (buffer-read-only
+                        (quote my-mode-line-file-status-read-only))
+                       (t
+                        (quote my-mode-line-file-status-default))))
+                (text (if (verify-visited-file-modtime)
+                          "   "
+                        " ! ")))
+            (propertize text
+                        (quote face) face))))
+    #+END_SRC
+
+** Organization
+
+   Here is the mode-line specification.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-setup-mode-line-format ()
+       "Change mode-line-format to my personal setup."
+       (interactive)
+       (setq-default mode-line-format
+             `("%e"
+               ,my-mode-line-file-status
+               mode-line-frame-identification
+               mode-line-buffer-identification
+               "   "
+               mode-line-position
+               (vc-mode vc-mode)
+               "  "
+               mode-line-modes
+               mode-line-misc-info
+               mode-line-end-spaces)))
+   #+END_SRC
+
+** Setup function
+
+   This function setup the theme and the layout.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-setup-mode-line ()
+       "Setup my mode line theme and format."
+       (interactive)
+       (my-mode-line-color-theme)
+       (my-setup-mode-line-format))
+   #+END_SRC
 
 * Moe theme
 
@@ -80,10 +191,6 @@
     (use-package moe-theme
       :ensure
       :config (progn
-              (moe-dark)
-              (use-package powerline
-                :ensure powerline
-                :init (progn
-                        (powerline-moe-theme)
-                        (my-powerline-theme)))))
+                (moe-dark)
+                (my-setup-mode-line)))
   #+END_SRC
