@@ -3,15 +3,16 @@
 * Shortcuts
 
   #+name: shortcuts
-  | Key     | Command                 |
-  |---------+-------------------------|
-  | M-x     | helm-M-x                |
-  | C-x C-f | helm-find-files         |
-  | C-x b   | helm-buffers-list       |
-  | C-x C-b | helm-buffers-list       |
-  | C-x c p | helm-list-emacs-process |
-  | C-x c i | helm-semantic-or-imenu  |
-  | C-x c t | helm-top                |
+  | Key         | Command                 |
+  |-------------+-------------------------|
+  | M-x         | helm-M-x                |
+  | C-x C-f     | helm-find-files         |
+  | C-x b       | helm-buffers-list       |
+  | C-x C-b     | helm-buffers-list       |
+  | C-x c p     | helm-list-emacs-process |
+  | C-x c i     | helm-semantic-or-imenu  |
+  | C-x c t     | helm-top                |
+  | C-x c M-s o | helm-occur              |
 
 * Package loading
 
