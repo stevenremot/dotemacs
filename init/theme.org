@@ -71,21 +71,25 @@
    A basic color theme for the mode line.
 
    #+BEGIN_SRC emacs-lisp
-     (defun my-mode-line-color-theme ()
-       "Define a color theme for the mode line."
-       (interactive)
-       (custom-set-faces
-        '(mode-line
-          ((((class color))
-            :background "black" :foreground "Gainsboro" :family "Calibri" :height 0.8)))
+     (deftheme my-mode-line-dark-theme
+       "Custom theme for a dark mode line.")
 
-        '(mode-line-inactive
-          ((((class color))
-            :background "DimGray" :family "Calibri" :height 0.8)))
+     (custom-theme-set-faces
+      'my-mode-line-dark-theme
 
-        '(mode-line-buffer-id
-          ((((class color))
-            :background nil :foreground nil :font-family nil :weight bold)))))
+      '(mode-line
+        ((((class color))
+          :background "black" :foreground "Gainsboro" :family "Calibri" :height 0.8)))
+
+      '(mode-line-inactive
+        ((((class color))
+          :background "DimGray" :family "Calibri" :height 0.8)))
+
+      '(mode-line-buffer-id
+        ((((class color))
+          :background nil :foreground nil :font-family nil :weight bold))))
+
+     (provide-theme 'my-mode-line-dark-theme)
 
    #+END_SRC
 
@@ -179,7 +183,7 @@
      (defun my-setup-mode-line ()
        "Setup my mode line theme and format."
        (interactive)
-       (my-mode-line-color-theme)
+       (enable-theme 'my-mode-line-dark-theme)
        (my-setup-mode-line-format))
    #+END_SRC
 
@@ -194,6 +198,7 @@
     (use-package moe-theme
       :ensure
       :config (progn
+                (setq moe-theme-mode-line-color nil)
                 (moe-dark)
                 (my-setup-mode-line)))
   #+END_SRC
