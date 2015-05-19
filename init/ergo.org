@@ -44,45 +44,6 @@
      (put 'narrow-to-region 'disabled nil)
      (put 'upcase-region 'disabled nil)
    #+END_SRC
-
-** Keyboard
-*** Shortcuts
-
-    These are shortcuts for global commands I want direct access to.
-
-    #+name: global-shortcuts
-    | Shortcut | Command    |
-    |----------+------------|
-    | C-s-t    | multi-term |
-    | C-s-s    | speedbar   |
-
-    #+BEGIN_SRC emacs-lisp :var global-shortcuts=global-shortcuts
-      (my-set-global-keys-from-org-table global-shortcuts)
-    #+END_SRC
-
-*** Ctrl and caps lock switching
-
-    I want Caps Lock and Ctrl to be inverted in my computer. However I
-    need to quickly come back to normal when someone else is using my
-    computer. Here is a function that calls an xmodmap script to toggle
-    the two keys.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun my-switch-ctrl-caps-lock ()
-        "Switch ctrl and caps lock keys on keyboard."
-        (interactive)
-        (shell-command (concat "xmodmap " my-confdir "xmodmap")))
-    #+END_SRC
-
-*** International keys
-
-    In order to make some french keys work on Emacs >= 24, It is
-    required to load =iso-transl=.
-
-    #+BEGIN_SRC emacs-lisp
-      (when (>= emacs-major-version 24)
-        (require 'iso-transl))
-    #+END_SRC
 ** Text editing
 *** Indentation
 
@@ -140,6 +101,70 @@
 
       (add-hook 'before-save-hook #'my-delete-trailing-whitespaces-maybe)
     #+END_SRC
+
+*** Skeleton
+
+    Here is a simple function that can be sued to quickly go to the
+    next registered point in the previously executed skeleton.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-go-to-next-skeleton-point ()
+        "Go to the next value registered in `skeleton-positions'."
+        (interactive)
+        (let ((positions (reverse skeleton-positions))
+              (position-reached nil)
+              (current-position (point)))
+          (while (and positions (not position-reached))
+            (if (< current-position (car positions))
+                (setq position-reached t)
+              (setq positions (cdr positions))))
+
+          (when positions
+            (goto-char (car positions)))))
+    #+END_SRC
+
+** Keyboard
+*** Shortcuts
+
+    These are shortcuts for global commands I want direct access to.
+
+    #+name: global-shortcuts
+    | Shortcut   | Command                      |
+    |------------+------------------------------|
+    | C-s-t      | multi-term                   |
+    | C-s-s      | speedbar                     |
+    | <C-tab>    | my-go-to-next-skeleton-point |
+    | C-<return> | expand-abbrev                |
+
+    #+BEGIN_SRC emacs-lisp :var global-shortcuts=global-shortcuts
+      (my-set-global-keys-from-org-table global-shortcuts)
+    #+END_SRC
+
+*** Ctrl and caps lock switching
+
+    I want Caps Lock and Ctrl to be inverted in my computer. However I
+    need to quickly come back to normal when someone else is using my
+    computer. Here is a function that calls an xmodmap script to toggle
+    the two keys.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-switch-ctrl-caps-lock ()
+        "Switch ctrl and caps lock keys on keyboard."
+        (interactive)
+        (shell-command (concat "xmodmap " my-confdir "xmodmap")))
+    #+END_SRC
+
+*** International keys
+
+    In order to make some french keys work on Emacs >= 24, It is
+    required to load =iso-transl=.
+
+    #+BEGIN_SRC emacs-lisp
+      (when (>= emacs-major-version 24)
+        (require 'iso-transl))
+    #+END_SRC
+
+
 
 * Helpers
 ** Copy current file name
