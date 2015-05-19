@@ -15,7 +15,7 @@
                                             (emmet-mode 1)
                                             (skewer-mode 1)))))
 
-
+;; Srecode inserters (obsolete)
 
 (defmacro my-define-srecode-inserter (name template-name)
   "Create a template caller function.
@@ -30,6 +30,89 @@ TEMPLATE-NAME is the name of the template."
 (my-define-srecode-inserter my-php-insert-classdef "declaration:php-classdef")
 (my-define-srecode-inserter my-php-insert-attrdef "declaration:php-attrdef")
 (my-define-srecode-inserter my-php-insert-methoddef "declaration:php-methoddef")
+
+;; Skeletons
+
+(define-skeleton my-php-skeleton-class
+  "Skeleton for a class definition."
+  nil
+  "class " (skeleton-read "Class name: ") "\n"
+  "{\n"
+  > _
+  "\n}\n")
+
+(define-skeleton my-php-skeleton-method
+  "Skeleton for a class method."
+  nil
+  (completing-read "Protection: " '("public" "private" "protected"))
+  " function " @ - "(" @ ")" \n
+  "{" > \n
+  @ _ \n
+  "}" > )
+
+(defmacro my-php-define-parens-block-skeleton (name doc keyword)
+  "Create a skeleton for an if, for, while-like structure.
+
+NAME is the skeleton name.
+
+DOC is the skeleton doc string.
+
+KEYWORD is the keyword to use for the block.
+
+Example:
+
+  (my-php-define-parens-block-skeleton if-skeleton \"Skeleton doc.\" \"if\")
+
+If a skeleton for the followign structure:
+
+  if () {
+      _
+  }"
+  `(define-skeleton ,name
+     ,doc
+     nil
+     ,keyword " (" @ - ") {" \n
+     @ _ \n
+     "}" > @))
+
+(define-skeleton my-php-skeleton-debug
+  "Skeleton for debug isntructions."
+  nil
+  "Project_Logger::debug(" _ ");")
+
+(my-php-define-parens-block-skeleton
+ my-php-skeleton-if
+ "Skeleton for an if statement."
+ "if")
+
+(my-php-define-parens-block-skeleton
+ my-php-skeleton-else-if
+ "Skeleton for an elseif statement."
+ "else if")
+
+(define-skeleton my-php-skeleton-else
+  "Skeleton for else statement."
+  nil
+  "else {" \n
+  @ _ \n
+    "}" >)
+
+(my-php-define-parens-block-skeleton
+ my-php-skeleton-foreach
+ "Skeleton for an foreach statement."
+ "foreach")
+
+(my-php-define-parens-block-skeleton
+ my-php-skeleton-for
+ "Skeleton for an for statement."
+ "for")
+
+(my-php-define-parens-block-skeleton
+ my-php-skeleton-while
+ "Skeleton for an while statement."
+ "while")
+
+;; Doc generatror
 
 (defun my-php-write-param-doc-line (type name)
   "Insert a PHPDoc line for a param.
@@ -104,6 +187,28 @@ This operation is done in place."
   (interactive)
   (insert "\\"))
 
+(defun my-setup-php-mode ()
+  "Setup php mode."
+  (add-hook 'php-mode-hook
+            (lambda ()
+              (defvar company-backends)
+              (defvar company-semantic-modes)
+              ;; We narrow company to only semantic and GNU Global
+              (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
+              (add-to-list 'company-semantic-modes 'php-mode)
+              ;; php-mode removes whitespace hook, let's add it again
+              (add-hook 'before-save-hook 'delete-trailing-whitespace)))
+
+  (define-abbrev php-mode-abbrev-table "cls" "" #'my-php-skeleton-class)
+  (define-abbrev php-mode-abbrev-table "fun" "" #'my-php-skeleton-method)
+  (define-abbrev php-mode-abbrev-table "dbg" "" #'my-php-skeleton-debug)
+  (define-abbrev php-mode-abbrev-table "if" "" #'my-php-skeleton-if)
+  (define-abbrev php-mode-abbrev-table "elif" "" #'my-php-skeleton-else-if)
+  (define-abbrev php-mode-abbrev-table "else" "" #'my-php-skeleton-else)
+  (define-abbrev php-mode-abbrev-table "foreach" "" #'my-php-skeleton-foreach)
+  (define-abbrev php-mode-abbrev-table "for" "" #'my-php-skeleton-for)
+  (define-abbrev php-mode-abbrev-table "while" "" #'my-php-skeleton-while))
+
 (use-package php-mode
   :ensure php-mode
   :bind (("C-c s c" . my-php-insert-classdef)
@@ -111,15 +216,7 @@ This operation is done in place."
          ("C-c s m" . my-php-insert-methoddef)
          ("C-c s d" . my-php-generate-func-doc)
          ("M-_" . my-insert-backslash))
-  :config (add-hook 'php-mode-hook
-                    (lambda ()
-                      (defvar company-backends)
-                      (defvar company-semantic-modes)
-                      ;; We narrow company to only semantic and GNU Global
-                      (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
-                      (add-to-list 'company-semantic-modes 'php-mode)
-                      ;; php-mode removes whitespace hook, let's add it again
-                      (add-hook 'before-save-hook 'delete-trailing-whitespace))))
+  :config (my-setup-php-mode))
 
 (use-package js2-mode
   :ensure js2-mode
