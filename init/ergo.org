@@ -104,14 +104,30 @@
 
 *** Skeleton
 
-    Here is a simple function that can be sued to quickly go to the
+    Here is a simple snippet that can be used to quickly go to the
     next registered point in the previously executed skeleton.
+
+    The navigation is based on ~skeleton-positions~ value. However
+    this variable contains positions as integers, not markers.
+
+    #+BEGIN_SRC emacs-lisp
+      (defvar my-skeleton-markers nil
+        "Last skeleton's positions as markers.")
+
+      (defun my-skeleton-register-markers ()
+        "Register `skeleton-psitions' as markers"
+        (setq my-skeleton-markers (mapcar 'copy-marker skeleton-positions)))
+
+      (add-hook 'skeleton-end-hook #'my-skeleton-register-markers)
+    #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
       (defun my-go-to-next-skeleton-point ()
-        "Go to the next value registered in `skeleton-positions'."
+        "Go to the next value registered in `my-skeleton-markers'.
+
+      If last value is reached, go to the first position."
         (interactive)
-        (let ((positions (reverse skeleton-positions))
+        (let ((positions (reverse my-skeleton-markers))
               (position-reached nil)
               (current-position (point)))
           (while (and positions (not position-reached))
@@ -119,8 +135,11 @@
                 (setq position-reached t)
               (setq positions (cdr positions))))
 
-          (when positions
-            (goto-char (car positions)))))
+          (cond
+           (positions
+            (goto-char (car positions)))
+           (my-skeleton-markers
+            (goto-char (car (last my-skeleton-markers)))))))
     #+END_SRC
 
 ** Keyboard
@@ -163,8 +182,6 @@
       (when (>= emacs-major-version 24)
         (require 'iso-transl))
     #+END_SRC
-
-
 
 * Helpers
 ** Copy current file name
