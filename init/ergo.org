@@ -142,6 +142,25 @@
             (goto-char (car (last my-skeleton-markers)))))))
     #+END_SRC
 
+** Abbrev
+
+   In programming modes, I don't want abbrev to expand in string and
+   comments.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-abbrev-inhibit-string-and-comment ()
+       "Overrides `abbrev--default-expand' to prevent it being called in strings and comments."
+       (let ((syntax (syntax-ppss (point))))
+         (when (and (null (nth 3 syntax)) (null (nth 4 syntax)))
+           (abbrev--default-expand))))
+
+     (defun my-setup-abbrev-inhibition ()
+       "Setup `my-abbrev-inhibit-string-and-comment'."
+       (setq-local abbrev-expand-function #'my-abbrev-inhibit-string-and-comment))
+
+     (add-hook 'prog-mode-hook #'my-setup-abbrev-inhibition)
+   #+END_SRC
+
 ** Keyboard
 *** Shortcuts
 
