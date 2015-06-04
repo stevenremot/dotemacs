@@ -76,9 +76,9 @@ If a skeleton for the followign structure:
      "}" > @))
 
 (define-skeleton my-php-skeleton-debug
-  "Skeleton for debug isntructions."
+  "Skeleton for debug instructions."
   nil
-  "Project_Logger::debug(" _ ");")
+  "\\Project_Logger::debug(" _ ");")
 
 (my-php-define-parens-block-skeleton
  my-php-skeleton-if
