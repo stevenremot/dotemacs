@@ -1,0 +1,268 @@
+#+TITLE: PHP Initialization
+
+* Skeletons
+
+  Here are some useful Emacs skeletons for PHP.
+
+** Class
+
+   #+BEGIN_SRC emacs-lisp
+     (define-skeleton my-php-skeleton-class
+       "Skeleton for a class definition."
+       nil
+       "class " (skeleton-read "Class name: ") "\n"
+       "{\n"
+       > _
+       "\n}\n")
+   #+END_SRC
+
+** Class method
+
+   #+BEGIN_SRC emacs-lisp
+     (define-skeleton my-php-skeleton-method
+       "Skeleton for a class method."
+       nil
+       (completing-read "Protection: " '("public" "private" "protected"))
+       " function " @ - "(" @ ")" \n
+       "{" > \n
+       @ _ \n
+       "}" > )
+   #+END_SRC
+
+** Project debugger
+
+   Skeleton for the custom debugging statement used at work.
+
+   #+BEGIN_SRC emacs-lisp
+     (define-skeleton my-php-skeleton-debug
+       "Skeleton for debug instructions."
+       nil
+       "\\Project_Logger::debug(" _ ");")
+   #+END_SRC
+
+** Keyword with braces macro
+
+   This macro is used to define skeleton for the following common structure :
+
+   #+BEGIN_EXAMPLE
+   <keyword> (@) {
+       @
+   }@
+   #+END_EXAMPLE
+
+   If sets three skeleton positions where the ~@~ are.
+
+   #+BEGIN_SRC emacs-lisp
+     (defmacro my-php-define-parens-block-skeleton (name doc keyword)
+       "Create a skeleton for an if, for, while-like structure.
+
+     NAME is the skeleton name.
+
+     DOC is the skeleton doc string.
+
+     KEYWORD is the keyword to use for the block.
+
+     Example:
+
+       (my-php-define-parens-block-skeleton if-skeleton \"Skeleton doc.\" \"if\")
+
+     If a skeleton for the followign structure:
+
+       if () {
+           _
+       }"
+       `(define-skeleton ,name
+          ,doc
+          nil
+          ,keyword " (" @ - ") {" \n
+          @ _ \n
+          "}" > @))
+   #+END_SRC
+
+** If statement
+
+   #+BEGIN_SRC emacs-lisp
+     (my-php-define-parens-block-skeleton
+      my-php-skeleton-if
+      "Skeleton for an if statement."
+      "if")
+
+     (my-php-define-parens-block-skeleton
+      my-php-skeleton-else-if
+      "Skeleton for an elseif statement."
+      "else if")
+
+     (define-skeleton my-php-skeleton-else
+       "Skeleton for else statement."
+       nil
+       "else {" \n
+       @ _ \n
+         "}" >)
+   #+END_SRC
+
+** Foreach Loop statements
+
+   #+BEGIN_SRC emacs-lisp
+     (my-php-define-parens-block-skeleton
+      my-php-skeleton-foreach
+      "Skeleton for an foreach statement."
+      "foreach")
+
+     (my-php-define-parens-block-skeleton
+      my-php-skeleton-for
+      "Skeleton for an for statement."
+      "for")
+
+     (my-php-define-parens-block-skeleton
+      my-php-skeleton-while
+      "Skeleton for an while statement."
+      "while")
+   #+END_SRC
+
+** Abbreviations setup
+
+   This function creates abbrevs for the PHP skeletons
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-php-setup-skeleton-abbrevs ()
+       "Setup the abbrevs for PHP skeletons."
+       (define-abbrev php-mode-abbrev-table "cls" "" #'my-php-skeleton-class)
+       (define-abbrev php-mode-abbrev-table "fun" "" #'my-php-skeleton-method)
+       (define-abbrev php-mode-abbrev-table "dbg" "" #'my-php-skeleton-debug)
+       (define-abbrev php-mode-abbrev-table "if" "" #'my-php-skeleton-if)
+       (define-abbrev php-mode-abbrev-table "elif" "" #'my-php-skeleton-else-if)
+       (define-abbrev php-mode-abbrev-table "else" "" #'my-php-skeleton-else)
+       (define-abbrev php-mode-abbrev-table "foreach" "" #'my-php-skeleton-foreach)
+       (define-abbrev php-mode-abbrev-table "for" "" #'my-php-skeleton-for)
+       (define-abbrev php-mode-abbrev-table "while" "" #'my-php-skeleton-while))
+   #+END_SRC
+
+* PHPDoc generator
+
+  This code can pre-generate PHPDoc for a method, filling the ~@param~
+  with types declared in the function's arguments.
+
+  This could be a whole package by itself, maybe not even restricted
+  to PHP.
+
+  #+BEGIN_SRC emacs-lisp
+    (defun my-php-write-param-doc-line (type name)
+      "Insert a PHPDoc line for a param.
+
+    TYPE is the type of the parameter.
+    NAME is the name of the parameter."
+      (insert (format " * @param %s %s\n"
+                      (if (and (stringp type)
+                               (not (string= type "")))
+                          type
+                        "mixed")
+                      name)))
+
+    (defun my-php-get-func-arguments (tag)
+      "Return arguments of TAG function.
+
+    Return a result as '((type1 arg1) (type2 arg2) ... )"
+      (mapcar
+       (lambda (arg-tag)
+         (list (semantic-tag-type arg-tag)
+               (semantic-tag-name arg-tag)))
+       (semantic-tag-function-arguments tag)))
+
+    (defun my-php-align-col (rows col-number)
+      "Align cells of ROWS for column COL-NUMBER.
+
+    This operation is done in place."
+      (when rows
+        (let ((max-length (apply 'max
+                                 (mapcar
+                                  (lambda (row) (length (nth (1- col-number) row)))
+                                  rows))))
+          (dolist (row rows)
+            (let ((cell (nth (1- col-number) row))
+                  (spaces ""))
+              (dotimes (i (- max-length (length cell)))
+                (setq spaces (concat spaces " ")))
+              (setf (nth (1- col-number) row) (concat cell spaces)))))))
+
+    (defun my-php-write-doc (doc)
+      "Insert DOC at the current point."
+      (let ((point nil))
+        (insert "/**\n")
+        ;; Insert lines
+        (insert " */")
+        (when point
+          ;; Go to point
+          )))
+
+    (defun my-php-generate-func-doc ()
+      "Generate documentation for a function tag."
+      (interactive)
+      (let* ((tag (semantic-current-tag))
+             (args (my-php-get-func-arguments tag))
+             base-point
+             description-point
+             end-point)
+        (my-php-align-col args 1)
+        (php-beginning-of-defun)
+        (open-line 1)
+        (setq base-point (point))
+        (insert "/**\n")
+        (insert " * \n")
+        (dolist (arg args)
+          (my-php-write-param-doc-line (nth 0 arg) (nth 1 arg)))
+        (insert " *\n")
+        (insert (format " * @return %s\n" (read-string "Return type : ")))
+        (insert " */")
+        (indent-region base-point (point))))
+  #+END_SRC
+
+* Backslash shortcut
+
+  You have a lot of backslash to type in PHP. It is quite cumbersome
+  on french keyboard so I define a binding I prefer for it. Here is
+  the backslash insertion function for the binding.
+
+  #+BEGIN_SRC emacs-lisp
+    (defun my-insert-backslash ()
+      (interactive)
+      (insert "\\"))
+  #+END_SRC
+
+* Mode setup
+
+** Key bindings
+
+   #+name: php-shortcuts
+   | Shortcut | Command                  |
+   |----------+--------------------------|
+   | C-c s d  | my-php-generate-func-doc |
+   | M-_      | my-insert-backslash      |
+
+** Setup function
+
+   #+BEGIN_SRC emacs-lisp :var shortcuts=php-shortcuts
+     (defun my-setup-php-mode ()
+       "Setup php mode."
+       (my-set-local-keys-from-org-table 'php-mode-map shortcuts)
+       (add-hook 'php-mode-hook
+                 (lambda ()
+                   (defvar company-backends)
+                   (defvar company-semantic-modes)
+                   ;; We narrow company to only semantic and GNU Global
+                   (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
+                   (add-to-list 'company-semantic-modes 'php-mode)
+                   ;; php-mode removes whitespace hook, let's add it again
+                   (add-hook 'before-save-hook 'delete-trailing-whitespace)))
+       (my-php-setup-skeleton-abbrevs))
+   #+END_SRC
+
+** Package import
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package php-mode
+       :ensure php-mode
+       :bind (
+              ("C-c s d" . my-php-generate-func-doc)
+              ("M-_" . my-insert-backslash))
+       :config (my-setup-php-mode))
+   #+END_SRC

@@ -39,6 +39,26 @@ TABLE is an Org table in this format:
       (global-set-key (kbd (car line)) (intern (cadr line))))))
    #+END_SRC
 
+   This second function does the same for local keymaps.
+
+   #+BEGIN_SRC emacs-lisp
+(defun my-set-local-keys-from-org-table (keymap table)
+  "Register local key bindings for KEYMAP defined in TABLE.
+
+TABLE is an Org table in this format:
+
+| Key | Command     |
+|-----+-------------|
+| M-x | my-function |
+| ... | ...         |"
+  (dolist (line (cdr table))
+    (when (listp line)
+      (define-key keymap (kbd (car line)) (intern (cadr line))))))
+   #+END_SRC
+
+   #+RESULTS:
+   : my-set-local-keys-from-org-table
+
 * Initialisation modules
 
    I split my configuration in different modules so that I can enable /
@@ -70,6 +90,7 @@ TABLE is an Org table in this format:
    - [X] eldoc
    - [ ] typescript
    - [X] web
+   - [X] php
    - [X] clojure
    - [X] lisp
    - [X] tlsd
