@@ -15,13 +15,7 @@ thumbs
 tramp
 request
 
-# Local initialization file
-###########################
-
-init-local.el
-init-general.el
-
-# Compile files
+# Compiled files
 ###############
 
 *.pyc
