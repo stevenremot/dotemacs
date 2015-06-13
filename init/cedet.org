@@ -8,7 +8,6 @@
 
   #+BEGIN_SRC emacs-lisp
     (load-file (concat my-site-lisp "cedet/cedet-devel-load.el"))
-    (load-file (concat my-site-lisp "cedet/contrib/cedet-contrib-load.el"))
   #+END_SRC
 
 * Enabling features
@@ -29,37 +28,6 @@
     (global-semantic-idle-completions-mode -1)
   #+END_SRC
 
-** Srecode
-
-   I used srecode in one project. I created some templates that
-   required to choose scope among scope proection keywords in
-   C++. ~my-read-protection~ is a ~completing-read~ configured to
-   choose between =private=, =public= and =protected=.
-
-   #+BEGIN_SRC emacs-lisp
-     (defun my-read-protection (prompt &optional initial-input history default-value inherit-input-method)
-       "Read a protection from the minibuffer.
-
-     PROMPT is the prompt message
-     INITIAL-INPUT is the pre-filled input
-     HISTORY is the input history
-     DEFAULT-VALUE is value for no input.
-     INHERIT-INPUT-METHOD : see `read-string'"
-       (completing-read prompt
-                        '("public" "private" "protected")
-                        nil
-                        t
-                        initial-input
-                        history
-                        default-value
-                        inherit-input-method))
-   #+END_SRC
-
-   Then let's enable Srecode everywhere.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-srecode-minor-mode 1)
-   #+END_SRC
 * Shortcuts
 
   I want to enable these shortcuts globally:

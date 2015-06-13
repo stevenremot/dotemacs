@@ -1,0 +1,10 @@
+#+TITLE: Cedet contrib initialization
+
+* Loading CEDET contrib
+
+  The contrib files' loading is split in another config file to be
+  easily disabled.
+
+  #+BEGIN_SRC emacs-lisp
+      (load-file (concat my-site-lisp "cedet/contrib/cedet-contrib-load.el"))
+  #+END_SRC
