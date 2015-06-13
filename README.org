@@ -1,0 +1,6 @@
+#+TITLE: My .emacs.d
+
+This is my emacs configuration files.
+
+My setup is split in several modules located in the ~init~
+directory. The file ~init.org~ is in charge of loading them.
