@@ -79,6 +79,7 @@ TABLE is an Org table in this format:
    - [X] theme
    - [X] cedet
    - [X] cedet-contrib
+   - [ ] edep
    - [X] ergo
    - [X] helm
    - [X] org
