@@ -1,5 +1,11 @@
 #+TITLE: PHP Initialization
 
+* Lexical binding
+
+  #+BEGIN_SRC emacs-lisp :padline no
+  ;; -*- lexical-binding: t -*-
+  #+END_SRC
+
 * Skeletons
 
   Here are some useful Emacs skeletons for PHP.
@@ -243,7 +249,7 @@
    #+BEGIN_SRC emacs-lisp :var shortcuts=php-shortcuts
      (defun my-setup-php-mode ()
        "Setup php mode."
-       (my-set-local-keys-from-org-table 'php-mode-map shortcuts)
+       (my-set-local-keys-from-org-table php-mode-map shortcuts)
        (add-hook 'php-mode-hook
                  (lambda ()
                    (defvar company-backends)
