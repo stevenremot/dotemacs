@@ -3,7 +3,7 @@
 * Lexical binding
 
   #+BEGIN_SRC emacs-lisp :padline no
-  ;; -*- lexical-binding: t -*-
+    ;; -*- lexical-binding: t -*-
   #+END_SRC
 
 * Skeletons
@@ -96,7 +96,7 @@
      (my-php-define-parens-block-skeleton
       my-php-skeleton-else-if
       "Skeleton for an elseif statement."
-      "else if")
+      "elseif")
 
      (define-skeleton my-php-skeleton-else
        "Skeleton for else statement."
