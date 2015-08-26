@@ -13,10 +13,6 @@
   :ensure company-tern
   :init (add-to-list 'company-backends 'company-tern))
 
-(use-package helm-company
-  :ensure helm-company
-  :init (global-set-key (kbd "C-:") 'helm-company))
-
 (provide 'init/company)
 
 ;;; company.el ends here
