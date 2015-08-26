@@ -10,7 +10,9 @@
  '(display-time-24hr-format t)
  '(electric-indent-mode t)
  '(electric-pair-mode t)
- '(elfeed-feeds (quote ("http://planet.smalltalk.org/atom.xml" "http://planet.lisp.org/rss20.xml" "http://planet.clojure.in/atom.xml" "http://pipes.yahoo.com/pipes/pipe.run?_id=41ff1c5d2d98c068757bc2648c93e23e&_render=rss")))
+'(elfeed-feeds
+   (quote
+    ("http://pipes.yahoo.com/pipes/pipe.run?_id=41ff1c5d2d98c068757bc2648c93e23e&_render=rss")))
  '(flycheck-clang-include-path (quote ("/usr/include/c++/4.8")))
  '(flycheck-clang-language-standard "c++11")
  '(flycheck-phpcs-standard "PSR2")
