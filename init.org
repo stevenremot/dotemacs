@@ -75,10 +75,10 @@ TABLE is an Org table in this format:
 
    #+name: modules-list
    - [X] custom
-   - [X] package
-   - [X] theme
    - [X] cedet
    - [X] cedet-contrib
+   - [X] package
+   - [X] theme
    - [ ] edep
    - [X] ergo
    - [X] helm
