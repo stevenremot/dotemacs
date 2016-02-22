@@ -10,3 +10,6 @@
 [submodule "site-lisp/edep"]
 	path = site-lisp/edep
 	url = ssh://git@github.com/jorissteyn/edep
+[submodule "site-lisp/Contributions-Emacs-Pp"]
+	path = site-lisp/Contributions-Emacs-Pp
+	url = git@github.com:stevenremot/Contributions-Emacs-Pp.git

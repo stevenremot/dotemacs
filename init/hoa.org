@@ -1,0 +1,10 @@
+#+TITLE: Hoa tools initialization
+
+* PP mode
+
+  Use my upstream repository for setting up ~hoa-pp-mode~.
+
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'load-path (concat my-site-lisp "Contributions-Emacs-Pp"))
+    (require 'hoa-pp-mode)
+  #+END_SRC

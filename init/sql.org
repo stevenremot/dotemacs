@@ -1,0 +1,10 @@
+#+TITLE: SQL Initialization
+
+* Display
+
+  SQL results are often wide tables, so it is easier to see them
+  without truncation.
+
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'sql-interactive-mode-hook #'toggle-truncate-lines)
+  #+END_SRC

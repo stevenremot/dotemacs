@@ -92,7 +92,9 @@ TABLE is an Org table in this format:
    - [ ] typescript
    - [X] web
    - [X] php
-   - [X] clojure
+   - [X] hoa
+   - [X] sql
+   - [ ] clojure
    - [X] lisp
    - [X] tlsd
    - [X] haskell

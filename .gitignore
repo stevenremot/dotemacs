@@ -68,3 +68,5 @@ init/yasnippet.el
 init/php.el
 init/cedet-contrib.el
 init/edep.el
+init/hoa.el
+init/sql.el
