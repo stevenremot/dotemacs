@@ -142,6 +142,30 @@
             (goto-char (car (last my-skeleton-markers)))))))
     #+END_SRC
 
+*** Text helpers
+
+    A tiny helper function that converts everything written in snake_case to camelCase in a region.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-snake-to-camel (start end)
+        "Transform all snake_case strings to camelCase in the given region.
+
+      START and END are the start and end points for the region to perform
+      transformation in.
+
+      When called interactively, use the selected region."
+        (interactive "r")
+        (save-excursion
+          (goto-char start)
+          (let ((point (search-forward-regexp "_[a-z]" end t)))
+            (while (and point (< point end))
+              (backward-char 2)
+              (delete-char 1)
+              (setq point (point))
+              (upcase-region point (1+ point))
+              (setq point (search-forward-regexp "_[a-z]" end t))))))
+    #+END_SRC
+
 ** Abbrev
 
    In programming modes, I don't want abbrev to expand in string and
