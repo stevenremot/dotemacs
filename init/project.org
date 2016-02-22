@@ -26,6 +26,7 @@
    - org
    - magit
    - vc-dir
+   - csv
 
    ~init-project-add-projectile-hooks~ is in charge of enabling
    projectile for these modes.
