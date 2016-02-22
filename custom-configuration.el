@@ -17,6 +17,7 @@
  '(flycheck-clang-language-standard "c++11")
  '(flycheck-phpcs-standard "PSR2")
  '(flycheck-phpmd-rulesets (quote ("codesize" "design" "naming" "unusedcode")))
+ '(gc-cons-threshold 10000000)
  '(gnus-permanently-visible-groups "INBOX")
  '(inhibit-startup-screen t)
  '(initial-buffer-choice "~/notes.org")
