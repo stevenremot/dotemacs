@@ -12,33 +12,17 @@
             (setq web-mode-engines-alist
                   '(("php" . "\\.phtml\\'")))
             (add-hook 'web-mode-hook (lambda ()
-                                            (emmet-mode 1)
-                                            (skewer-mode 1)))))
+                                            (emmet-mode 1)))))
 
 (use-package js2-mode
   :ensure js2-mode
   :config (progn
             (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-            (add-hook 'js2-mode-hook 'skewer-mode)))
+            (add-to-list 'auto-mode-alit '("\\.jsx\\'" . js2-jsx-mode))))
 
 (use-package js2-refactor
   :ensure js2-refactor
   :config (js2r-add-keybindings-with-prefix "C-S-r"))
-
-(use-package css-mode
-  :config (add-hook 'css-mode-hook 'skewer-mode))
-
-(use-package skewer-mode
-  :ensure skewer-mode)
-
-(defun my-web-kill-skewer-snippet ()
-  "Put the snippet to make a webpage skewer-aware in the clipboard."
-  (interactive)
-  (kill-new "(function () {
-    var s = document.createElement(\"script\");
-    s.src = \"//localhost:8080/skewer\";
-    document.getElementsByTagName(\"head\")[0].appendChild(s);
-})()"))
 
 ;; Tern
 (use-package tern
