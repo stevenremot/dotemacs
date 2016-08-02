@@ -81,7 +81,8 @@ TABLE is an Org table in this format:
    - [X] theme
    - [ ] edep
    - [X] ergo
-   - [X] helm
+   - [ ] helm
+   - [X] ivy
    - [X] org
    - [X] jabber
    - [X] gtags

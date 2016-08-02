@@ -70,3 +70,4 @@ init/cedet-contrib.el
 init/edep.el
 init/hoa.el
 init/sql.el
+init/ivy.el

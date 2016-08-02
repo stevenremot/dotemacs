@@ -17,7 +17,14 @@
 * Package loading
 
   #+BEGIN_SRC emacs-lisp :var shortcuts=shortcuts
+    (defun my-setup-helm ()
+      (my-set-global-keys-from-org-table shortcuts)
+
+      (eval-after-load 'projectile
+        '(use-package helm-projectile
+           :ensure helm-projectile)))
+
     (use-package helm
       :ensure
-      :init (my-set-global-keys-from-org-table shortcuts))
+      :init (my-setup-helm))
   #+END_SRC

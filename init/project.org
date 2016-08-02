@@ -59,13 +59,6 @@
                  (add-hook 'vc-checkout-hook  'projectile-regenerate-tags)))
    #+END_SRC
 
-** Helm
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package helm-projectile
-       :ensure helm-projectile)
-   #+END_SRC
-
 * Magit
 
   #+BEGIN_SRC emacs-lisp
