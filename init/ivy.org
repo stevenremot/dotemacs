@@ -37,5 +37,6 @@
       (my-set-global-keys-from-org-table shortcuts))
 
     (use-package ivy
+      :ensure
       :init (my-setup-ivy))
   #+END_SRC
