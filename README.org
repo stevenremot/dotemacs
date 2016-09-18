@@ -4,3 +4,19 @@ This is my emacs configuration files.
 
 My setup is split in several modules located in the ~init~
 directory. The file ~init.org~ is in charge of loading them.
+
+* Emacs compilation
+
+  Here is a little section on the commands I use to compile Emacs from
+  sources, so that I remember which libraries I have to install on my
+  system.
+
+  The current apt command is not correct because I already had some
+  dependencies installed on my system at the last compilation.
+
+  #+BEGIN_SRC sh
+    sudo apt install libxml2-dev libjpeg-dev libtiff-dev libfreetype-dev libdbus-dev librsvg2-dev libgtk3-dev libwebkitgtk-3.0-dev texinfo
+    ./configure --with-xwidgets --with-modules
+    make
+    sudo make install
+  #+END_SRC
