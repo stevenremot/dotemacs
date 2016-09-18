@@ -19,6 +19,10 @@
           (add-hook 'lisp-interaction-mode-hook 'paredit-mode)
           (add-hook 'clojure-mode-hook 'paredit-mode)))
 
+(use-package nameless
+  :ensure
+  :init (add-hook 'emacs-lisp-mode-hook #'nameless-mode))
+
 (provide 'init/lisp)
 
 ;;; lisp.el ends here
