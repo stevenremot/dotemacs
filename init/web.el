@@ -18,7 +18,7 @@
   :ensure js2-mode
   :config (progn
             (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-            (add-to-list 'auto-mode-alit '("\\.jsx\\'" . js2-jsx-mode))))
+            (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))))
 
 (use-package js2-refactor
   :ensure js2-refactor

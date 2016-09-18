@@ -1,31 +1,14 @@
 #+TITLE: Cedet initialization
 
-* Loading
+* Configuration
 
-  I do not use the CEDET shipped in Emacs. Instead, I have my own
-  branch so that I can work on =wisent-php=. I load this configuration
-  here.
+  Enabling some simple semantic and EDE features.
 
   #+BEGIN_SRC emacs-lisp
-    (load-file (concat my-site-lisp "cedet/cedet-devel-load.el"))
-  #+END_SRC
-
-* Enabling features
-** EDE
-
-  #+BEGIN_SRC emacs-lisp
+    (semantic-mode)
+    (global-semantic-decoration-mode 1)
+    (global-semanticdb-minor-mode 1)
     (global-ede-mode 1)
-  #+END_SRC
-
-** Semantic
-
-  I also use a lot of semantic. I use all gaudy helpers, except
-  completion. I want all my completion to be done with company to have
-  the same interface everywhere.
-
-  #+BEGIN_SRC emacs-lisp
-    (semantic-load-enable-gaudy-code-helpers)
-    (global-semantic-idle-completions-mode -1)
   #+END_SRC
 
 * Shortcuts

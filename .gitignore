@@ -66,7 +66,7 @@ init/shell.el
 init/theme.el
 init/yasnippet.el
 init/php.el
-init/cedet-contrib.el
+init/wisent-php.el
 init/edep.el
 init/hoa.el
 init/sql.el

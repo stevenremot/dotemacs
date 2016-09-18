@@ -76,7 +76,7 @@ TABLE is an Org table in this format:
    #+name: modules-list
    - [X] custom
    - [X] cedet
-   - [X] cedet-contrib
+   - [X] wisent-php
    - [X] package
    - [X] theme
    - [ ] edep
@@ -84,7 +84,7 @@ TABLE is an Org table in this format:
    - [ ] helm
    - [X] ivy
    - [X] org
-   - [X] jabber
+   - [ ] jabber
    - [X] gtags
    - [X] flycheck
    - [X] company
