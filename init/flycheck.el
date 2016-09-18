@@ -6,7 +6,7 @@
 (require 'use-package)
 
 (use-package flycheck
-  :ensure flycheck
+  :ensure
   :init (global-flycheck-mode))
 
 (provide 'init/flycheck)

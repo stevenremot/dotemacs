@@ -6,11 +6,11 @@
 (require 'use-package)
 
 (use-package company
-  :ensure company
+  :ensure
   :init (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package company-tern
-  :ensure company-tern
+  :ensure
   :init (add-to-list 'company-backends 'company-tern))
 
 (provide 'init/company)
