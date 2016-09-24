@@ -4,6 +4,7 @@
 ;;
 ;;; Code:
 (require 'use-package)
+(require 'semantic/bovine/el)
 
 (defvar flycheck-emacs-lisp-load-path)
 (add-hook 'emacs-lisp-mode-hook
