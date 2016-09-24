@@ -1,0 +1,12 @@
+#+TITLE: Wisent PHP initialization
+
+* Loading from CEDET contrib
+
+  Loading wisent-php files from CEDET contrib.
+
+  I load only wisent PHP in order to continue using built-in CEDET.
+
+  #+BEGIN_SRC emacs-lisp
+    (load-file (concat my-site-lisp "cedet/contrib/wisent-php-wy.el"))
+    (load-file (concat my-site-lisp "cedet/contrib/wisent-php.el"))
+  #+END_SRC
