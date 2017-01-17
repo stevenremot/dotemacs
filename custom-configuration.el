@@ -8,6 +8,7 @@
  '(c-offsets-alist (quote ((substatement-open . 0) (comment-intro . 0) (arglist-intro . php-lineup-arglist-intro) (arglist-close . php-lineup-arglist-close))))
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(display-time-24hr-format t)
+ '(editorconfig-mode t)
  '(electric-indent-mode t)
  '(electric-pair-mode t)
 '(elfeed-feeds
