@@ -12,7 +12,7 @@
           (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)))
 
 (use-package php-eldoc
-  :ensure php-eldoc
+  :ensure t
   :init (add-hook 'php-mode-hook 'eldoc-mode))
 
 (provide 'init/eldoc)
