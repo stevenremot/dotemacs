@@ -76,7 +76,7 @@ TABLE is an Org table in this format:
    #+name: modules-list
    - [X] custom
    - [X] cedet
-   - [X] wisent-php
+   - [ ] wisent-php
    - [X] package
    - [X] theme
    - [ ] edep
