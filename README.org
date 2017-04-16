@@ -15,7 +15,7 @@ directory. The file ~init.org~ is in charge of loading them.
   dependencies installed on my system at the last compilation.
 
   #+BEGIN_SRC sh
-    sudo apt install libxml2-dev libjpeg-dev libtiff-dev libfreetype-dev libdbus-dev librsvg2-dev libgtk3-dev libwebkitgtk-3.0-dev texinfo
+    sudo apt install libxml2-dev libjpeg-dev libtiff-dev libfreetype6-dev libdbus-1-dev librsvg2-dev libgtk3-dev libwebkitgtk-3.0-dev texinfo
     ./configure --with-xwidgets --with-modules
     make
     sudo make install
