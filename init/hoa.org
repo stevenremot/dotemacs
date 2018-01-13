@@ -1,8 +1,0 @@
-#+TITLE: Hoa tools initialization
-
-* PP mode
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package hoa-pp-mode
-      :ensure)
-  #+END_SRC
