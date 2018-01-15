@@ -9,4 +9,10 @@
   :ensure
   :init (global-page-break-lines-mode))
 
+;; Rebind keys on mac os.
+(when (eq system-type 'darwin)
+  (setq mac-option-modifier 'meta
+	mac-right-option-modifier nil
+	mac-command-modifier 'super))
+
 ;;; editing.el ends here
