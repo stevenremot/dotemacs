@@ -20,6 +20,7 @@ FILE is the name of the file without extension and directory."
 
 (mapc #'my-load-init-file
       '("core"
+	"exec-path-from-shell"
 	"theme"
 	"ivy"
 	"ag"
