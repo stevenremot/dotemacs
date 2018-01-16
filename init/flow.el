@@ -9,7 +9,8 @@
 (defun init/setup-lsp-javascript-flow ()
   "Setup lsp-javascript-flow package."
   (with-eval-after-load 'lsp-flycheck
-    (lsp-flycheck-add-mode 'js-mode)))
+    (lsp-flycheck-add-mode 'js-mode)
+    (flycheck-add-next-checker 'lsp 'javascript-eslint)))
 
 
 

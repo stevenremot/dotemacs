@@ -8,6 +8,9 @@
 ; (package-initialize)
 
 (defconst my-init-dir (file-name-directory (or load-file-name (buffer-file-name))))
+(defconst my-site-lisp (concat my-init-dir "site-lisp/"))
+
+(add-to-list 'load-path my-site-lisp)
 
 (setq custom-file (concat my-init-dir "custom-file.el"))
 (load custom-file 'no-error)
@@ -21,6 +24,7 @@ FILE is the name of the file without extension and directory."
 (mapc #'my-load-init-file
       '("core"
 	"exec-path-from-shell"
+	"prompt"
 	"theme"
 	"ivy"
 	"ag"

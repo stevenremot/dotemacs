@@ -15,4 +15,6 @@
 	mac-right-option-modifier nil
 	mac-command-modifier 'super))
 
+(electric-pair-mode 1)
+
 ;;; editing.el ends here
