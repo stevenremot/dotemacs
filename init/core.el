@@ -15,4 +15,6 @@
       (package-refresh-contents)
       (package-install package))))
 
+(require 'quelpa-use-package)
+
 ;;; core.el ends here
