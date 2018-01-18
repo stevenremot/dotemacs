@@ -1,6 +1,10 @@
+
 *~
 elpa/
 projectile-bookmarks.eld
 recentf
 custom-file.el
 quelpa/
+rocktl/
+.cache/
+network-security.data
