@@ -18,5 +18,6 @@
 	mac-command-modifier 'super))
 
 (electric-pair-mode 1)
+(show-paren-mode 1)
 
 ;;; editing.el ends here
