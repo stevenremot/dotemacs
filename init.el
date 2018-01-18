@@ -27,6 +27,7 @@ FILE is the name of the file without extension and directory."
 	"prompt"
 	"theme"
 	"ivy"
+	"shell"
 	"ag"
 	"editing"
 	"git"
@@ -38,6 +39,7 @@ FILE is the name of the file without extension and directory."
 	"emacs-lisp"
 	"javascript"
 	"flow"
+	"prettier"
 	))
 
 ;;; init.el ends here
