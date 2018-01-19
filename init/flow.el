@@ -15,7 +15,8 @@
 (defun init/javascript-flow-configure ()
   "Configure JS buffers."
   (lsp-javascript-flow-enable)
-  (setq flycheck-checker 'javascript-eslint)
+  (setq flycheck-checker 'javascript-eslint
+	flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
   (local-set-key (kbd "M-.") #'xref-find-definitions))
 
 
