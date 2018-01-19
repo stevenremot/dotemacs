@@ -40,7 +40,7 @@ FILE is the name of the file without extension and directory."
 	"javascript"
 	"flow"
 	"prettier"
+	"cucumber"
 	))
 
 ;;; init.el ends here
-
