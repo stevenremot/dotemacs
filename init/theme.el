@@ -1,7 +1,7 @@
 ;;; theme.el --- Theme initialization
 
 ;;; Commentary:
-;; 
+;;
 ;;; Code:
 (require 'use-package)
 
@@ -19,5 +19,23 @@
 (use-package moe-theme
   :ensure
   :init (init/moe-theme))
+
+(use-package powerline
+  :ensure
+  :init
+  (setq powerline-default-separator 'box)
+  (powerline-default-theme))
+
+(use-package dim
+  :ensure
+  :init
+  (dim-minor-names
+   '((projectile-mode "" projectile)
+     (editorconfig-mode "" editorconfig)
+     (company-mode "" company)
+     (counsel-mode "" counsel)
+     (ivy-mode "" ivy)
+     (paredit-mode "" paredit)
+     (page-break-lines-mode "" page-break-lines))))
 
 ;;; theme.el ends here
