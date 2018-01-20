@@ -9,6 +9,12 @@
   :ensure
   :init (global-page-break-lines-mode))
 
+(use-package editorconfig
+  :ensure
+  :hook (prog-mode . editorconfig-mode))
+
+
+
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; Rebind keys on mac os.
