@@ -12,7 +12,9 @@
   (scroll-bar-mode 0)
   (menu-bar-mode 0)
   (moe-dark)
-  (set-face-attribute 'default nil :height 140 :family "Source code pro"))
+  (set-face-attribute 'default nil :height 140 :family "Source code pro")
+  (with-eval-after-load 'ivy
+    (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
 
 
 
