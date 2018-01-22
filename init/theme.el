@@ -38,6 +38,7 @@
      (counsel-mode "" counsel)
      (ivy-mode "" ivy)
      (paredit-mode "" paredit)
-     (page-break-lines-mode "" page-break-lines))))
+     (page-break-lines-mode "" page-break-lines)
+     (eldoc-mode "" eldoc))))
 
 ;;; theme.el ends here
