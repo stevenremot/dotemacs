@@ -9,3 +9,4 @@ rocktl/
 .cache/
 network-security.data
 eshell/
+elpa-backup.tar.gz
