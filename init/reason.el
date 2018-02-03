@@ -7,6 +7,8 @@
 
 (defun init/init-reason-mode ()
   "Init reason dependencies."
+  (add-hook 'reason-mode-hook #'init/setup-reason-buffer)
+
   (let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
     (when (and opam-share (file-directory-p opam-share))
       ;; Register Merlin
@@ -23,7 +25,6 @@
 
 
 (use-package reason-mode
-  :hook (reason-mode-hook . init/setup-reason-buffer)
   :init (init/init-reason-mode)
   :quelpa (reason-mode :repo "reasonml-editor/reason-mode" :fetcher github :stable t))
 
