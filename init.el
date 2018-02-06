@@ -48,6 +48,7 @@ FILE is the name of the file without extension and directory."
 	"yaml"
 	"android"
 	"reason"
+	"docker"
 	))
 
 ;;; init.el ends here
