@@ -10,15 +10,20 @@
 (defun init/setup-javascript-lsp ()
   "Setup javascript for lsp."
   (autoload #'lsp-javascript-flow-enable "lsp-javascript-flow")
+  (autoload #'lsp-javascript-typescript-enable "lsp-javascript-typescript")
+
   (with-eval-after-load 'lsp-flycheck
     (lsp-flycheck-add-mode 'js-mode)
     (flycheck-add-next-checker 'javascript-eslint 'lsp)))
 
 (defun init/configure-javascript-lsp ()
   "Configure LSP for the current buffer."
-  (when (locate-dominating-file (buffer-file-name) ".flowconfig")
-    (message "Setup flow LSP for %s" (buffer-file-name))
-    (lsp-javascript-flow-enable))
+  (if (locate-dominating-file (buffer-file-name) ".flowconfig")
+      (progn
+	(message "Setup flow LSP for %s" (buffer-file-name))
+	(lsp-javascript-flow-enable))
+    (message "Setup js/ts LSP for %s" (buffer-file-name))
+    (lsp-javascript-typescript-enable))
 
   (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
   (local-set-key (kbd "M-.") #'xref-find-definitions))
