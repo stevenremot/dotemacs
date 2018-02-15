@@ -49,6 +49,7 @@ FILE is the name of the file without extension and directory."
 	"android"
 	"reason"
 	"docker"
+	"php"
 	))
 
 ;;; init.el ends here
