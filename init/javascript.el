@@ -30,11 +30,16 @@
 
 
 
+(use-package typescript-mode
+  :ensure
+  :mode "\\.ts\\'")
+
 (use-package lsp-javascript-typescript
   :ensure
   :after (js)
   :init (init/setup-javascript-lsp)
-  :hook ((js-mode . init/configure-javascript-lsp)))
+  :hook ((js-mode . init/configure-javascript-lsp)
+	 (typescript-mode . init/configure-javascript-lsp)))
 
 (use-package add-node-modules-path
   :ensure
