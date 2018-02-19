@@ -51,6 +51,7 @@ FILE is the name of the file without extension and directory."
 	"reason"
 	"docker"
 	"php"
+	"redmine"
 	))
 
 ;;; init.el ends here
