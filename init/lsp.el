@@ -1,13 +1,16 @@
 ;;; lsp.el --- Setup the language-server-protocol basic tools
 
 ;;; Commentary:
-;; 
+;;
 ;;; Code:
 (require 'use-package)
 
 (use-package lsp-mode
   :ensure
-  :init (require 'lsp-flycheck))
+  :init
+  (require 'lsp-flycheck)
+  (set-face-attribute 'lsp-face-highlight-write nil :background "dark green")
+  )
 
 (use-package company-lsp
   :ensure
