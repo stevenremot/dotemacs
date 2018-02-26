@@ -15,7 +15,7 @@
   :ensure
   :mode ("\\.ml\\'" . tuareg-mode))
 
-(use-package reason
+(use-package reason-mode
   :ensure
   :hook ((reason-mode . init/setup-reason-buffer))
   :mode ("\\.re\\'" . reason-mode))
