@@ -12,9 +12,9 @@
   (autoload #'lsp-javascript-flow-enable "lsp-javascript-flow")
   (autoload #'lsp-javascript-typescript-enable "lsp-javascript-typescript")
 
-  (with-eval-after-load 'lsp-flycheck
-    (lsp-flycheck-add-mode 'js-mode)
-    (flycheck-add-next-checker 'javascript-eslint 'lsp)))
+  (with-eval-after-load 'lsp-ui-flycheck
+    (lsp-ui-flycheck-add-mode 'js-mode)
+    (flycheck-add-next-checker 'javascript-eslint 'lsp-ui)))
 
 (defun init/configure-javascript-lsp ()
   "Configure LSP for the current buffer."

@@ -27,8 +27,9 @@
 (use-package lsp-ocaml
   :ensure
   :init
-  (lsp-flycheck-add-mode 'tuareg-mode)
-  (lsp-flycheck-add-mode 'reason-mode)
+  (with-eval-after-load 'lsp-ui-flycheck
+    (lsp-ui-flycheck-add-mode 'tuareg-mode)
+    (lsp-ui-flycheck-add-mode 'reason-mode))
   :hook ((tuareg-mode . lsp-ocaml-enable)
 	 (reason-mode . lsp-ocaml-enable)))
 

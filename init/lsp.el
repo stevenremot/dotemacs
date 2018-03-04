@@ -8,13 +8,20 @@
 (use-package lsp-mode
   :ensure
   :init
-  (require 'lsp-flycheck)
   (set-face-attribute 'lsp-face-highlight-write nil :background "dark green")
+  )
+
+(use-package lsp-ui
+  :ensure
+  :after (lsp-mode)
+  :init
+  (require 'lsp-ui-flycheck)
+  (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1)))
   )
 
 (use-package company-lsp
   :ensure
-  :after (lsp company)
+  :after (lsp-mode company)
   :init (add-to-list 'company-backends #'company-lsp))
 
 ;;; lsp.el ends here
