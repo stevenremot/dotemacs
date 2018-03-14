@@ -12,3 +12,9 @@ eshell/
 elpa-backup.tar.gz
 bookmarks
 url/
+projectile.cache
+tramp
+
+# Generated scripts
+init.el
+init/navigation.el
