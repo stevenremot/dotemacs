@@ -1,4 +1,5 @@
 #+TITLE: Emacs configuration
+#+PROPERTY: header-args :tangle ./init.el
 
 * Introduction
   :PROPERTIES:
@@ -8,13 +9,14 @@
   Here is the source of my Emacs configuration. Create the files by
   running ~org-babel-tangle~ (~C-c C-v t)~ in this file.
 
+* Tasks
+** TODO Flow file symbols
+** TODO Component skeletons
+** TODO Evols rocktl
+** TODO Better prettier-eslint
+** DONE Org mode \emsp
 * Main script
-  :PROPERTIES:
-  :tangle:   ./init.el
-  :END:
-
 ** Inhibit package-innitialize
-
    Add a commented call to ~package-initialize~ to inhibit it. We will
    do the call by hand later.
 
@@ -58,7 +60,6 @@
    - exec-path-from-shell
    - prompt
    - theme
-   - org
    - neotree
    - ivy
    - shell
@@ -94,15 +95,66 @@
    #+END_SRC
 
 * Navigation
-  :PROPERTIES:
-  :tangle:   ./init/navigation.el
-  :END:
 
 ** imenu
 
    #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c i") #'imenu)
    #+END_SRC
+* Org mode
+** Basic configuration
+*** Clock table indentation
+
+    The org clock table indents its entries using the LateX symbol
+    ~\emsp~, which renders badly in org buffers. I override it with my
+    own indent function extracted from [[https://emacs.stackexchange.com/questions/9528/is-it-possible-to-remove-emsp-from-clock-report-but-preserve-indentation][a stackexchange discussion]].
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/org-clocktable-indent-string (level)
+        (if (= level 1)
+            ""
+          (let ((str "|"))
+            (while (> level 2)
+              (setq level (1- level)
+                    str (concat str "--")))
+            (concat str "-> "))))
+    #+END_SRC
+
+*** Org initialization
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/init-org ()
+        ;; Override clock table ident function with mine
+        (advice-add 'org-clocktable-indent-string :override #'my/org-clocktable-indent-string)
+
+        ;; Automatically add syntax coloration on org src blocks
+        (setq org-src-fontify-natively t))
+
+    #+END_SRC
+
+*** Package declaration
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org
+       :bind (("C-c o t" . org-todo-list))
+       :init (my/init-org))
+   #+END_SRC
+
+** Agenda
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-agenda
+       :bind (("C-c o a" . org-agenda-list)))
+   #+END_SRC
+
+** Clock
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-clock
+       :bind (("C-c o j" . org-clock-jump-to-current-clock)))
+   #+END_SRC
+
+* Local variables
 
 # Local Variables:
 # after-save-hook: (org-babel-tangle)
