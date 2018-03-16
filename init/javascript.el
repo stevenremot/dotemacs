@@ -14,7 +14,7 @@
 
   (with-eval-after-load 'lsp-ui-flycheck
     (lsp-ui-flycheck-add-mode 'js-mode)
-    (flycheck-add-next-checker 'javascript-eslint 'lsp-ui)))
+    (flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
 
 (defun init/configure-javascript-lsp ()
   "Configure LSP for the current buffer."
