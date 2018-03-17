@@ -119,7 +119,6 @@
    - ocaml
    - docker
    - php
-   - redmine
 
    #+BEGIN_SRC emacs-lisp :var modules=init-modules
      (defun my-load-init-file (file)
@@ -195,3 +194,35 @@
 # Local Variables:
 # after-save-hook: (org-babel-tangle)
 # End:
+* Redmine
+
+  Here are some tools to interact with a redmine projet.
+
+** Configuration
+
+   #+BEGIN_SRC emacs-lisp
+     (defgroup my-redmine () "Redmine tools" :group 'tools)
+
+     (defcustom my-redmine/repo-url ""
+       "Repository URL."
+       :type 'string
+       :group 'my-redmine)
+   #+END_SRC
+
+** Opening the issue at point
+
+   This is a function to open the issue number at point in a web
+   browser.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-redmine/browse-issue (issue-number)
+       "Visit the URL corresponding to the given ISSUE-NUMBER."
+       (browse-url (format "%s/issues/%s" my-redmine/repo-url issue-number)))
+
+     (defun my-redmine/browse-issue-at-point (issue-number)
+       "Visit the URL corresponding to the ISSUE-NUMBER at point."
+       (interactive (list (number-to-string (thing-at-point 'number))))
+       (my-redmine/browse-issue issue-number))
+
+     (global-set-key (kbd "C-c r j") #'my-redmine/browse-issue-at-point)
+   #+END_SRC
