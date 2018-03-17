@@ -14,6 +14,7 @@ bookmarks
 url/
 projectile.cache
 tramp
+session.*
 
 # Generated scripts
 init.el
