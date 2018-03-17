@@ -113,7 +113,6 @@
    - javascript
    - prettier
    - cucumber
-   - markdown
 
    #+BEGIN_SRC emacs-lisp :var modules=init-modules
      (defun my-load-init-file (file)
@@ -307,6 +306,13 @@
        :hook ((tuareg-mode . lsp-ocaml-enable)
               (reason-mode . lsp-ocaml-enable)))
    #+END_SRC
+* Markdown
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :ensure)
+  #+END_SRC
+
 * YAML
 
   #+BEGIN_SRC emacs-lisp
