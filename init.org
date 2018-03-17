@@ -116,7 +116,6 @@
    - markdown
    - yaml
    - android
-   - ocaml
 
    #+BEGIN_SRC emacs-lisp :var modules=init-modules
      (defun my-load-init-file (file)
@@ -258,4 +257,55 @@
    #+BEGIN_SRC emacs-lisp
      (use-package docker
        :ensure)
+   #+END_SRC
+
+* Ocaml / Reason
+** Tuareg
+
+   This is the major mode to edit Ocaml buffers.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package tuareg
+       :ensure
+       :mode ("\\.ml\\'" . tuareg-mode))
+   #+END_SRC
+
+** Reason mode
+
+   ~reason-mode~ has a nice auto-formatting feature we can trigger
+   before saving a buffer.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun init/setup-reason-buffer ()
+       "Setup a buffer for working with reason."
+       (add-hook 'before-save-hook #'refmt-before-save))
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package reason-mode
+       :ensure
+       :hook ((reason-mode . init/setup-reason-buffer))
+       :mode ("\\.re\\'" . reason-mode))
+   #+END_SRC
+
+** LSP
+
+   This package require [[https://github.com/freebroccolo/ocaml-language-server][ocaml-langauge-server]] to be installed. That
+   can be done by running:
+
+   #+BEGIN_SRC sh :tangle no
+     npm install -g ocaml-language-server
+   #+END_SRC
+
+   ~lsp-ocaml~ supports both ocaml and reason files.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package lsp-ocaml
+       :ensure
+       :init
+       (with-eval-after-load 'lsp-ui-flycheck
+         (lsp-ui-flycheck-add-mode 'tuareg-mode)
+         (lsp-ui-flycheck-add-mode 'reason-mode))
+       :hook ((tuareg-mode . lsp-ocaml-enable)
+              (reason-mode . lsp-ocaml-enable)))
    #+END_SRC
