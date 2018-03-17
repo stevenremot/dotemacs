@@ -53,6 +53,23 @@
      (require 'quelpa-use-package)
    #+END_SRC
 
+** Backups
+
+   elpa-backup is a personal package located at [[file:site-lisp/elpa-backup.el][site-lisp/elpa-backup.el]]
+
+   It has 2 commands:
+   - ~elpa-backup-do~, to create a snapshot of the ~elpa~ directory
+   - ~elpa-backup-rollback~, to replace the current ~elpa~ directory
+     with the snapshot
+
+   Running ~elpa-backup-do~ before an update ensures I can come back
+   to a working state if something goes wrong.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package elpa-backup
+       :commands (elpa-backup-do elpa-backup-rollback))
+   #+END_SRC
+
 * Main script
 ** Inhibit package-innitialize
    Add a commented call to ~package-initialize~ to inhibit it. We will
@@ -93,7 +110,6 @@
    Load the sources present in the init/ directory:
 
    #+NAME: init-modules
-   - elpa
    - exec-path-from-shell
    - prompt
    - theme
