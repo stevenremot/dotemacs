@@ -117,7 +117,6 @@
    - yaml
    - android
    - ocaml
-   - docker
 
    #+BEGIN_SRC emacs-lisp :var modules=init-modules
      (defun my-load-init-file (file)
@@ -243,4 +242,20 @@
      (use-package lsp-php
        :ensure
        :hook ((php-mode . lsp-php-enable)))
+   #+END_SRC
+
+* Docker
+
+** dockerfile-mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package dockerfile-mode
+       :ensure)
+   #+END_SRC
+
+** docker
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package docker
+       :ensure)
    #+END_SRC
