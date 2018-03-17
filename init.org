@@ -114,8 +114,6 @@
    - prettier
    - cucumber
    - markdown
-   - yaml
-   - android
 
    #+BEGIN_SRC emacs-lisp :var modules=init-modules
      (defun my-load-init-file (file)
@@ -308,4 +306,20 @@
          (lsp-ui-flycheck-add-mode 'reason-mode))
        :hook ((tuareg-mode . lsp-ocaml-enable)
               (reason-mode . lsp-ocaml-enable)))
+   #+END_SRC
+* YAML
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package yaml-mode
+      :ensure)
+  #+END_SRC
+
+* Android
+** Groovy
+
+   This is useful for editing gradle files.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package groovy-mode
+       :ensure)
    #+END_SRC
