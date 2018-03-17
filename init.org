@@ -15,6 +15,44 @@
 ** TODO Evols rocktl
 ** TODO Better prettier-eslint
 ** DONE Org mode \emsp
+* Package management
+** Initialiaze package
+
+   I want to download packages from [[https://melpa.org/][MELPA]] and [[http://stable.melpa.org/#/][MELPA stable]] too
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'package)
+
+     (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t)
+     (add-to-list 'package-archives (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
+   #+END_SRC
+
+   The only remaining thing to do is initializing the package manager
+
+   #+BEGIN_SRC emacs-lisp
+     (package-initialize)
+   #+END_SRC
+
+** use-package
+
+   All my configuration is based on [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/quelpa/quelpa][quelpa]]. These
+   packages have to be initialized  at the very beginning.
+
+   #+BEGIN_SRC emacs-lisp
+     (let ((packages-to-install '(use-package quelpa-use-package)))
+       (dolist (package packages-to-install)
+         (unless (package-installed-p package)
+           (package-refresh-contents)
+           (package-install package))))
+   #+END_SRC
+
+   Additionally, we will require ~quelpa-use-package~ right now so
+   that we don't have to care about that later.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'quelpa-use-package)
+   #+END_SRC
+
 * Main script
 ** Inhibit package-innitialize
    Add a commented call to ~package-initialize~ to inhibit it. We will
@@ -55,7 +93,6 @@
    Load the sources present in the init/ directory:
 
    #+NAME: init-modules
-   - core
    - elpa
    - exec-path-from-shell
    - prompt
@@ -93,7 +130,6 @@
 
      (mapc #'my-load-init-file modules)
    #+END_SRC
-
 * Navigation
 
 ** imenu
