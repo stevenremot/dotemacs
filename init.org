@@ -345,3 +345,11 @@
      (use-package groovy-mode
        :ensure)
    #+END_SRC
+* TRAMP
+
+  Make sure the remote PATH will be properly set when connecting with
+  tramp on SSH:
+
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  #+END_SRC
