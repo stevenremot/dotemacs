@@ -220,12 +220,6 @@
      (use-package org-clock
        :bind (("C-c o j" . org-clock-jump-to-current-clock)))
    #+END_SRC
-
-* Local variables
-
-# Local Variables:
-# after-save-hook: (org-babel-tangle)
-# End:
 * Redmine
 
   Here are some tools to interact with a redmine projet.
@@ -277,7 +271,6 @@
        :ensure
        :hook ((php-mode . lsp-php-enable)))
    #+END_SRC
-
 * Docker
 
 ** dockerfile-mode
@@ -293,7 +286,6 @@
      (use-package docker
        :ensure)
    #+END_SRC
-
 * Ocaml / Reason
 ** Tuareg
 
@@ -376,3 +368,9 @@
     (with-eval-after-load 'tramp
       (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
   #+END_SRC
+
+* Local variables
+
+# Local Variables:
+# after-save-hook: (org-babel-tangle)
+# End:
