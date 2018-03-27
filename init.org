@@ -113,7 +113,6 @@
    - exec-path-from-shell
    - prompt
    - theme
-   - neotree
    - ivy
    - shell
    - ag
@@ -140,12 +139,35 @@
      (mapc #'my-load-init-file modules)
    #+END_SRC
 * Navigation
-
 ** imenu
 
    #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c i") #'imenu)
    #+END_SRC
+** neotree
+
+   Package for seeing a file hierarchy as a file tree.
+
+   In order for our selected theme to work, we have to load ~all-the-icons~;
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons
+       :ensure)
+   #+END_SRC
+
+   Then we can setup neotree with the right theme.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package neotree
+       :ensure
+       :custom
+       (neo-theme 'icons)
+       ; Try to select the current file at opening
+       (neo-smart-open t))
+   #+END_SRC
+
+   #+RESULTS:
+
 * Org mode
 ** Basic configuration
 *** Clock table indentation
