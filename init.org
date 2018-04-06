@@ -70,6 +70,54 @@
        :commands (elpa-backup-do elpa-backup-rollback))
    #+END_SRC
 
+* Theme
+
+** Default settings
+
+   Remove GUI garbage and increase the font size.
+
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode 0)
+     (scroll-bar-mode 0)
+     (menu-bar-mode 0)
+     (set-face-attribute 'default nil :height 140 :family "Source code pro")
+   #+END_SRC
+
+** Challenger deep theme
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package challenger-deep
+       :ensure t
+       :config (load-theme 'challenger-deep))
+   #+END_SRC
+
+** Powerline
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package powerline
+       :ensure
+       :init
+       (setq powerline-default-separator 'box)
+       (powerline-default-theme))
+   #+END_SRC
+
+** Minor modes cleaning
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package dim
+       :ensure
+       :init
+       (dim-minor-names
+        '((projectile-mode "" projectile)
+          (editorconfig-mode "" editorconfig)
+          (company-mode "" company)
+          (counsel-mode "" counsel)
+          (ivy-mode "" ivy)
+          (paredit-mode "" paredit)
+          (page-break-lines-mode "" page-break-lines)
+          (eldoc-mode "" eldoc))))
+   #+END_SRC
+
 * Main script
 ** Inhibit package-innitialize
    Add a commented call to ~package-initialize~ to inhibit it. We will
@@ -112,7 +160,6 @@
    #+NAME: init-modules
    - exec-path-from-shell
    - prompt
-   - theme
    - ivy
    - shell
    - ag
