@@ -86,7 +86,7 @@
 ** Challenger deep theme
 
    #+BEGIN_SRC emacs-lisp
-     (use-package challenger-deep
+     (use-package challenger-deep-theme
        :ensure t
        :config (load-theme 'challenger-deep))
    #+END_SRC

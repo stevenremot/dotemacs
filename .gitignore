@@ -15,6 +15,7 @@ url/
 projectile.cache
 tramp
 session.*
+.cask/
 
 # Generated scripts
 init.el
