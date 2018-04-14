@@ -416,6 +416,13 @@
       (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
   #+END_SRC
 
+* Elm
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package elm-mode
+      :ensure)
+  #+END_SRC
+
 * Local variables
 
 # Local Variables:
