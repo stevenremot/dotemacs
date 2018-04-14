@@ -423,6 +423,13 @@
       :ensure)
   #+END_SRC
 
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck-elm
+      :ensure
+      :after (elm-mode flycheck)
+      :hook (flycheck-mode . flycheck-elm-setup))
+  #+END_SRC
+
 * Local variables
 
 # Local Variables:
