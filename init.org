@@ -420,7 +420,10 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package elm-mode
-      :ensure)
+      :ensure
+      :init
+      (add-to-list 'company-backends 'company-elm)
+      (setq elm-format-on-save t))
   #+END_SRC
 
   #+BEGIN_SRC emacs-lisp
