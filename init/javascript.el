@@ -43,7 +43,8 @@
 
 (use-package add-node-modules-path
   :ensure
-  :hook ((js-mode . add-node-modules-path)))
+  :hook ((js-mode . add-node-modules-path)
+	 (typescript-mode . add-node-modules-path)))
 
 (use-package json-mode
   :ensure)
