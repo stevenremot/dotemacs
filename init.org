@@ -433,6 +433,23 @@
       :hook (flycheck-mode . flycheck-elm-setup))
   #+END_SRC
 
+* Rust
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package rust-mode
+      :ensure
+      :mode ("\\.rs\\'" . rust-mode))
+  #+END_SRC
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package lsp-rust
+      :ensure
+      :after (lsp-mode rust-mode)
+      :hook (rust-mode . lsp-rust-enable)
+      :config
+      (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
+  #+END_SRC
+
 * Local variables
 
 # Local Variables:
