@@ -181,7 +181,7 @@
        "Load one initialization file.
 
      FILE is the name of the file without extension and directory."
-       (load (concat my-init-dir "init/" file ".el")))
+       (load (concat my-init-dir "init/" (if (listp file) (car file) file) ".el")))
 
      (mapc #'my-load-init-file modules)
    #+END_SRC
@@ -448,6 +448,16 @@
       :hook (rust-mode . lsp-rust-enable)
       :config
       (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
+  #+END_SRC
+
+* Vagrant
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package vagrant-tramp
+      :quelpa (vagrant-tramp
+	       :fetcher github
+	       :repo "stevenremot/vagrant-tramp"
+	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
   #+END_SRC
 
 * Local variables
