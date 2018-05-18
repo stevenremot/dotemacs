@@ -16,6 +16,11 @@ projectile.cache
 tramp
 session.*
 .cask/
+geben/
+games/
+request/
+.org-id-locations
+tutorial/
 
 # Generated scripts
 init.el
