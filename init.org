@@ -104,13 +104,43 @@
 	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
    #+END_SRC
 
+** Mode line flycheck reporting
+
+   This is a simple widget to show flycheck errors and warnings in the
+   mode line.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-flycheck-get-error-count ()
+       "Return the number of flycheck errors by level."
+       (interactive)
+       (let ((errors flycheck-current-errors)
+	     (count-by-level '()))
+	 (cl-loop for error in errors
+		  for level = (flycheck-error-level error)
+		  for new-value = (1+ (or (plist-get count-by-level level) 0))
+		  do
+		  (setq count-by-level
+			(plist-put count-by-level level new-value))
+		  finally return count-by-level)))
+
+     (defun my-flycheck-mode-line ()
+       "Create a mode line element to display flycheck errors."
+       (let* ((error-count (my-flycheck-get-error-count))
+	      (errors (or (plist-get error-count 'error) 0))
+	      (warnings (or (plist-get error-count 'warning) 0)))
+	 (concat
+	  (propertize (format "%d" errors 'face 'compilation-mode-line-fail))
+	  (propertize (format "%d" warnings)))))
+   #+END_SRC
+
 ** Powerline
 
    #+BEGIN_SRC emacs-lisp
      (use-package powerline
        :ensure
        :init
-       (setq powerline-default-separator wave)
+       (setq powerline-default-separator wave
+	     powerline-display-hud nil)
        (powerline-default-theme))
    #+END_SRC
 
