@@ -71,7 +71,6 @@
    #+END_SRC
 
 * Theme
-
 ** Default settings
 
    Remove GUI garbage and increase the font size.
@@ -84,11 +83,25 @@
    #+END_SRC
 
 ** Challenger deep theme
+   :PROPERTIES:
+   :header-args:emacs-lisp: :tangle no
+   :END:
 
    #+BEGIN_SRC emacs-lisp
      (use-package challenger-deep-theme
        :ensure t
        :config (load-theme 'challenger-deep))
+   #+END_SRC
+** Moe theme
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package moe-theme
+       :ensure t
+       :config
+       (moe-dark)
+       (set-face-attribute 'default nil :height 140 :family "Source code pro")
+       (with-eval-after-load 'ivy
+	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
    #+END_SRC
 
 ** Powerline
@@ -97,7 +110,7 @@
      (use-package powerline
        :ensure
        :init
-       (setq powerline-default-separator 'box)
+       (setq powerline-default-separator wave)
        (powerline-default-theme))
    #+END_SRC
 
