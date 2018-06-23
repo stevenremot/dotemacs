@@ -227,7 +227,7 @@
      (use-package powerline
        :ensure
        :init
-       (setq powerline-default-separator bar
+       (setq powerline-default-separator 'bar
 	     powerline-display-hud nil)
        (my-powerline-theme))
    #+END_SRC
