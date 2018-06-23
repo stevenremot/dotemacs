@@ -110,23 +110,28 @@
    mode line.
 
    #+BEGIN_SRC emacs-lisp
+     (defface my-flycheck-mode-line-font
+       '((t :foreground "white" :height 120))
+       "Base face for showing flycheck errors adn warnings in the mode line."
+       :group 'mode-line)
+
      (defface my-flycheck-mode-line-error-disabled
-       '((t :foreground "white" :background "dark red" ))
+       '((t :inherit my-flycheck-mode-line-font :background "dark red"))
        "Face for showing no flycheck errors in the mode line."
        :group 'mode-line)
 
      (defface my-flycheck-mode-line-error
-       '((t :foreground "white" :background "red" ))
+       '((t :inherit my-flycheck-mode-line-font :background "red"))
        "Face for showing flycheck errors in the mode line."
        :group 'mode-line)
 
      (defface my-flycheck-mode-line-warning-disabled
-       '((t :foreground "white" :background "OrangeRed4" ))
+       '((t :inherit my-flycheck-mode-line-font :background "OrangeRed4" ))
        "Face for showing no flycheck warnings in the mode line."
        :group 'mode-line)
 
      (defface my-flycheck-mode-line-warning
-       '((t :foreground "white" :background "OrangeRed1" ))
+       '((t :inherit my-flycheck-mode-line-font :background "OrangeRed1" ))
        "Face for showing flycheck warnings in the mode line."
        :group 'mode-line)
 
@@ -222,7 +227,7 @@
      (use-package powerline
        :ensure
        :init
-       (setq powerline-default-separator 'wave
+       (setq powerline-default-separator bar
 	     powerline-display-hud nil)
        (my-powerline-theme))
    #+END_SRC
@@ -234,14 +239,15 @@
        :ensure
        :init
        (dim-minor-names
-        '((projectile-mode "" projectile)
-          (editorconfig-mode "" editorconfig)
-          (company-mode "" company)
-          (counsel-mode "" counsel)
-          (ivy-mode "" ivy)
-          (paredit-mode "" paredit)
-          (page-break-lines-mode "" page-break-lines)
-          (eldoc-mode "" eldoc))))
+	'((projectile-mode "" projectile)
+	  (editorconfig-mode "" editorconfig)
+	  (company-mode "" company)
+	  (counsel-mode "" counsel)
+	  (ivy-mode "" ivy)
+	  (paredit-mode "" paredit)
+	  (page-break-lines-mode "" page-break-lines)
+	  (eldoc-mode "" eldoc)
+	  (flycheck-mode "" flycheck))))
    #+END_SRC
 
 * Main script
