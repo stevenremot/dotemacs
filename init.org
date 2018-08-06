@@ -297,7 +297,6 @@
    - ag
    - editing
    - git
-   - project
    - auto-completion
    - code-checking
    - lsp
@@ -345,6 +344,21 @@
    #+END_SRC
 
    #+RESULTS:
+* Project management
+** Projectile
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package projectile
+       :ensure
+       :custom
+       (projectile-keymap-prefix (kbd "C-c p"))
+       :init (projectile-mode))
+
+     (use-package counsel-projectile
+       :ensure
+       :after (projectile ivy)
+       :init (counsel-projectile-mode))
+   #+END_SRC
 
 * Org mode
 ** Basic configuration
@@ -475,7 +489,7 @@
 	 (lsp-javascript-typescript-enable))
 
        (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-       (local-set-key (kbd "M-.") #'xref-find-definitions))
+       (local-set-key (kbd "M-.") #'lsp-ui-peek-find-definitions))
    #+END_SRC
 
    Finally, declare the package.
