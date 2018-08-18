@@ -598,25 +598,14 @@
 
 ** LSP
 
-   This package require [[https://github.com/freebroccolo/ocaml-language-server][ocaml-langauge-server]] to be installed. That
-   can be done by running:
-
-   #+BEGIN_SRC sh :tangle no
-     npm install -g ocaml-language-server
-   #+END_SRC
-
-   ~lsp-ocaml~ supports both ocaml and reason files.
+   This package requires [[https://github.com/jaredly/reason-language-server][reason-language-server]] to be installed
+   somewhere.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package lsp-ocaml
-       :ensure
-       :init
-       (with-eval-after-load 'lsp-ui-flycheck
-         (lsp-ui-flycheck-add-mode 'tuareg-mode)
-         (lsp-ui-flycheck-add-mode 'reason-mode))
-       :hook ((tuareg-mode . lsp-ocaml-enable)
-              (reason-mode . lsp-ocaml-enable)))
+     (use-package lsp-reason
+       :hook (reason-mode . lsp-reason-enable))
    #+END_SRC
+
 * Markdown
 
   #+BEGIN_SRC emacs-lisp
