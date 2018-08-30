@@ -383,11 +383,14 @@
 
     #+BEGIN_SRC emacs-lisp
       (defun my/init-org ()
-        ;; Override clock table ident function with mine
-        (advice-add 'org-clocktable-indent-string :override #'my/org-clocktable-indent-string)
+	;; Override clock table ident function with mine
+	(advice-add 'org-clocktable-indent-string :override #'my/org-clocktable-indent-string)
 
-        ;; Automatically add syntax coloration on org src blocks
-        (setq org-src-fontify-natively t))
+	;; Automatically add syntax coloration on org src blocks
+	(setq org-src-fontify-natively t)
+	(org-babel-do-load-languages 'org-babel-load-languages
+				     '((shell . t)
+				       (sql . t))))
 
     #+END_SRC
 
@@ -412,6 +415,14 @@
      (use-package org-clock
        :bind (("C-c o j" . org-clock-jump-to-current-clock)))
    #+END_SRC
+
+** Async
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ob-async
+       :after (org))
+   #+END_SRC
+
 * Redmine
 
   Here are some tools to interact with a redmine projet.
