@@ -420,6 +420,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package ob-async
+       :ensure
        :after (org))
    #+END_SRC
 
