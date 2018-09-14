@@ -416,6 +416,13 @@
        :bind (("C-c o j" . org-clock-jump-to-current-clock)))
    #+END_SRC
 
+** Capture
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-capture
+       :bind (("C-c o c" . org-capture)))
+   #+END_SRC
+
 ** Async
 
    #+BEGIN_SRC emacs-lisp
