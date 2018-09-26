@@ -471,7 +471,17 @@
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
        :ensure
-       :mode "\\.ts\\'")
+       :mode "\\.tsx?\\'")
+   #+END_SRC
+
+   Setup TIDE for extra IDE features. LSP would be better, but I had
+   issues with the language servers I tried.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package tide
+       :ensure
+       :init (flycheck-add-next-checker 'typescript-tide 'typescript-tslint)
+       :hook ((typescript-mode . tide-setup)))
    #+END_SRC
 
 ** LSP
@@ -518,8 +528,7 @@
        :ensure
        :after (js)
        :init (init/setup-javascript-lsp)
-       :hook ((js-mode . init/configure-javascript-lsp)
-	      (typescript-mode . init/configure-javascript-lsp)))
+       :hook ((js-mode . init/configure-javascript-lsp)))
    #+END_SRC
 
 ** Node modules support
