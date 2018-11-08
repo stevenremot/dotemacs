@@ -444,6 +444,11 @@
        "Repository URL."
        :type 'string
        :group 'my-redmine)
+
+     (defcustom my-gitlab/repo-url ""
+       "Gitlab repository URL."
+       :type 'string
+       :group 'my-redmine)
    #+END_SRC
 
 ** Opening the issue at point
@@ -463,6 +468,22 @@
 
      (global-set-key (kbd "C-c r j") #'my-redmine/browse-issue-at-point)
    #+END_SRC
+
+   Same system, for gitlab
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-gitlab/browse-issue (issue-number)
+       "Visit the URL corresponding to the given ISSUE-NUMBER."
+       (browse-url (format "%s/issues/%s" my-gitlab/repo-url issue-number)))
+
+     (defun my-gitlab/browse-issue-at-point (issue-number)
+       "Visit the URL corresponding to the ISSUE-NUMBER at point."
+       (interactive (list (number-to-string (thing-at-point 'number))))
+       (my-gitlab/browse-issue issue-number))
+
+     (global-set-key (kbd "C-c r g") #'my-gitlab/browse-issue-at-point)
+   #+END_SRC
+
 * Javascript
 ** Typescript
 
