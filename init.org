@@ -577,9 +577,14 @@
    Setup the correct node version when opening a JS file.
 
    #+BEGIN_SRC emacs-lisp
+     (defun my-nvm-use-for ()
+       (interactive)
+       (condition-case error
+	   (nvm-use-for-buffer)))
+
      (use-package nvm
        :ensure
-       :hook ((js-mode typescript-mode) . nvm-use-for))
+       :hook ((js-mode json-mode typescript-mode dired-mode magit-mode) . my-nvm-use-for))
    #+END_SRC
 
 * PHP
