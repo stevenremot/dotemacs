@@ -445,10 +445,12 @@
        :type 'string
        :group 'my-redmine)
 
+     (defgroup my-gitlab () "Gitlab tools" :group 'tools)
+
      (defcustom my-gitlab/repo-url ""
        "Gitlab repository URL."
        :type 'string
-       :group 'my-redmine)
+       :group 'my-gitlab)
    #+END_SRC
 
 ** Opening the issue at point
@@ -481,7 +483,25 @@
        (interactive (list (number-to-string (thing-at-point 'number))))
        (my-gitlab/browse-issue issue-number))
 
-     (global-set-key (kbd "C-c r g") #'my-gitlab/browse-issue-at-point)
+     (global-set-key (kbd "C-c g j") #'my-gitlab/browse-issue-at-point)
+   #+END_SRC
+
+** Opening the currently clocked-in issue
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-forge/get-current-issue ()
+       "Return the issue number of the issue currently clocked in."
+       (if (and org-clock-current-task
+		(numberp (string-match (rx (1+ num)) org-clock-current-task)))
+	   (string-to-number (match-string 0 org-clock-current-task))
+	 (message "No issue currently clocked in")))
+
+     (defun my-gitlab/browse-current-issue ()
+       "Browse the gitlab issue currently clocked in."
+       (interactive)
+       (my-gitlab/browse-issue (my-forge/get-current-issue)))
+
+     (global-set-key (kbd "C-c g J") #'my-gitlab/browse-current-issue)
    #+END_SRC
 
 * Javascript
