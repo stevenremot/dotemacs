@@ -521,7 +521,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package tide
        :ensure
-       :init (flycheck-add-next-checker 'typescript-tide 'typescript-tslint)
+       :config (flycheck-add-next-checker 'typescript-tide 'typescript-tslint)
        :hook ((typescript-mode . tide-setup)))
    #+END_SRC
 
