@@ -431,77 +431,15 @@
        :after (org))
    #+END_SRC
 
-* Redmine
+** Issue opening
 
-  Here are some tools to interact with a redmine projet.
-
-** Configuration
-
-   #+BEGIN_SRC emacs-lisp
-     (defgroup my-redmine () "Redmine tools" :group 'tools)
-
-     (defcustom my-redmine/repo-url ""
-       "Repository URL."
-       :type 'string
-       :group 'my-redmine)
-
-     (defgroup my-gitlab () "Gitlab tools" :group 'tools)
-
-     (defcustom my-gitlab/repo-url ""
-       "Gitlab repository URL."
-       :type 'string
-       :group 'my-gitlab)
-   #+END_SRC
-
-** Opening the issue at point
-
-   This is a function to open the issue number at point in a web
-   browser.
+   Use the package ~org-open-ref~ in order to easily open the redmine
+   and gitlab issues.
 
    #+BEGIN_SRC emacs-lisp
-     (defun my-redmine/browse-issue (issue-number)
-       "Visit the URL corresponding to the given ISSUE-NUMBER."
-       (browse-url (format "%s/issues/%s" my-redmine/repo-url issue-number)))
-
-     (defun my-redmine/browse-issue-at-point (issue-number)
-       "Visit the URL corresponding to the ISSUE-NUMBER at point."
-       (interactive (list (number-to-string (thing-at-point 'number))))
-       (my-redmine/browse-issue issue-number))
-
-     (global-set-key (kbd "C-c r j") #'my-redmine/browse-issue-at-point)
-   #+END_SRC
-
-   Same system, for gitlab
-
-   #+BEGIN_SRC emacs-lisp
-     (defun my-gitlab/browse-issue (issue-number)
-       "Visit the URL corresponding to the given ISSUE-NUMBER."
-       (browse-url (format "%s/issues/%s" my-gitlab/repo-url issue-number)))
-
-     (defun my-gitlab/browse-issue-at-point (issue-number)
-       "Visit the URL corresponding to the ISSUE-NUMBER at point."
-       (interactive (list (number-to-string (thing-at-point 'number))))
-       (my-gitlab/browse-issue issue-number))
-
-     (global-set-key (kbd "C-c g j") #'my-gitlab/browse-issue-at-point)
-   #+END_SRC
-
-** Opening the currently clocked-in issue
-
-   #+BEGIN_SRC emacs-lisp
-     (defun my-forge/get-current-issue ()
-       "Return the issue number of the issue currently clocked in."
-       (if (and org-clock-current-task
-		(numberp (string-match (rx (1+ num)) org-clock-current-task)))
-	   (string-to-number (match-string 0 org-clock-current-task))
-	 (message "No issue currently clocked in")))
-
-     (defun my-gitlab/browse-current-issue ()
-       "Browse the gitlab issue currently clocked in."
-       (interactive)
-       (my-gitlab/browse-issue (my-forge/get-current-issue)))
-
-     (global-set-key (kbd "C-c g J") #'my-gitlab/browse-current-issue)
+     (use-package org-open-ref
+       :bind (("C-c r j" . org-open-ref-at-point)
+	      ("C-c r J" . org-open-ref-for-current-issue)))
    #+END_SRC
 
 * Javascript
