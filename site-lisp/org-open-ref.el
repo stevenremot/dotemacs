@@ -6,6 +6,7 @@
 
 ;;; Code:
 (require 'org-clock)
+(require 'org-agenda)
 
 (defun org-open-ref-get-ref-at-point ()
   "Return the reference currently at point."
@@ -49,8 +50,13 @@ REFERENCE is the reference."
 (defun org-open-ref-at-point ()
   "Open the reference at point."
   (interactive)
-  (message "%S" (org-entry-properties))
-  (org-open-ref (point) (org-open-ref-get-ref-at-point)))
+  (save-window-excursion
+    (let ((reference (org-open-ref-get-ref-at-point))
+	  (marker (org-agenda-get-any-marker)))
+      (when (eq major-mode 'org-agenda-mode)
+	(switch-to-buffer (marker-buffer marker))
+	(goto-char (marker-position marker)))
+      (org-open-ref (point) reference))))
 
 (defun org-open-ref--get-current-issue ()
   "Return the reference in the org item currently clocked in."
@@ -68,6 +74,6 @@ REFERENCE is the reference."
     (org-open-ref org-clock-marker reference)))
 
 
-(provide 'org-open-refs)
+(provide 'org-open-ref)
 
-;;; org-open-refs.el ends here
+;;; org-open-ref.el ends here
