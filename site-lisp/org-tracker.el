@@ -8,29 +8,11 @@
 (require 'org-clock)
 (require 'org-agenda)
 
+;; Generic code
+
 (defun org-tracker-get-ref-at-point ()
   "Return the reference currently at point."
   (number-to-string (thing-at-point 'number)))
-
-(defun org-tracker-open-issue:redmine (pom reference)
-  "Open a reference in redmine.
-
-POM is a point in the org document.
-REFERENCE is the reference."
-  (let ((url (org-entry-get pom "redmine-repo" t)))
-    (unless url
-      (error "The property \"redmine-repo\” must be set"))
-    (browse-url (format "%s/issues/%s" url reference))))
-
-(defun org-tracker-open-issue:gitlab (pom reference)
-  "Open a reference in gitlab.
-
-POM is a point in the org document.
-REFERENCE is the reference."
-  (let ((url (org-entry-get pom "gitlab-repo" t)))
-    (unless url
-      (error "The property \"gitlab-repo\” must be set"))
-    (browse-url (format "%s/issues/%s" url reference))))
 
 (defun org-tracker-get-system (pom)
   "Return the ref system to use at POM."
@@ -41,10 +23,11 @@ REFERENCE is the reference."
 
 POM is a point in the org document.
 REFERENCE is the reference."
-  (pcase (org-tracker-get-system pom)
-    ("redmine" (org-tracker-open-issue:redmine pom reference))
-    ("gitlab" (org-tracker-open-issue:gitlab pom reference))
-    (_ (error "Could not recognize %S ref-system"(org-tracker-get-system pom)))))
+  (let* ((tracker (org-tracker-get-system pom))
+	 (func (intern (concat "org-tracker-open-issue:" tracker))))
+    (unless (fboundp func)
+      (error "Function org-tracker-open-issue:%s does not exist" tracker))
+    (funcall func pom reference)))
 
 ;;;###autoload
 (defun org-tracker-open-issue-at-point ()
@@ -73,6 +56,29 @@ REFERENCE is the reference."
       (error "No item currently clocked in"))
     (org-tracker-open-issue org-clock-marker reference)))
 
+;; Redmine
+
+(defun org-tracker-open-issue:redmine (pom reference)
+  "Open a reference in redmine.
+
+POM is a point in the org document.
+REFERENCE is the reference."
+  (let ((url (org-entry-get pom "redmine-repo" t)))
+    (unless url
+      (error "The property \"redmine-repo\” must be set"))
+    (browse-url (format "%s/issues/%s" url reference))))
+
+;; Gitlab
+
+(defun org-tracker-open-issue:gitlab (pom reference)
+  "Open a reference in gitlab.
+
+POM is a point in the org document.
+REFERENCE is the reference."
+  (let ((url (org-entry-get pom "gitlab-repo" t)))
+    (unless url
+      (error "The property \"gitlab-repo\” must be set"))
+    (browse-url (format "%s/issues/%s" url reference))))
 
 (provide 'org-tracker)
 
