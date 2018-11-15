@@ -437,9 +437,9 @@
    and gitlab issues.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package org-open-ref
-       :bind (("C-c r j" . org-open-ref-at-point)
-	      ("C-c r J" . org-open-ref-for-current-issue)))
+     (use-package org-tracker
+       :bind (("C-c r j" . org-tracker-open-issue-at-point)
+	      ("C-c r J" . org-tracker-open-current-issue)))
    #+END_SRC
 
 * Javascript
