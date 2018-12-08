@@ -545,6 +545,19 @@
        :hook ((js-mode json-mode typescript-mode dired-mode magit-mode) . my-nvm-use-for))
    #+END_SRC
 
+** Swagger
+
+   Setup a custom command to be able to edit yaml in multi-line comments.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package yaml-comment
+       :after (typescript-mode)
+       :bind (:map js-mode-map
+	      ("C-c y" . yaml-comment-edit-at-point)
+	      :map typescript-mode-map
+	      ("C-c y" . yaml-comment-edit-at-point)))
+   #+END_SRC
+
 * PHP
 ** php-mode
 
