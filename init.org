@@ -9,12 +9,6 @@
   Here is the source of my Emacs configuration. Create the files by
   running ~org-babel-tangle~ (~C-c C-v t)~ in this file.
 
-* Tasks
-** TODO Flow file symbols
-** TODO Component skeletons
-** TODO Evols rocktl
-** TODO Better prettier-eslint
-** DONE Org mode \emsp
 * Package management
 ** Initialiaze package
 
@@ -299,7 +293,6 @@
    - git
    - auto-completion
    - code-checking
-   - lsp
    - rocktl
    - emacs-lisp
    - web
@@ -442,73 +435,30 @@
 	      ("C-c r J" . org-tracker-open-current-issue)))
    #+END_SRC
 
+* LSP
+
+  Setup the core package
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package lsp-mode
+      :ensure
+      :commands lsp
+      :init (setq lsp-prefer-flymake nil))
+  #+END_SRC
+
+  Setup ~lsp-ui~ and ~company~:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package lsp-ui
+      :ensure
+      :commands lsp-ui-mode)
+
+    (use-package company-lsp
+      :ensure
+      :commands company-lsp)
+  #+END_SRC
+
 * Javascript
-** Typescript
-
-   Setup the basic typescript-mode:
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package typescript-mode
-       :ensure
-       :mode "\\.tsx?\\'")
-   #+END_SRC
-
-   Setup TIDE for extra IDE features. LSP would be better, but I had
-   issues with the language servers I tried.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package tide
-       :ensure
-       :config (flycheck-add-next-checker 'typescript-tide 'typescript-tslint)
-       :hook ((typescript-mode . tide-setup)))
-   #+END_SRC
-
-** LSP
-
-   Setup LSP for Javascript / flow / typescript.
-
-   The init function simply some autoloads and add lsp-flycheck
-   support for both JS and TS files.
-
-   #+BEGIN_SRC emacs-lisp
-     (defun init/setup-javascript-lsp ()
-       "Setup javascript for lsp."
-       (autoload #'lsp-javascript-flow-enable "lsp-javascript-flow")
-       (autoload #'lsp-javascript-typescript-enable "lsp-javascript-typescript")
-
-       (with-eval-after-load 'lsp-ui-flycheck
-	 (lsp-ui-flycheck-add-mode 'js-mode)
-	 (flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
-   #+END_SRC
-
-   The configure function is in charge of setting up flow when a
-   flowconfig file is found in the project, and typescript otherwise.
-
-   Also override ~M-.~ to put back the xref command.
-
-   #+BEGIN_SRC emacs-lisp
-     (defun init/configure-javascript-lsp ()
-       "Configure LSP for the current buffer."
-       (if (locate-dominating-file (buffer-file-name) ".flowconfig")
-	   (progn
-	     (message "Setup flow LSP for %s" (buffer-file-name))
-	     (lsp-javascript-flow-enable))
-	 (message "Setup js/ts LSP for %s" (buffer-file-name))
-	 (lsp-javascript-typescript-enable))
-
-       (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-       (local-set-key (kbd "M-.") #'lsp-ui-peek-find-definitions))
-   #+END_SRC
-
-   Finally, declare the package.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package lsp-javascript-typescript
-       :ensure
-       :after (js)
-       :init (init/setup-javascript-lsp)
-       :hook ((js-mode . init/configure-javascript-lsp)))
-   #+END_SRC
 
 ** Node modules support
 
@@ -521,6 +471,23 @@
        :ensure
        :hook ((js-mode . add-node-modules-path)
 	      (typescript-mode . add-node-modules-path)))
+   #+END_SRC
+** LSP
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package lsp-mode
+       :hook ((javascript-mode . lsp)))
+   #+END_SRC
+
+** Typescript
+
+   Setup the basic typescript-mode:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package typescript-mode
+       :ensure
+       :mode "\\.tsx?\\'"
+       :init (add-hook 'typescript-mode-hook #'lsp))
    #+END_SRC
 
 ** JSON
@@ -573,9 +540,8 @@
    instructions on the readme to do so.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package lsp-php
-       :ensure
-       :hook ((php-mode . lsp-php-enable)))
+     (use-package lsp-mode
+       :hook ((php-mode . lsp)))
    #+END_SRC
 * Docker
 
