@@ -40,6 +40,13 @@
            (package-install package))))
    #+END_SRC
 
+   Always install a package declare with ~use-package~ if it's not
+   installed:
+
+   #+BEGIN_SRC emacs-lisp
+   (setq use-package-always-ensure t)
+   #+END_SRC
+
    Additionally, we will require ~quelpa-use-package~ right now so
    that we don't have to care about that later.
 
@@ -308,6 +315,14 @@
 
      (mapc #'my-load-init-file modules)
    #+END_SRC
+* Editing
+** Rainbow parentheses
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package rainbow-delimiters
+       :hook (prog-mode . rainbow-delimiters-mode))
+   #+END_SRC
+
 * Navigation
 ** imenu
 
