@@ -5,12 +5,27 @@
 ;; items, and to easily open them in your browser.
 
 ;;; Code:
+(require 'eieio)
 (require 'subr-x)
 (require 'org-clock)
 (require 'org-agenda)
 (require 'elmine)
 
 ;; Generic code
+(defvar org-tracker-classes '((dummy . org-tracker-dummy)
+			      (redmine . org-tracker-redmine)
+			      (gitlab . org-tracker-gitlab))
+  "Mapping between tracker names and their classes.")
+
+(defun org-tracker-get-current-tracker (pom)
+  "Return an instance of the tracker at POM.
+
+Return nil when no tracker could be created."
+  (let* ((tracker (org-entry-get pom "tracker" t))
+	 (tracker-class (cdr (assoc (intern tracker) org-tracker-classes))))
+    (if tracker-class
+	(make-instance tracker-class pom)
+      nil)))
 
 (defun org-tracker-get-ref-at-point ()
   "Return the reference currently at point."
@@ -21,20 +36,12 @@
   (when (numberp (string-match (rx (1+ num)) string))
       (string-to-number (match-string 0 string))))
 
-(defun org-tracker-get-system (pom)
-  "Return the ref system to use at POM."
-  (org-entry-get pom "tracker" t))
+(cl-defgeneric org-tracker-open-issue (_tracker _reference)
+  "Open the issue at point.
 
-(defun org-tracker-open-issue (pom reference)
-  "Open the reference currently at POM.
-
-POM is a point in the org document.
-REFERENCE is the reference."
-  (let* ((tracker (org-tracker-get-system pom))
-	 (func (intern (concat "org-tracker-open-issue:" tracker))))
-    (unless (fboundp func)
-      (error "Function org-tracker-open-issue:%s does not exist" tracker))
-    (funcall func pom reference)))
+TRACKER is the instance of the tracker.
+REFERENCE is the issue reference."
+  (error "Method org-tracker-open-issue not implemented for this tracker"))
 
 ;;;###autoload
 (defun org-tracker-open-issue-at-point ()
@@ -46,7 +53,7 @@ REFERENCE is the reference."
       (when (eq major-mode 'org-agenda-mode)
 	(switch-to-buffer (marker-buffer marker))
 	(goto-char (marker-position marker)))
-      (org-tracker-open-issue (point) reference))))
+      (org-tracker-open-issue (org-tracker-get-current-tracker (point)) reference))))
 
 (defun org-tracker--get-current-issue ()
   "Return the reference in the org item currently clocked in."
@@ -63,139 +70,69 @@ REFERENCE is the reference."
 
 ;; Time tracking
 
-(defun org-tracker--wrap-in-list (params)
-  "Wrap string PARAMS in a list."
-  (concat "(" params ")"))
+(cl-defmethod org-tracker-track-time (_tracker _issue-id _date _hours _callback)
+  "Track time for an issue.
 
-(defun org-tracker--get-arguments-from-clocktable-def (element)
-  "Return the clocktable arguments from its parsed definition.
+TRACKER is the current tracker instance.
+ISSUE-ID is the reference of the issue to track in.
+DATE is the date of the day to spend time in (YYYY-MM-DD).
+HOURS is the number of hours to spend.
+CALLABCK is a function called when the tracking is completed."
+  (error "Method org-tracker-track-time not implemented for this tracker"))
 
-ELEMENT is the parsed definition, got from the org element API."
-  (thread-first
-      element
-    cadr
-    (plist-get :arguments)
-    org-tracker--wrap-in-list
-    read
-    (append '(:properties ("tracker" "redmine-repo" "gitlab-repo")))))
+;; Dummy tracker - for testing purposes
 
-(cl-defstruct org-tracker-command
-  properties
-  issue-reference
-  hours
-  result)
+(defclass org-tracker-dummy ()
+  ()
+  "Dummy tracker for testing purposes.")
 
-(defun org-tracker--pair-to-plist (pair)
-  "Transform an alist PAIR into a plist."
-  (list (intern (concat ":" (car pair)))
-	(cdr pair)))
+(cl-defmethod initialize-instance ((tracker org-tracker-dummy) _pom)
+  (cl-call-next-method tracker))
 
-(defun org-tracker--alist-to-plist (alist)
-  "Transform an ALIST into a plist."
-  (apply #'append (seq-map #'org-tracker--pair-to-plist alist)))
+(cl-defmethod org-tracker-open-issue ((_tracker org-tracker-dummy) reference)
+  (message "Browsing issue %s" reference))
 
-(defun org-tracker-track-clocktable-time ()
-  "Track time for the org clocktable at point."
-  (interactive)
-					; Retrieve clocktable netrics
-  (pcase (org-in-clocktable-p)
-    (`nil (error "No clocktable found at point"))
-    (start (goto-char start)))
-
-  (let* ((clocktable-args (org-tracker--get-arguments-from-clocktable-def (org-element-at-point)))
-	 (clocktable (org-clock-get-table-data "file"
-					       (append clocktable-args
-						       '(:properties ("tracker" "redmine-repo" "gitlab-repo")
-								     :inherit-props t))))
-
-					; Gather commands to perform and properties
-	 (commands (cl-loop for (_level title _whatever minutes properties) in (nth 2 clocktable)
-			    for issue = (org-tracker-get-ref-in-string title)
-			    for plist-properties = (org-tracker--alist-to-plist properties)
-			    when (not (null issue))
-			    collect (make-org-tracker-command
-				     :properties plist-properties
-				     :issue-reference issue
-				     :hours (/ minutes 60.0)))))
-    (cl-loop for command in commands
-	     do (org-tracker-track-time (org-tracker-command-properties command)
-					(org-tracker-command-issue-reference command)
-					(org-tracker-command-hours command)
-					(format-time-string "%Y-%m-%d")
-					#'(lambda (result) (setf (org-tracker-command-result command) result))))
-
-    (org-tracker--display-tracking-results commands))
-  )
-
-(defun org-tracker-track-time (properties issue-id hours date callback)
-  "Track time in an issue.
-
-PROPERTIES is a property list for the configuration.  The `:tracker'
-entry is used to know which tracker should be used.
-ISSUE-ID is the id of the issue.
-HOURS is the number of spent hours.
-DATE is the date the time was spent.
-CALLBACK is the function called when the time is tracked."
-  (let* ((tracker (plist-get properties :tracker))
-	 (track-func (intern (concat "org-tracker-track-time:" tracker))))
-    (if (fboundp track-func)
-	(apply track-func properties issue-id date hours callback ())
-      (funcall callback `(error ,(format "No tracker found for %S" tracker))))
-    ))
-
-(defun org-tracker--display-tracking-results (commands)
-  "Display the tracking results in a new buffer.
-
-COMMANDS is a list of commands that should be displayed with their summary."
-  (with-current-buffer (get-buffer-create " *org-tracker*")
-    (erase-buffer)
-    (cl-loop for command in commands
-	     do (insert (concat (org-tracker--format-command command) "\n")))
-    (display-buffer (current-buffer))))
-
-(defun org-tracker--format-command (command)
-  "Return a string that represents the ummary of a COMMAND."
-  (format "> %s @ %s\n\tStatus: %s\n"
-	  (plist-get (org-tracker-command-properties command) :tracker)
-	  (org-tracker-command-issue-reference command)
-	  (if (eq 'error (car (org-tracker-command-result command)))
-	      (format "Error - %s" (cdr (org-tracker-command-result command)))
-	    "Success")))
+(cl-defmethod org-tracker-track-time ((_tracker org-tracker-dummy) issue-id date hours callback)
+  (message "Tracking %f hours at %s for %s" hours date issue-id)
+  (funcall callback))
 
 ;; Redmine
 
-(defun org-tracker-open-issue:redmine (pom reference)
-  "Open a reference in redmine.
+(defclass org-tracker-redmine ()
+  ((repo :type string :initarg :repo))
+  "Tracker for redmine.")
 
-POM is a point in the org document.
-REFERENCE is the reference."
-  (let ((url (org-entry-get pom "redmine-repo" t)))
-    (unless url
-      (error "The property \"redmine-repo\” must be set"))
+(cl-defmethod initialize-instance ((tracker org-tracker-redmine) pom)
+  (cl-call-next-method tracker
+		       (list :repo (org-entry-get (car pom) "redmine-repo" t))))
+
+(cl-defmethod org-tracker-open-issue ((tracker org-tracker-redmine) reference)
+  (let ((url (oref tracker repo)))
     (browse-url (format "%s/issues/%s" url reference))))
 
-(defun org-tracker-track-time:redmine (properties issue-id date hours callback)
-  "Track time in a redmine issue.
+;; (defun org-tracker-track-time ((tracker org-tracker-redmine) issue-id date hours callback)
+;;   "Track time in a redmine issue.
 
-PROPERTIES is a property list for the configuration.
-ISSUE-ID is the id of the issue.
-DATE is the date the time was spent.
-HOURS is the number of spent hours.
-CALLBACK is the function called when the time is tracked."
-  (let ((elmine/host (plist-get properties :redmine-repo))
-	(elmine/api-key (plist-get properties :redmine-api-key)))
-    (funcall callback (elmine/create-time-entry :issue_id issue-id :date date :hours hours))))
+;; PROPERTIES is a property list for the configuration.
+;; ISSUE-ID is the id of the issue.
+;; DATE is the date the time was spent.
+;; HOURS is the number of spent hours.
+;; CALLBACK is the function called when the time is tracked."
+;;   (let ((elmine/host (plist-get properties :redmine-repo))
+;; 	(elmine/api-key (plist-get properties :redmine-api-key)))
+;;     (funcall callback (elmine/create-time-entry :issue_id issue-id :date date :hours hours))))
 
 ;; Gitlab
+(defclass org-tracker-gitlab ()
+  ((repo :type string :initarg :repo))
+  "Tracker for gitlab.")
 
-(defun org-tracker-open-issue:gitlab (pom reference)
-  "Open a reference in gitlab.
+(cl-defmethod initialize-instance ((tracker org-tracker-gitlab) pom)
+  (cl-call-next-method tracker
+		       (list :repo (org-entry-get (car pom) "gitlab-repo" t))))
 
-POM is a point in the org document.
-REFERENCE is the reference."
-  (let ((url (org-entry-get pom "gitlab-repo" t)))
-    (unless url
-      (error "The property \"gitlab-repo\” must be set"))
+(cl-defmethod org-tracker-open-issue ((tracker org-tracker-gitlab) reference)
+  (let ((url (oref tracker repo)))
     (browse-url (format "%s/issues/%s" url reference))))
 
 (provide 'org-tracker)
