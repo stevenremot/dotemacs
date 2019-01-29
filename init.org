@@ -500,9 +500,12 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
-       :ensure
-       :mode "\\.tsx?\\'"
-       :init (add-hook 'typescript-mode-hook #'lsp))
+       :mode "\\.tsx?\\'")
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package eglot
+       :hook (typescript-mode . eglot-ensure))
    #+END_SRC
 
 ** JSON
