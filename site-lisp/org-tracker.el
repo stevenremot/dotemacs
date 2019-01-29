@@ -10,6 +10,8 @@
 (require 'org-clock)
 (require 'org-agenda)
 (require 'elmine)
+(require 'request)
+(require 'dash)
 
 ;; Generic code
 (defvar org-tracker-classes '((dummy . org-tracker-dummy)
@@ -201,16 +203,44 @@ CALLBACK is the function called when the time is tracked."
 
 ;; Gitlab
 (defclass org-tracker-gitlab ()
-  ((repo :type string :initarg :repo))
+  ((repo :type string :initarg :repo)
+   (project :type string :initarg :project))
   "Tracker for gitlab.")
 
 (cl-defmethod initialize-instance ((tracker org-tracker-gitlab) pom)
   (cl-call-next-method tracker
-		       (list :repo (org-entry-get (car pom) "gitlab-repo" t))))
+		       (list :repo (org-entry-get (car pom) "gitlab-repo" t)
+			     :project (org-entry-get (car pom) "gitlab-project" t))))
 
 (cl-defmethod org-tracker-open-issue ((tracker org-tracker-gitlab) reference)
-  (let ((url (oref tracker repo)))
-    (browse-url (format "%s/issues/%s" url reference))))
+  (let ((url (oref tracker repo))
+	(project (oref tracker project)))
+    (browse-url (format "%s/%s/issues/%s" url project reference))))
+
+(cl-defmethod org-tracker-track-time ((tracker org-tracker-gitlab) issue-id _date hours _comment callback)
+  (let* ((host (url-host (url-generic-parse-url (oref tracker repo))))
+	 (found-secret (nth 0 (auth-source-search :max 1 :host host)))
+	 (secret-entry (plist-get found-secret :secret))
+	 (token (if (functionp secret-entry)
+		    (funcall secret-entry)
+		  secret-entry)))
+
+    (unless token
+      (error "Cannot find a auth entry for host %s" host))
+
+    (request
+     (format "%s/api/v4/projects/%s/issues/%s/add_spent_time"
+	     (oref tracker repo)
+	     (url-hexify-string (oref tracker project))
+	     issue-id)
+     :type "POST"
+     :headers `(("PRIVATE-TOKEN" . ,token))
+     :params `(("duration" . ,(format "%fh" hours)))
+     :success (cl-function
+	       (lambda (&rest)
+		 (funcall callback nil))))
+    ; TODO Handle comment variable
+    ))
 
 (provide 'org-tracker)
 

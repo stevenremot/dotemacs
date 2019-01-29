@@ -446,8 +446,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-tracker
+       :ensure nil
        :bind (("C-c r j" . org-tracker-open-issue-at-point)
-	      ("C-c r J" . org-tracker-open-current-issue)))
+	      ("C-c r J" . org-tracker-open-current-issue)
+	      ("C-c r t" . org-tracker-track-time-at-point)))
    #+END_SRC
 
 * LSP
