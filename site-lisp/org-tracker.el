@@ -77,7 +77,7 @@ REFERENCE is the issue reference."
   (let ((reference (org-tracker--get-current-issue)))
     (unless reference
       (error "No item currently clocked in"))
-    (org-tracker-open-issue org-clock-marker reference)))
+    (org-tracker-open-issue (org-tracker-get-current-tracker org-clock-marker) reference)))
 
 ;; Time tracking
 
