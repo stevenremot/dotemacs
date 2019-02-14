@@ -493,7 +493,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
-       :hook ((javascript-mode . lsp)))
+       :hook ((js-mode . lsp)))
    #+END_SRC
 
 ** Typescript
@@ -506,8 +506,8 @@
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
-     (use-package eglot
-       :hook (typescript-mode . eglot-ensure))
+     (use-package lsp-mode
+       :hook (typescript-mode . lsp))
    #+END_SRC
 
 ** JSON
@@ -543,6 +543,14 @@
 	      ("C-c y" . yaml-comment-edit-at-point)
 	      :map typescript-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)))
+   #+END_SRC
+
+** Indium
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package indium
+       :hook ((js-mode . indium-interaction-mode)
+	      (typescript-mode . indium-interaction-mode)))
    #+END_SRC
 
 * PHP
