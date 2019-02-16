@@ -68,6 +68,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package elpa-backup
+       :ensure nil
        :commands (elpa-backup-do elpa-backup-rollback))
    #+END_SRC
 
@@ -303,7 +304,6 @@
    - rocktl
    - emacs-lisp
    - web
-   - prettier
    - cucumber
 
    #+BEGIN_SRC emacs-lisp :var modules=init-modules
@@ -414,6 +414,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-agenda
+       :ensure nil
        :bind (("C-c o a" . org-agenda-list)))
    #+END_SRC
 
@@ -421,6 +422,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-clock
+       :ensure nil
        :bind (("C-c o j" . org-clock-jump-to-current-clock)))
    #+END_SRC
 
@@ -428,6 +430,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
+       :ensure nil
        :bind (("C-c o c" . org-capture)))
    #+END_SRC
 
@@ -538,6 +541,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package yaml-comment
+       :ensure nil
        :after (typescript-mode)
        :bind (:map js-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)
@@ -622,6 +626,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-reason
+       :ensure nil
        :hook (reason-mode . lsp-reason-enable))
    #+END_SRC
 

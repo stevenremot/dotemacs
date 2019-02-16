@@ -1,7 +1,7 @@
 ;;; emacs-lisp.el --- Setup emacs-lisp editing facilities
 
 ;;; Commentary:
-;; 
+;;
 ;;; Code:
 (require 'use-package)
 
@@ -12,6 +12,7 @@
 
 
 (use-package elisp-mode
+  :ensure nil
   :config (init/setup-elisp-mode))
 
 (use-package paredit
