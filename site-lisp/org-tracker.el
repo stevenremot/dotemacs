@@ -1,4 +1,5 @@
 ;;; org-trackers.el --- Opens references to your issues in org mode -*- lexical-binding: t -*-
+;; Package-Requires: ((dash "2.14.0") (request "0.3.0"))
 
 ;;; Commentary:
 ;; This package allows you to write reference to issues in your org
@@ -9,7 +10,6 @@
 (require 'subr-x)
 (require 'org-clock)
 (require 'org-agenda)
-(require 'elmine)
 (require 'request)
 (require 'dash)
 
@@ -188,18 +188,28 @@ ISSUE-ID is the id of the issue.
 DATE is the date the time was spent.
 HOURS is the number of spent hours.
 CALLBACK is the function called when the time is tracked."
-  (let* ((elmine/host (oref tracker repo))
-	 (elmine/api-key (plist-get (auth-source-search :host elmine/host
-							:max 1
-							:require '(:secret))
-				    :secret)))
-    (elmine/create-time-entry
-     :issue_id issue-id
-     :date (format-time-string "%F" date)
-     :hours hours
-     :comments comment)
+  (let* ((host (url-host (url-generic-parse-url (oref tracker repo))))
+	 (found-secret (nth 0 (auth-source-search :max 1 :host host)))
+	 (secret-entry (plist-get found-secret :secret))
+	 (token (if (functionp secret-entry)
+		    (funcall secret-entry)
+		  secret-entry)))
 
-    (funcall callback nil)))
+    (request (format "%s/time_entries.json" (oref tracker repo))
+	     :type "POST"
+	     :headers `(("X-Redmine-API-Key" . ,token)
+			("Content-Type" . "application/json"))
+	     :parser 'json-read
+	     :data (json-encode
+		    `(("time_entry" . (("issue_id" . ,issue-id)
+				       ("spent_on" . ,(format-time-string "%F" date))
+				       ("hours" . ,hours)
+				       ("comments" . ,comment)))))
+	     :success (cl-function (lambda (&rest)
+				     (funcall callback nil)))
+	     :error (cl-function (lambda (&rest args)
+				   (message "%S" args)
+				   (funcall callback "Error"))))))
 
 ;; Gitlab
 (defclass org-tracker-gitlab ()
