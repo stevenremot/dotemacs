@@ -505,12 +505,14 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
-       :mode "\\.tsx?\\'")
+       :mode "\\.tsx?\\'"
+       :config (flycheck-add-mode 'javascript-eslint 'typescript-mode))
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
-       :hook (typescript-mode . lsp))
+       :hook (typescript-mode . lsp)
+       :config (flycheck-add-next-checker 'lsp-ui 'javascript-eslint))
    #+END_SRC
 
 ** JSON
