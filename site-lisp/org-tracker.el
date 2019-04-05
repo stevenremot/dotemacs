@@ -238,14 +238,15 @@ CALLBACK is the function called when the time is tracked."
     (unless token
       (error "Cannot find a auth entry for host %s" host))
 
-    (request
-     (format "%s/api/v4/projects/%s/issues/%s/notes"
-	     (oref tracker repo)
-	     (url-hexify-string (oref tracker project))
-	     issue-id)
-     :type "POST"
-     :headers `(("PRIVATE-TOKEN" . ,token))
-     :params `(("body" . ,comment)))
+    (when (> (length comment) 0)
+      (request
+       (format "%s/api/v4/projects/%s/issues/%s/notes"
+	       (oref tracker repo)
+	       (url-hexify-string (oref tracker project))
+	       issue-id)
+       :type "POST"
+       :headers `(("PRIVATE-TOKEN" . ,token))
+       :params `(("body" . ,comment))))
 
     (request
      (format "%s/api/v4/projects/%s/issues/%s/add_spent_time"
@@ -256,7 +257,7 @@ CALLBACK is the function called when the time is tracked."
      :headers `(("PRIVATE-TOKEN" . ,token))
      :params `(("duration" . ,(format "%fh" hours)))
      :success (cl-function
-	       (lambda (&rest)
+	       (lambda (&rest arg)
 		 (funcall callback nil))))))
 
 (provide 'org-tracker)
