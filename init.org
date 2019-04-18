@@ -499,6 +499,15 @@
        :hook ((js-mode . lsp)))
    #+END_SRC
 
+   Rebind some js-mode keys to lsp:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package js
+       :bind (:map js-mode-map
+		   ("M-." . lsp-find-definition)
+		   ("M-?" . lsp-find-references)))
+   #+END_SRC
+
 ** Typescript
 
    Setup the basic typescript-mode:
