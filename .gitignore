@@ -21,6 +21,10 @@ games/
 request/
 .org-id-locations
 tutorial/
+.lsp-session-v1
+forge-database.sqlite
+transient
+.mc-lists.el
 
 # Generated scripts
 init.el
