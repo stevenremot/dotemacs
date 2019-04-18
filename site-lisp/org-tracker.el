@@ -200,11 +200,13 @@ CALLBACK is the function called when the time is tracked."
 	     :headers `(("X-Redmine-API-Key" . ,token)
 			("Content-Type" . "application/json"))
 	     :parser 'json-read
-	     :data (json-encode
-		    `(("time_entry" . (("issue_id" . ,issue-id)
-				       ("spent_on" . ,(format-time-string "%F" date))
-				       ("hours" . ,hours)
-				       ("comments" . ,comment)))))
+	     :data (encode-coding-string
+		    (json-encode
+		     `(("time_entry" . (("issue_id" . ,issue-id)
+					("spent_on" . ,(format-time-string "%F" date))
+					("hours" . ,hours)
+					("comments" . ,comment)))))
+		    'utf-8)
 	     :success (cl-function (lambda (&rest)
 				     (funcall callback nil)))
 	     :error (cl-function (lambda (&rest args)
