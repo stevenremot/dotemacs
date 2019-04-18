@@ -479,7 +479,6 @@
   #+END_SRC
 
 * Javascript
-
 ** Node modules support
 
    ~add-node-modules-path~ automatically adds the node_modules bin
@@ -521,7 +520,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
        :hook (typescript-mode . lsp)
-       :config (flycheck-add-next-checker 'lsp-ui 'javascript-eslint))
+       :init (eval-after-load 'lsp-ui '(flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
    #+END_SRC
 
 ** JSON
