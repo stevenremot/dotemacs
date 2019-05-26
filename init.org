@@ -295,7 +295,6 @@
    - exec-path-from-shell
    - prompt
    - ivy
-   - shell
    - ag
    - editing
    - git
@@ -366,6 +365,67 @@
        :ensure
        :after (projectile ivy)
        :init (counsel-projectile-mode))
+   #+END_SRC
+
+* Shell
+** xterm-color
+
+   [[https://github.com/atomontage/xterm-color][xterm-color]] is a replacement for ansi-color that is faster and has
+   more feature.
+
+   Here is the comint / shell-mode configuration
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-remove-ansi-from-comint ()
+       "Remove ansi-color from comint filters."
+       (setq comint-output-filter-functions
+	   (remove 'ansi-color-process-output comint-output-filter-functions)))
+
+
+     (defun my-shell-mode-config-xterm-color ()
+       "Configure xterm-color for shell-mode."
+       ;; Disable font-locking in this buffer to improve performance
+       (font-lock-mode -1)
+       ;; Prevent font-locking from being re-enabled in this buffer
+       (make-local-variable 'font-lock-function)
+       (setq font-lock-function (lambda (_) nil))
+       (setq comint-output-filter-functions
+         (remove 'ansi-color-process-output comint-output-filter-functions))
+       (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
+       (setq-local comint-terminfo-terminal "xterm-256color"))
+   #+END_SRC
+
+   Then, we configure eshell:
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-eshell-before-prompt-xterm-color ()
+       "Preserve text properties on eshell prompts."
+       (setq xterm-color-preserve-properties t))
+
+     (defun my-eshell-init-xterm-color ()
+       "Configure xterm-color for eshell."
+       (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+       (setq eshell-output-filter-functions
+	     (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+
+     (defun my-eshell-env-xterm-color ()
+       "Setup eshell environment for xterm-color."
+       (setenv "TERM" "xterm-256color"))
+   #+END_SRC
+
+   Finally, we can import and configure the package:
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my-xterm-color-init ()
+       "First setup for xterm-color."
+       (my-remove-ansi-from-comint)
+       (my-eshell-init-xterm-color))
+
+     (use-package xterm-color
+       :init #'my-xterm-color-init
+       :hook ((shell-mode . my-shell-mode-config-xterm-color)
+	      (eshell-mode . my-eshell-env-xterm-color)
+	      (eshell-before-prompt . my-eshell-before-prompt-xterm-color)))
    #+END_SRC
 
 * Org mode
