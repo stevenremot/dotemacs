@@ -334,6 +334,13 @@
   #+END_SRC
 
 * Editing
+** French keyboard setup
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package iso-transl
+       :ensure nil)
+   #+END_SRC
+
 ** Rainbow parentheses
 
    #+BEGIN_SRC emacs-lisp
