@@ -800,16 +800,8 @@
   #+BEGIN_SRC emacs-lisp
     (use-package rust-mode
       :ensure
-      :mode ("\\.rs\\'" . rust-mode))
-  #+END_SRC
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package lsp-rust
-      :ensure
-      :after (lsp-mode rust-mode)
-      :hook (rust-mode . lsp-rust-enable)
-      :config
-      (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
+      :mode ("\\.rs\\'" . rust-mode)
+      :config (add-hook 'rust-mode-hook #'lsp))
   #+END_SRC
 
 * Vagrant
