@@ -9,6 +9,17 @@
   Here is the source of my Emacs configuration. Create the files by
   running ~org-babel-tangle~ (~C-c C-v t)~ in this file.
 
+* Emacs setup
+** Elementary
+
+   Download the tar sources, then
+
+   #+BEGIN_SRC sh :tangle no
+   ./configure --with-modules --with-x-toolkit=lucid
+   make
+   sudo make install
+   #+END_SRC
+
 * Package management
 ** Initialiaze package
 
