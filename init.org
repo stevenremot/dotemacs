@@ -823,6 +823,12 @@
 	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
   #+END_SRC
 
+* Gettext
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package po-mode)
+  #+END_SRC
+
 * Local variables
 
 # Local Variables:
