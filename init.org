@@ -599,6 +599,18 @@
       :commands company-lsp)
   #+END_SRC
 
+* DAP
+
+  #+BEGIN_SRC emacs-lisp
+	(use-package dap-mode
+	  :after lsp-mode
+	  :config
+	  (dap-mode t)
+	  (dap-ui-mode t)
+	  (require 'dap-chrome)
+	  (require 'dap-firefox))
+  #+END_SRC
+
 * Javascript
 ** Node modules support
 
@@ -678,14 +690,6 @@
 	      ("C-c y" . yaml-comment-edit-at-point)
 	      :map typescript-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)))
-   #+END_SRC
-
-** Indium
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package indium
-       :hook ((js-mode . indium-interaction-mode)
-	      (typescript-mode . indium-interaction-mode)))
    #+END_SRC
 
 * PHP
