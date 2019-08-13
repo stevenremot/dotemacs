@@ -377,6 +377,12 @@
    #+END_SRC
 
    #+RESULTS:
+** ripgrep
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package deadgrep)
+   #+END_SRC
+
 * Project management
 ** Projectile
 
