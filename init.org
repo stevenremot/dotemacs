@@ -781,6 +781,16 @@
       :ensure)
   #+END_SRC
 
+* Java
+
+  Setup lsp-java for editing Java files.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package lsp-java
+      :after lsp
+      :hook ((java-mode . lsp)))
+  #+END_SRC
+
 * Android
 ** Groovy
 
