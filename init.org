@@ -675,7 +675,7 @@
 
      (use-package nvm
        :ensure
-       :hook ((js-mode json-mode typescript-mode dired-mode magit-mode) . my-nvm-use-for))
+       :hook ((js-mode json-mode typescript-mode dired-after-readin magit-mode) . my-nvm-use-for))
    #+END_SRC
 
 ** Swagger
