@@ -852,6 +852,18 @@
     (use-package po-mode)
   #+END_SRC
 
+* Project libs
+
+  Load project libraries that are in the ~projects~ folder. These are
+  not committed as it depends on the machine.
+
+  #+BEGIN_SRC emacs-lisp
+    (let ((projects-dir (concat my-site-lisp "projects/")))
+      (message projects-dir)
+      (dolist (lib (directory-files projects-dir t "\.el$"))
+	(load-file lib)))
+  #+END_SRC
+
 * Local variables
 
 # Local Variables:
