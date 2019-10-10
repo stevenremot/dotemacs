@@ -602,13 +602,18 @@
 * DAP
 
   #+BEGIN_SRC emacs-lisp
-	(use-package dap-mode
-	  :after lsp-mode
-	  :config
-	  (dap-mode t)
-	  (dap-ui-mode t)
-	  (require 'dap-chrome)
-	  (require 'dap-firefox))
+    (use-package hydra)
+  #+END_SRC
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package dap-mode
+      :after lsp-mode
+      :config
+      (dap-mode t)
+      (dap-ui-mode t)
+      (require 'dap-chrome)
+      (require 'dap-firefox)
+      (global-set-key (kbd "C-c d") #'dap-hydra))
   #+END_SRC
 
 * Javascript
