@@ -14,17 +14,20 @@
 
 
 (use-package ivy
-  :ensure
   :init (init/setup-ivy))
 
 (use-package counsel
-  :ensure
   :after (ivy)
   :init (counsel-mode 1))
 
 (use-package swiper
-  :ensure
   :after (ivy)
   :bind (("C-s" . swiper)))
+
+(use-package ivy-posframe
+  :after (ivy)
+  :init (ivy-posframe-mode 1)
+  :custom ((ivy-posframe-display-functions-alist
+	    '((t . ivy-posframe-display-at-frame-center)))))
 
 ;;; ivy.el ends here
