@@ -261,7 +261,8 @@
 	  (page-break-lines-mode "" page-break-lines)
 	  (eldoc-mode "" eldoc)
 	  (flycheck-mode "" flycheck)
-	  (gcmh-mode "" gcmh))))
+	  (gcmh-mode "" gcmh)
+	  (ivy-posframe-mode "" ivy-posframe))))
    #+END_SRC
 
 * Main script
