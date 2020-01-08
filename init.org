@@ -265,14 +265,6 @@
    #+END_SRC
 
 * Main script
-** Inhibit package-innitialize
-   Add a commented call to ~package-initialize~ to inhibit it. We will
-   do the call by hand later.
-
-   #+BEGIN_SRC emacs-lisp
-     ; (package-initialize)
-   #+END_SRC
-
 ** Global variables
 
    These are common useful variables for getting the emacs init dir
@@ -379,6 +371,9 @@
 
 * Performances
 
+  [[https://github.com/emacsmirror/gcmh][gcmh]] minimizes the interferences of the garbage collector with the
+  user's activity. There are more details on the package's page.
+
   #+BEGIN_SRC emacs-lisp
     (use-package gcmh
       :config (gcmh-mode 1))
@@ -386,6 +381,9 @@
 
 * Editing
 ** French keyboard setup
+
+   I use an AZERTY keyboard, which requires loading ~iso-transl~ to
+   support all its keys.
 
    #+BEGIN_SRC emacs-lisp
      (use-package iso-transl
@@ -405,30 +403,19 @@
    #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c i") #'imenu)
    #+END_SRC
-** neotree
+** Treemacs
 
-   Package for seeing a file hierarchy as a file tree.
-
-   In order for our selected theme to work, we have to load ~all-the-icons~;
+   [[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a nice tree layout file explorer for Emacs.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package all-the-icons
-       :ensure)
+     (use-package treemacs)
    #+END_SRC
 
-   Then we can setup neotree with the right theme.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package neotree
-       :ensure
-       :custom
-       (neo-theme 'icons)
-       ; Try to select the current file at opening
-       (neo-smart-open t))
-   #+END_SRC
-
-   #+RESULTS:
 ** ripgrep
+
+   Ripgrep is my preferred way to search for occurences in a project
+   (just after LSP). It is fast, and [[https://github.com/Wilfred/deadgrep][deadgrep]] offers a really nice
+   interface for Emacs.
 
    #+BEGIN_SRC emacs-lisp
      (use-package deadgrep)
@@ -767,7 +754,6 @@
        :hook ((php-mode . lsp)))
    #+END_SRC
 * Docker
-
 ** dockerfile-mode
 
    #+BEGIN_SRC emacs-lisp
