@@ -10,6 +10,10 @@
   running ~org-babel-tangle~ (~C-c C-v t)~ in this file.
 
 * Emacs setup
+
+  In this section, I keep track of the way I install Emacs on various
+  environments.
+
 ** Elementary
 
    Download the tar sources, then
@@ -21,6 +25,7 @@
    #+END_SRC
 
 * Package management
+
 ** Initialiaze package
 
    I want to download packages from [[https://melpa.org/][MELPA]] and [[http://stable.melpa.org/#/][MELPA stable]] too
@@ -95,16 +100,6 @@
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
    #+END_SRC
 
-** Challenger deep theme
-   :PROPERTIES:
-   :header-args:emacs-lisp: :tangle no
-   :END:
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package challenger-deep-theme
-       :ensure t
-       :config (load-theme 'challenger-deep))
-   #+END_SRC
 ** Moe theme
 
    #+BEGIN_SRC emacs-lisp
@@ -247,6 +242,10 @@
 
 ** Minor modes cleaning
 
+   [[https://github.com/alezost/dim.el][dim]] allows renaming the major / minor modes in the mode-line. I use
+   it mainly to remove minor mode names that generates useless noise
+   in my mode-line.
+
    #+BEGIN_SRC emacs-lisp
      (use-package dim
        :ensure
@@ -276,7 +275,7 @@
 
 ** Global variables
 
-   These are commonn useful variables for getting the emacs init dir
+   These are common useful variables for getting the emacs init dir
    and the path to my personal local packages.
 
    #+BEGIN_SRC emacs-lisp
@@ -292,7 +291,7 @@
 
 ** Custom configuration
 
-   Move the custom configurationn file outside of the init file to
+   Move the custom configuration file outside of the init file to
    avoid blending custom configuration with the init sources.
 
    #+BEGIN_SRC emacs-lisp
@@ -302,12 +301,12 @@
 
 ** Load the initialization modules
 
-   Load the sources present in the init/ directory:
+   Load the sources present in the init/ directory. These are sources
+   I didn't port to my org setup yet.
 
    #+NAME: init-modules
    - exec-path-from-shell
    - prompt
-   - ivy
    - ag
    - editing
    - git
@@ -327,6 +326,57 @@
 
      (mapc #'my-load-init-file modules)
    #+END_SRC
+* General UX
+** Ivy
+
+   I use [[https://github.com/abo-abo/swiper][ivy]] instead of the basic read interface, because it has a
+   good matching system and is lighter than helm.
+
+   Ivy comes with counsel and swiper, that implements a lot of common
+   Emacs commands with the Ivy interface.
+
+   ~ivy-use-virtual-buffers~ also includes recent files and bookmarks
+   in counsel's buffer list.
+
+   ~enable-recursive-minibuffers~ is not directly related to ivy, but
+   I set it up here as most of my interactions with the minibuffer
+   goes through ivy. It allows opening a new minibuffer while a
+   minibuffer is already opened, which I used at my job for finding
+   information on my current task while creating branches, for
+   example.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun init/setup-ivy ()
+       "Setup the ivy package."
+       (ivy-mode 1)
+       (setq ivy-use-virtual-buffers t)
+       (setq enable-recursive-minibuffers t))
+
+     (use-package ivy
+       :init (init/setup-ivy))
+
+     (use-package counsel
+       :after (ivy)
+       :init (counsel-mode 1))
+
+     (use-package swiper
+       :after (ivy)
+       :bind (("C-s" . swiper)))
+   #+END_SRC
+
+   [[https://github.com/tumashu/ivy-posframe][ivy-posframe]] mitigates one of my big pain points with the
+   minibuffer: it is used for both inputs and messages. ivy-posframe
+   displays the ivy query GUI in a new frame that pops over your
+   screen. It is more visible and doesn't conflict with messages.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ivy-posframe
+       :after (ivy)
+       :init (ivy-posframe-mode 1)
+       :custom ((ivy-posframe-display-functions-alist
+		 '((t . ivy-posframe-display-at-frame-center)))))
+   #+END_SRC
+
 * Performances
 
   #+BEGIN_SRC emacs-lisp
