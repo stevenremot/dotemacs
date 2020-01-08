@@ -104,12 +104,13 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package moe-theme
-       :ensure t
        :config
        (moe-dark)
        (set-face-attribute 'default nil :height 140 :family "Source code pro")
        (with-eval-after-load 'ivy
-	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
+	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke"))
+       (with-eval-after-load 'ivy-posframe
+	      (set-face-attribute 'ivy-posframe nil :background "gray15")))
    #+END_SRC
 
 ** Mode line flycheck reporting
