@@ -299,7 +299,6 @@
    #+NAME: init-modules
    - exec-path-from-shell
    - prompt
-   - ag
    - editing
    - git
    - auto-completion
