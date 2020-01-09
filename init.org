@@ -622,7 +622,8 @@
     (use-package lsp-mode
       :ensure
       :commands lsp
-      :init (setq lsp-prefer-flymake nil))
+      :init (setq lsp-prefer-flymake nil)
+      :bind (("C-c SPC" . lsp-execute-code-action)))
   #+END_SRC
 
   Setup ~lsp-ui~ and ~company~:
