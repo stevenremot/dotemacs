@@ -835,6 +835,14 @@
   #+END_SRC
 
 * Android
+** Helpers
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package adb
+       :ensure nil
+       :commands (avd-start-emulator))
+   #+END_SRC
+
 ** Groovy
 
    This is useful for editing gradle files.
