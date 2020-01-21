@@ -951,6 +951,8 @@
    For having a list of the Gmail folders, you can comment the
    ~folderfilter~ line and run ~offlineimap --dry-run~.
 
+   In the end, run on Mac OS ~brew services start offlineimap~ to get it to launch at restart.
+
 ** Notmuch
 
    Install and configure notmuch with:
