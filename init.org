@@ -938,6 +938,9 @@
      [Account Gmail]
      localrepository = Local
      remoterepository = Remote
+     autorefresh = 1
+     synclabels = yes
+     postsynchook = ~/.config/offlineimap/postsync.sh
 
      [Repository Local]
      type = Maildir
@@ -954,6 +957,13 @@
 
      maxage = 200
      folderfilter = lambda folder: folder in ['INBOX', 'Sent']
+   #+END_SRC
+
+   Here is my ~postsync.sh~ hook:
+
+   #+BEGIN_SRC sh
+     #!/bin/sh
+     notmuch new
    #+END_SRC
 
    For having a list of the Gmail folders, you can comment the
