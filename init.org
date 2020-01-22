@@ -920,15 +920,12 @@
   I use notmuch + offlineimap for reading my mails.
 
 ** Offlineimap
-   :PROPERTIES:
-   :tangle:   no
-   :END:
 
    On Mac, download it with: ~brew install offlineimap~.
 
    Here is an example offlineimap config for GMail to put in ~~/.offlineimaprc~:
 
-   #+BEGIN_SRC conf
+   #+BEGIN_SRC conf :tangle no
      # -*- mode: conf -*-
 
      [general]
@@ -961,7 +958,7 @@
 
    Here is my ~postsync.sh~ hook:
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle no
      #!/bin/sh
      notmuch new
    #+END_SRC
@@ -989,7 +986,8 @@
    In the end, I use ~notmuch.el~:
 
    #+BEGIN_SRC emacs-lisp
-     (use-package notmuch)
+     (use-package notmuch
+       :bind (("C-c m" . notmuch)))
    #+END_SRC
 
 * Local variables
