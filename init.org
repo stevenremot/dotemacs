@@ -28,13 +28,12 @@
 
 ** Initialiaze package
 
-   I want to download packages from [[https://melpa.org/][MELPA]] and [[http://stable.melpa.org/#/][MELPA stable]] too
+   I want to download packages from [[https://melpa.org/][MELPA]] too
 
    #+BEGIN_SRC emacs-lisp
      (require 'package)
 
      (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t)
-     (add-to-list 'package-archives (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
    #+END_SRC
 
    The only remaining thing to do is initializing the package manager
