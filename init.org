@@ -24,6 +24,19 @@
    sudo make install
    #+END_SRC
 
+** Mac OS
+
+   #+BEGIN_SRC sh :tangle no
+     # brew install emacs -- --with-gnutls --with-librsvg --with-cocoa --with-imagemagick@6 --with-json --HEAD
+     brew install libxml2 gnutls texinfo
+     export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
+     git clone -b master git://git.sv.gnu.org/emacs.git
+     cd emacs
+     sh autogen.sh
+     ./configure --with-gnutls --with-librsvg --with-cocoa --with-modules --with-json
+     make
+   #+END_SRC
+
 * Package management
 
 ** Initialiaze package
@@ -581,7 +594,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package org-clock
        :ensure nil
-       :bind (("C-c o j" . org-clock-jump-to-current-clock)))
+       :bind (("C-c o j" . org-clock-goto)))
    #+END_SRC
 
 ** Capture
