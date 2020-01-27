@@ -261,7 +261,9 @@
 	  (eldoc-mode "" eldoc)
 	  (flycheck-mode "" flycheck)
 	  (gcmh-mode "" gcmh)
-	  (ivy-posframe-mode "" ivy-posframe))))
+	  (ivy-posframe-mode "" ivy-posframe)
+	  (rainbow-mode "" rainbow-mode)
+	  (prettier-js-mode "" prettier-js))))
    #+END_SRC
 
 * Main script
