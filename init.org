@@ -211,10 +211,11 @@
 								(powerline-current-separator)
 								(cdr powerline-default-separator-dir))))
 			       (lhs (list (powerline-raw "%*" face0 'l)
-					  (when powerline-display-buffer-size
-					    (powerline-buffer-size face0 'l))
-					  (when powerline-display-mule-info
-					    (powerline-raw mode-line-mule-info face0 'l))
+					  (powerline-raw (thread-last (tab-bar-tabs)
+							   (assq 'current-tab)
+							   (assq 'name)
+							   cdr)
+							 face0 'l)
 					  (powerline-buffer-id `(mode-line-buffer-id ,face0) 'l)
 					  (powerline-raw " " face0)
 					  (funcall separator-left face0 face1)
