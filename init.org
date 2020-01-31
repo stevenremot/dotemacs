@@ -19,7 +19,7 @@
    Download the tar sources, then
 
    #+BEGIN_SRC sh :tangle no
-   ./configure --with-modules --with-x-toolkit=lucid
+   ./configure --with-modules --with-x-toolkit=lucid --with-xwidgets
    make
    sudo make install
    #+END_SRC
@@ -27,13 +27,12 @@
 ** Mac OS
 
    #+BEGIN_SRC sh :tangle no
-     # brew install emacs -- --with-gnutls --with-librsvg --with-cocoa --with-imagemagick@6 --with-json --HEAD
      brew install libxml2 gnutls texinfo
      export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
      git clone -b master git://git.sv.gnu.org/emacs.git
      cd emacs
      sh autogen.sh
-     ./configure --with-gnutls --with-librsvg --with-cocoa --with-modules --with-json
+     ./configure --with-gnutls --with-librsvg --with-cocoa --with-modules
      make
    #+END_SRC
 
