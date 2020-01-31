@@ -120,9 +120,7 @@
        (moe-dark)
        (set-face-attribute 'default nil :height 140 :family "Source code pro")
        (with-eval-after-load 'ivy
-	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke"))
-       (with-eval-after-load 'ivy-posframe
-	      (set-face-attribute 'ivy-posframe nil :background "gray15")))
+	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
    #+END_SRC
 
 ** Mode line flycheck reporting
@@ -275,7 +273,6 @@
 	  (eldoc-mode "" eldoc)
 	  (flycheck-mode "" flycheck)
 	  (gcmh-mode "" gcmh)
-	  (ivy-posframe-mode "" ivy-posframe)
 	  (rainbow-mode "" rainbow-mode)
 	  (prettier-js-mode "" prettier-js))))
    #+END_SRC
@@ -369,19 +366,6 @@
      (use-package swiper
        :after (ivy)
        :bind (("C-s" . swiper)))
-   #+END_SRC
-
-   [[https://github.com/tumashu/ivy-posframe][ivy-posframe]] mitigates one of my big pain points with the
-   minibuffer: it is used for both inputs and messages. ivy-posframe
-   displays the ivy query GUI in a new frame that pops over your
-   screen. It is more visible and doesn't conflict with messages.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package ivy-posframe
-       :after (ivy)
-       :init (ivy-posframe-mode 1)
-       :custom ((ivy-posframe-display-functions-alist
-		 '((t . ivy-posframe-display-at-frame-center)))))
    #+END_SRC
 
 * Performances
