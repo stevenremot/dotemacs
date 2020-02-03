@@ -984,8 +984,14 @@
    In the end, I use ~notmuch.el~:
 
    #+BEGIN_SRC emacs-lisp
+     (fset 'my-notmuch-direct-archive
+	(kmacro-lambda-form [?- ?u ?n ?r ?e ?a ?d ?  ?- ?i ?n ?b ?o ?x return ?\C-x ?\( ?- ?u ?n ?r ?e ?a ?d ?  ?- ?i ?n ?b ?o ?x return ?\C-n] 0 "%d"))
+
+
      (use-package notmuch
-       :bind (("C-c m" . notmuch)))
+       :bind (("C-c m" . notmuch)
+	      :map notmuch-search-mode-map
+	      ("DEL" . my-notmuch-direct-archive)))
    #+END_SRC
 
 * Local variables
