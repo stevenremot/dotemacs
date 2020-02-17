@@ -994,6 +994,26 @@
 	      ("DEL" . my-notmuch-direct-archive)))
    #+END_SRC
 
+* C++
+** LSP
+
+   Setup lSP for C++.
+
+   In order to be able to use it, clangd must be installed:
+
+   #+begin_src sh :tangle no
+     sudo apt install clangd-9
+   #+end_src
+
+   The ~lsp-clients-clangd-executable~ variable may have to be changed
+   from ~"clangd"~ to ~"clangd-9"~.
+
+   #+begin_src emacs-lisp
+     (use-package cc-mode
+       :hook ((c++-mode . lsp)))
+   #+end_src
+
+
 * Local variables
 
 # Local Variables:
