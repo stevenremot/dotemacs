@@ -1009,8 +1009,15 @@
    from ~"clangd"~ to ~"clangd-9"~.
 
    #+begin_src emacs-lisp
+     (defun my-configure-c++-checkers ()
+       (flycheck-add-mode 'lsp 'c++-mode)
+       (lsp))
+
      (use-package cc-mode
-       :hook ((c++-mode . lsp)))
+       :hook ((c++-mode . my-configure-c++-checkers))
+       :init
+       (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+       (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc))
    #+end_src
 
 
