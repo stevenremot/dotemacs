@@ -695,7 +695,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
        :hook (typescript-mode . lsp)
-       :init (eval-after-load 'lsp-ui '(flycheck-add-next-checker 'lsp-ui 'javascript-eslint)))
+       :init (eval-after-load 'lsp-ui '(flycheck-add-next-checker 'lsp 'javascript-eslint)))
    #+END_SRC
 
 ** JSON
