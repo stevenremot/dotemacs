@@ -31,7 +31,7 @@ DEVICE-NAME is the name of the virtual device to use."
   (interactive (list (completing-read "Device: "
 				      (mapcar (lambda (device) (plist-get device :name))
 					      (avd-list-devices)))))
-  (async-shell-command (format "zsh -c \"cd $ANDROID_HOME/tools && emulator -avd %s\"" device-name) " *avd*"))
+  (async-shell-command (format "cd $ANDROID_HOME/tools && emulator -avd %s" device-name) " *avd*"))
 
 (provide 'adb)
 
