@@ -113,7 +113,7 @@
 
 ** Moe theme
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package moe-theme
        :config
        (moe-dark)
@@ -121,6 +121,13 @@
        (with-eval-after-load 'ivy
 	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
    #+END_SRC
+
+** Gruvbox
+
+   #+begin_src emacs-lisp
+     (use-package gruvbox-theme
+       :config (load-theme 'gruvbox-dark-soft))
+   #+end_src
 
 ** Mode line flycheck reporting
 
