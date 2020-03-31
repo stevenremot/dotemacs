@@ -99,6 +99,16 @@
        :commands (elpa-backup-do elpa-backup-rollback))
    #+END_SRC
 
+** Feather
+
+   Feather is a packae that augments ~package-install~ do do it asynchronously.
+
+   #+begin_src emacs-lisp
+     (use-package feather
+       :after (package)
+       :init (feather-mode))
+   #+end_src
+
 * Theme
 ** Default settings
 
@@ -282,6 +292,16 @@
 	  (rainbow-mode "" rainbow-mode)
 	  (prettier-js-mode "" prettier-js))))
    #+END_SRC
+
+** Emojis
+
+   ~emojify~ displays ascii emojis using images. This is both prettier
+   and faster to render.
+
+   #+begin_src emacs-lisp
+     (use-package emojify
+       :init (global-emojify-mode))
+   #+end_src
 
 * Main script
 ** Global variables
