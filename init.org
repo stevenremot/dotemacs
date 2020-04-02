@@ -136,7 +136,7 @@
 
    #+begin_src emacs-lisp
      (use-package gruvbox-theme
-       :config (load-theme 'gruvbox-dark-soft))
+       :config (load-theme 'gruvbox-dark-soft :no-confirm))
    #+end_src
 
 ** Mode line flycheck reporting
