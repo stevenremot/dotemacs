@@ -25,6 +25,10 @@ tutorial/
 forge-database.sqlite
 transient
 .mc-lists.el
+.dap-breakpoints
+.extension/
+emojis/
+thumbs/
 
 # Generated scripts
 init.el
