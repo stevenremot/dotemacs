@@ -657,7 +657,9 @@
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-ui
       :ensure
-      :commands lsp-ui-mode)
+      :commands lsp-ui-mode
+      :bind (("M-." . lsp-ui-peek-find-definitions)
+	     ("M-?" . lsp-ui-peek-find-references)))
 
     (use-package company-lsp
       :ensure
