@@ -290,7 +290,8 @@
 	  (flycheck-mode "" flycheck)
 	  (gcmh-mode "" gcmh)
 	  (rainbow-mode "" rainbow-mode)
-	  (prettier-js-mode "" prettier-js))))
+	  (prettier-js-mode "" prettier-js)
+	  (feather-mode "" feather))))
    #+END_SRC
 
 ** Emojis
