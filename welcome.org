@@ -1,0 +1,89 @@
+
+                               *Welcome back*!
+
+    ----- *Yesterday's report -----*
+
+#+BEGIN: clocktable :scope agenda :maxlevel 2 :block today-1 :link t :hidefiles t
+#+CAPTION: Clock summary at [2020-05-16 sam. 21:19], for vendredi, mai 15, 2020.
+  #+END:
+
+    ----- *Recent projects -----*
+
+#+call: projects-template()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Page setup*
+
+#+name: init
+#+begin_src emacs-lisp
+  (require 'org-clock)
+
+  ;; Init clocktable
+
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward "#+BEGIN: clocktable")
+    (beginning-of-line)
+    (let* ((today (decode-time (current-time)))
+	   (day-of-week (org-day-of-week (nth 3 today) (nth 4 today) (nth 5 today)))
+	   (last-working-day (if (or (= day-of-week 1)) 3 1)))
+      (search-forward "today-")
+      (delete-char 1)
+      (insert (number-to-string last-working-day))))
+
+  (org-update-all-dblocks)
+
+  ;; Init projects
+
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward "#+call: projects-template")
+    (org-babel-execute-src-block nil (org-babel-lob-get-info)))
+
+  ;; Finalization
+
+  (save-buffer)
+#+end_src
+
+#+RESULTS: init
+
+#+name: projects-template
+#+begin_src emacs-lisp :results list
+  (cl-loop for proj in (sort (append projectile-known-projects '()) 'string>)
+	   collect (format "[[file+emacs:%s][%s]]" proj proj))
+#+end_src
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# eval: (save-excursion (org-babel-goto-named-src-block "init")
+#   (org-babel-execute-src-block))
+# End:

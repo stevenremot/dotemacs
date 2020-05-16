@@ -358,6 +358,14 @@
      (mapc #'my-load-init-file modules)
    #+END_SRC
 * General UX
+** Startup screen
+
+   Use my personal startup file instead of the default one.
+
+   #+begin_src emacs-lisp
+     (setq initial-buffer-choice (expand-file-name "welcome.org" my-init-dir))
+   #+end_src
+
 ** Ivy
 
    I use [[https://github.com/abo-abo/swiper][ivy]] instead of the basic read interface, because it has a
@@ -579,6 +587,9 @@
 
 	;; Automatically add syntax coloration on org src blocks
 	(setq org-src-fontify-natively t)
+
+	(setq org-hide-emphasis-markers t)
+
 	(org-babel-do-load-languages 'org-babel-load-languages
 				     '((shell . t)
 				       (sql . t))))
