@@ -29,6 +29,7 @@ transient
 .extension/
 emojis/
 thumbs/
+lsp-cache/
 
 # Generated scripts
 init.el
