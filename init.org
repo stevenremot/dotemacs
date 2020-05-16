@@ -733,11 +733,18 @@
        :config (flycheck-add-mode 'javascript-eslint 'typescript-mode))
    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
-       :hook (typescript-mode . lsp)
-       :init (eval-after-load 'lsp-ui '(flycheck-add-next-checker 'lsp 'javascript-eslint)))
-   #+END_SRC
+   LSP mode is disabled because it is slow as hell for big typescript
+   projects. Use tide instead.
+
+   #+begin_src emacs-lisp
+     (use-package tide
+       :after (typescript-mode company flycheck)
+       :hook ((typescript-mode . tide-setup)
+	      (typescript-mode . tide-hl-identifier-mode))
+       :bind (:map typescript-mode-map
+		   ("C-c SPC" . tide-fix)
+		   ("M-?" . tide-references)))
+   #+end_src
 
 ** JSON
 
