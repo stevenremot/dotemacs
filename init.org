@@ -655,10 +655,6 @@
       :commands lsp-ui-mode
       :bind (("M-." . lsp-ui-peek-find-definitions)
 	     ("M-?" . lsp-ui-peek-find-references)))
-
-    (use-package company-lsp
-      :ensure
-      :commands company-lsp)
   #+END_SRC
 
 * DAP
@@ -944,87 +940,6 @@
       (dolist (lib (directory-files projects-dir t "\.el$"))
 	(load-file lib)))
   #+END_SRC
-
-* Mails
-
-  I use notmuch + offlineimap for reading my mails.
-
-** Offlineimap
-
-   On Mac, download it with: ~brew install offlineimap~.
-
-   Here is an example offlineimap config for GMail to put in ~~/.offlineimaprc~:
-
-   #+BEGIN_SRC conf :tangle no
-     # -*- mode: conf -*-
-
-     [general]
-     accounts = Gmail
-     maxsyncaccounts = 3
-
-     [Account Gmail]
-     localrepository = Local
-     remoterepository = Remote
-     autorefresh = 1
-     synclabels = yes
-     postsynchook = ~/.config/offlineimap/postsync.sh
-
-     [Repository Local]
-     type = Maildir
-     localfolders = ~/Maildir
-
-     [Repository Remote]
-     type = IMAP
-     remotehost = imap.gmail.com
-     remoteuser = <your email>
-     remotepass = <your app password>
-     ssl = yes
-     sslcacertfile = /etc/ssl/cert.pem
-     maxconnections = 1
-
-     maxage = 200
-     folderfilter = lambda folder: folder in ['INBOX', 'Sent']
-   #+END_SRC
-
-   Here is my ~postsync.sh~ hook:
-
-   #+BEGIN_SRC sh :tangle no
-     #!/bin/sh
-     notmuch new
-   #+END_SRC
-
-   For having a list of the Gmail folders, you can comment the
-   ~folderfilter~ line and run ~offlineimap --dry-run~.
-
-   In the end, run on Mac OS ~brew services start offlineimap~ to get it to launch at restart.
-
-** Notmuch
-
-   Install and configure notmuch with:
-
-   #+BEGIN_SRC sh :tangle no
-     # On Mac OS
-     brew install notmuch
-
-     # Creates a basic configuration
-     notmuch setup
-
-     # Performs the first index
-     notmuch new
-   #+END_SRC
-
-   In the end, I use ~notmuch.el~:
-
-   #+BEGIN_SRC emacs-lisp
-     (fset 'my-notmuch-direct-archive
-	(kmacro-lambda-form [?- ?u ?n ?r ?e ?a ?d ?  ?- ?i ?n ?b ?o ?x return ?\C-x ?\( ?- ?u ?n ?r ?e ?a ?d ?  ?- ?i ?n ?b ?o ?x return ?\C-n] 0 "%d"))
-
-
-     (use-package notmuch
-       :bind (("C-c m" . notmuch)
-	      :map notmuch-search-mode-map
-	      ("DEL" . my-notmuch-direct-archive)))
-   #+END_SRC
 
 * C++
 ** LSP
