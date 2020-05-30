@@ -118,18 +118,9 @@
      (tool-bar-mode 0)
      (scroll-bar-mode 0)
      (menu-bar-mode 0)
+     (global-linum-mode 1)
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
-   #+END_SRC
-
-** Moe theme
-
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (use-package moe-theme
-       :config
-       (moe-dark)
-       (set-face-attribute 'default nil :height 140 :family "Source code pro")
-       (with-eval-after-load 'ivy
-	 (set-face-attribute 'ivy-current-match nil :foreground "white smoke")))
+     (set-face-attribute 'linum nil :background nil)
    #+END_SRC
 
 ** Gruvbox
@@ -139,134 +130,127 @@
        :config (load-theme 'gruvbox-dark-soft :no-confirm))
    #+end_src
 
-** Mode line flycheck reporting
+** Mode line
+*** Theme
 
-   This is a simple widget to show flycheck errors and warnings in the
-   mode line.
+    Make the mode line the same colors than the whole buffer.
 
-   #+BEGIN_SRC emacs-lisp
-     (defface my-flycheck-mode-line-font
-       '((t :foreground "white" :height 120))
-       "Base face for showing flycheck errors adn warnings in the mode line."
-       :group 'mode-line)
+    #+begin_src emacs-lisp
+      (set-face-attribute 'mode-line nil :background nil :foreground "white")
+      (set-face-attribute 'mode-line-inactive nil :background nil :foreground "dim gray")
+    #+end_src
 
-     (defface my-flycheck-mode-line-error-disabled
-       '((t :inherit my-flycheck-mode-line-font :background "dark red"))
-       "Face for showing no flycheck errors in the mode line."
-       :group 'mode-line)
+*** Mode line flycheck reporting
 
-     (defface my-flycheck-mode-line-error
-       '((t :inherit my-flycheck-mode-line-font :background "red"))
-       "Face for showing flycheck errors in the mode line."
-       :group 'mode-line)
+    This is a simple widget to show flycheck errors and warnings in the
+    mode line.
 
-     (defface my-flycheck-mode-line-warning-disabled
-       '((t :inherit my-flycheck-mode-line-font :background "OrangeRed4" ))
-       "Face for showing no flycheck warnings in the mode line."
-       :group 'mode-line)
+    #+BEGIN_SRC emacs-lisp
+      (defface my-flycheck-mode-line-font
+	'((t :height 120 :weight bold))
+	"Base face for showing flycheck errors adn warnings in the mode line."
+	:group 'mode-line)
 
-     (defface my-flycheck-mode-line-warning
-       '((t :inherit my-flycheck-mode-line-font :background "OrangeRed1" ))
-       "Face for showing flycheck warnings in the mode line."
-       :group 'mode-line)
+      (defface my-flycheck-mode-line-error-disabled
+	'((t :inherit my-flycheck-mode-line-font :foreground "red3"))
+	"Face for showing no flycheck errors in the mode line."
+	:group 'mode-line)
+
+      (defface my-flycheck-mode-line-error
+	'((t :inherit my-flycheck-mode-line-font :foreground "red1"))
+	"Face for showing flycheck errors in the mode line."
+	:group 'mode-line)
+
+      (defface my-flycheck-mode-line-warning-disabled
+	'((t :inherit my-flycheck-mode-line-font :foreground "orange3" ))
+	"Face for showing no flycheck warnings in the mode line."
+	:group 'mode-line)
+
+      (defface my-flycheck-mode-line-warning
+	'((t :inherit my-flycheck-mode-line-font :foreground "orange1" ))
+	"Face for showing flycheck warnings in the mode line."
+	:group 'mode-line)
 
 
 
-     (defun my-flycheck-get-error-count ()
-       "Return the number of flycheck errors by level."
-       (interactive)
-       (let ((errors flycheck-current-errors)
-	     (count-by-level '()))
-	 (cl-loop for error in errors
-		  for level = (flycheck-error-level error)
-		  for new-value = (1+ (or (plist-get count-by-level level) 0))
-		  do
-		  (setq count-by-level
-			(plist-put count-by-level level new-value))
-		  finally return count-by-level)))
+      (defun my-flycheck-get-error-count ()
+	"Return the number of flycheck errors by level."
+	(interactive)
+	(let ((errors flycheck-current-errors)
+	      (count-by-level '()))
+	  (cl-loop for error in errors
+		   for level = (flycheck-error-level error)
+		   for new-value = (1+ (or (plist-get count-by-level level) 0))
+		   do
+		   (setq count-by-level
+			 (plist-put count-by-level level new-value))
+		   finally return count-by-level)))
 
-     (defun my-flycheck-mode-line ()
-       "Create a mode line element to display flycheck errors."
-       (let* ((error-count (my-flycheck-get-error-count))
-	      (errors (or (plist-get error-count 'error) 0))
-	      (warnings (or (plist-get error-count 'warning) 0)))
-	 (concat
-	  (propertize (format " ❎ %d " errors)
-		      'face (if (= 0 errors)
-				'my-flycheck-mode-line-error-disabled
-			      'my-flycheck-mode-line-error))
-	  (propertize (format " ⚠ %d " warnings)
-		      'face(if (= 0 warnings)
-				'my-flycheck-mode-line-warning-disabled
-			      'my-flycheck-mode-line-warning)))))
-   #+END_SRC
+      (defun my-flycheck-mode-line ()
+	"Create a mode line element to display flycheck errors."
+	(let* ((error-count (my-flycheck-get-error-count))
+	       (errors (or (plist-get error-count 'error) 0))
+	       (warnings (or (plist-get error-count 'warning) 0)))
+	  (concat
+	   (propertize (format " ❎ %d " errors)
+		       'face (if (= 0 errors)
+				 'my-flycheck-mode-line-error-disabled
+			       'my-flycheck-mode-line-error))
+	   (propertize (format " ⚠ %d " warnings)
+		       'face(if (= 0 warnings)
+				 'my-flycheck-mode-line-warning-disabled
+			       'my-flycheck-mode-line-warning)))))
+    #+END_SRC
 
-** Powerline
+*** Powerline
 
-   I am using my own theme forked from ~powerline-default-theme~.
+    I am using my own theme forked from ~powerline-default-theme~.
 
-   #+BEGIN_SRC emacs-lisp
-     (defun my-powerline-theme ()
-       "Setup the default mode-line."
-       (interactive)
-       (setq-default mode-line-format
-		     '("%e"
-		       (:eval
-			(let* ((active (powerline-selected-window-active))
-			       (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
-			       (mode-line (if active 'mode-line 'mode-line-inactive))
-			       (face0 (if active 'powerline-active0 'powerline-inactive0))
-			       (face1 (if active 'powerline-active1 'powerline-inactive1))
-			       (face2 (if active 'powerline-active2 'powerline-inactive2))
-			       (separator-left (intern (format "powerline-%s-%s"
-							       (powerline-current-separator)
-							       (car powerline-default-separator-dir))))
-			       (separator-right (intern (format "powerline-%s-%s"
-								(powerline-current-separator)
-								(cdr powerline-default-separator-dir))))
-			       (lhs (list (powerline-raw "%*" face0 'l)
-					  (powerline-raw (thread-last (tab-bar-tabs)
-							   (assq 'current-tab)
-							   (assq 'name)
-							   cdr)
-							 face0 'l)
-					  (powerline-buffer-id `(mode-line-buffer-id ,face0) 'l)
-					  (powerline-raw " " face0)
-					  (funcall separator-left face0 face1)
-					  (powerline-major-mode face1 'l)
-					  (powerline-process face1)
-					  (powerline-minor-modes face1 'l)
-					  (powerline-narrow face1 'l)
-					  (powerline-raw " " face1)
-					  (funcall separator-left face1 face2)
-					  (my-flycheck-mode-line)
-					  (powerline-vc face2 'r)
-					  ))
-			       (rhs (list (powerline-raw global-mode-string face2 'r)
-					  (funcall separator-right face2 face1)
-					  (unless window-system
-					    (powerline-raw (char-to-string #xe0a1) face1 'l))
-					  (powerline-raw "%4l" face1 'l)
-					  (powerline-raw ":" face1 'l)
-					  (powerline-raw "%3c" face1 'r)
-					  (funcall separator-right face1 face0)
-					  (powerline-raw " " face0)
-					  (powerline-raw "%6p" face0 'r)
-					  (powerline-fill face0 0)
-					  )))
-			  (concat (powerline-render lhs)
-				  (powerline-fill face2 (powerline-width rhs))
-				  (powerline-render rhs)))))))
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (defun my-powerline-theme ()
+	"Setup the default mode-line."
+	(interactive)
+	(setq-default
+	 mode-line-format
+	 '("%e"
+	   (:eval
+	    (let* ((active (powerline-selected-window-active))
+		   (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
+		   (mode-line (if active 'mode-line 'mode-line-inactive))
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package powerline
-       :ensure
-       :init
-       (setq powerline-default-separator 'bar
-	     powerline-display-hud nil)
-       (my-powerline-theme))
-   #+END_SRC
+		   (lhs (list (powerline-raw "%*" mode-line 'l)
+			      (when (> (length (tab-bar-tabs)) 1)
+				(powerline-raw (thread-last (tab-bar-tabs)
+						 (assq 'current-tab)
+						 (assq 'name)
+						 cdr)
+					       mode-line 'l))
+			      (powerline-buffer-id `(mode-line-buffer-id ,mode-line) 'l)
+			      (powerline-raw " " mode-line)
+			      (powerline-process mode-line)
+			      (powerline-narrow mode-line 'l)
+			      (powerline-raw " " mode-line)
+			      ))
+		   (rhs (list
+			 (my-flycheck-mode-line)
+			 (powerline-vc mode-line 'r)
+			 (unless window-system
+			   (powerline-raw (char-to-string #xe0a1) mode-line 'l))
+			 )))
+
+	      (concat (powerline-render lhs)
+		      (powerline-fill mode-line (powerline-width rhs))
+		      (powerline-render rhs)))))))
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package powerline
+	:ensure
+	:init
+	(setq powerline-default-separator 'bar
+	      powerline-display-hud nil)
+	(my-powerline-theme))
+    #+END_SRC
 
 ** Minor modes cleaning
 
