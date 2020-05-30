@@ -118,9 +118,8 @@
      (tool-bar-mode 0)
      (scroll-bar-mode 0)
      (menu-bar-mode 0)
-     (global-linum-mode 1)
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
-     (set-face-attribute 'linum nil :background nil)
+     (set-face-attribute 'linum nil :background nil :inherit 'default)
    #+END_SRC
 
 ** Gruvbox
