@@ -232,8 +232,8 @@
 			      (powerline-raw " " mode-line)
 			      ))
 		   (rhs (list
-			 (my-flycheck-mode-line)
 			 (powerline-vc mode-line 'r)
+			 (my-flycheck-mode-line)
 			 (unless window-system
 			   (powerline-raw (char-to-string #xe0a1) mode-line 'l))
 			 )))
