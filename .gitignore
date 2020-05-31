@@ -33,3 +33,4 @@ lsp-cache/
 
 # Generated scripts
 init.el
+init.elc

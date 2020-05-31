@@ -16,6 +16,7 @@
   :config (init/setup-elisp-mode))
 
 (use-package paredit
+  :if (locate-library "paredit")
   :hook (emacs-lisp-mode . paredit-mode)
   :ensure)
 

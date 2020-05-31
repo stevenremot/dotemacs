@@ -6,11 +6,10 @@
 (require 'use-package)
 
 (use-package page-break-lines
-  :ensure
   :init (global-page-break-lines-mode))
 
 (use-package editorconfig
-  :ensure
+  :if (locate-library "editorconfig")
   :hook (prog-mode . editorconfig-mode))
 
 

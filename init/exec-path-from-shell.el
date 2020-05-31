@@ -7,6 +7,6 @@
 
 (use-package exec-path-from-shell
   :ensure
-  :init (exec-path-from-shell-initialize))
+  :config (exec-path-from-shell-initialize))
 
 ;;; exec-path-from-shell.el ends here

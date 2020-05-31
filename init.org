@@ -62,16 +62,19 @@
    #+BEGIN_SRC emacs-lisp
      (let ((packages-to-install '(use-package quelpa-use-package)))
        (dolist (package packages-to-install)
-         (unless (package-installed-p package)
-           (package-refresh-contents)
-           (package-install package))))
+	 (unless (package-installed-p package)
+	   (package-refresh-contents)
+	   (package-install package))))
+
+     (eval-when-compile
+       (require 'use-package))
    #+END_SRC
 
    Always install a package declare with ~use-package~ if it's not
    installed:
 
    #+BEGIN_SRC emacs-lisp
-   (setq use-package-always-ensure t)
+     (setq use-package-always-ensure t)
    #+END_SRC
 
    Additionally, we will require ~quelpa-use-package~ right now so
@@ -106,7 +109,7 @@
    #+begin_src emacs-lisp
      (use-package feather
        :after (package)
-       :init (feather-mode))
+       :config (feather-mode))
    #+end_src
 
 * Theme
@@ -119,7 +122,6 @@
      (scroll-bar-mode 0)
      (menu-bar-mode 0)
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
-     (set-face-attribute 'linum nil :background nil :inherit 'default)
    #+END_SRC
 
 ** Gruvbox
@@ -244,38 +246,11 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package powerline
-	:ensure
-	:init
+	:config
 	(setq powerline-default-separator 'bar
 	      powerline-display-hud nil)
 	(my-powerline-theme))
     #+END_SRC
-
-** Minor modes cleaning
-
-   [[https://github.com/alezost/dim.el][dim]] allows renaming the major / minor modes in the mode-line. I use
-   it mainly to remove minor mode names that generates useless noise
-   in my mode-line.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package dim
-       :ensure
-       :init
-       (dim-minor-names
-	'((projectile-mode "" projectile)
-	  (editorconfig-mode "" editorconfig)
-	  (company-mode "" company)
-	  (counsel-mode "" counsel)
-	  (ivy-mode "" ivy)
-	  (paredit-mode "" paredit)
-	  (page-break-lines-mode "" page-break-lines)
-	  (eldoc-mode "" eldoc)
-	  (flycheck-mode "" flycheck)
-	  (gcmh-mode "" gcmh)
-	  (rainbow-mode "" rainbow-mode)
-	  (prettier-js-mode "" prettier-js)
-	  (feather-mode "" feather))))
-   #+END_SRC
 
 ** Emojis
 
@@ -284,7 +259,7 @@
 
    #+begin_src emacs-lisp
      (use-package emojify
-       :init (global-emojify-mode))
+       :config (global-emojify-mode))
    #+end_src
 
 * Main script
@@ -375,11 +350,11 @@
        (setq enable-recursive-minibuffers t))
 
      (use-package ivy
-       :init (init/setup-ivy))
+       :config (init/setup-ivy))
 
      (use-package counsel
        :after (ivy)
-       :init (counsel-mode 1))
+       :config (counsel-mode 1))
 
      (use-package swiper
        :after (ivy)
@@ -411,6 +386,9 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package rainbow-delimiters
+       ; Necessary for first load, to prevent it being loaded by quelpa
+       ; while being inexistant
+       :if (locate-library "rainbow-delimiters")
        :hook (prog-mode . rainbow-delimiters-mode))
    #+END_SRC
 
@@ -420,6 +398,7 @@
    #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c i") #'imenu)
    #+END_SRC
+
 ** Treemacs
 
    [[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a nice tree layout file explorer for Emacs.
@@ -443,15 +422,13 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package projectile
-       :ensure
        :custom
        (projectile-keymap-prefix (kbd "C-c p"))
-       :init (projectile-mode))
+       :config (projectile-mode))
 
      (use-package counsel-projectile
-       :ensure
        :after (projectile ivy)
-       :init (counsel-projectile-mode))
+       :config (counsel-projectile-mode))
    #+END_SRC
 
 * Shell
@@ -536,7 +513,7 @@
        (my-xterm-color-configure-compilation))
 
      (use-package xterm-color
-       :init (my-xterm-color-init)
+       :config (my-xterm-color-init)
        :hook ((shell-mode . my-shell-mode-config-xterm-color)
 	      (eshell-mode . my-eshell-env-xterm-color)
 	      (eshell-before-prompt . my-eshell-before-prompt-xterm-color)))
@@ -584,7 +561,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package org
        :bind (("C-c o t" . org-todo-list))
-       :init (my/init-org))
+       :config (my/init-org))
    #+END_SRC
 
 ** Agenda
@@ -615,7 +592,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package ob-async
-       :ensure
        :after (org))
    #+END_SRC
 
@@ -640,9 +616,8 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode
-      :ensure
       :commands lsp
-      :init (setq lsp-prefer-flymake nil)
+      :config (setq lsp-prefer-flymake nil)
       :bind (("C-c SPC" . lsp-execute-code-action)))
   #+END_SRC
 
@@ -650,7 +625,6 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-ui
-      :ensure
       :commands lsp-ui-mode
       :bind (("M-." . lsp-ui-peek-find-definitions)
 	     ("M-?" . lsp-ui-peek-find-references)))
@@ -682,7 +656,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package add-node-modules-path
-       :ensure
        :hook ((js-mode . add-node-modules-path)
 	      (typescript-mode . add-node-modules-path)))
    #+END_SRC
@@ -728,8 +701,7 @@
 ** JSON
 
    #+BEGIN_SRC emacs-lisp
-     (use-package json-mode
-       :ensure)
+     (use-package json-mode)
    #+END_SRC
 
 ** NVM
@@ -740,10 +712,10 @@
      (defun my-nvm-use-for ()
        (interactive)
        (condition-case error
-	   (nvm-use-for-buffer)))
+	   (nvm-use-for-buffer)
+	 (t (message "NVM error: %s" error))))
 
      (use-package nvm
-       :ensure
        :hook ((js-mode json-mode typescript-mode dired-after-readin magit-mode) . my-nvm-use-for))
    #+END_SRC
 
@@ -783,15 +755,13 @@
 ** dockerfile-mode
 
    #+BEGIN_SRC emacs-lisp
-     (use-package dockerfile-mode
-       :ensure)
+     (use-package dockerfile-mode)
    #+END_SRC
 
 ** docker
 
    #+BEGIN_SRC emacs-lisp
-     (use-package docker
-       :ensure)
+     (use-package docker)
    #+END_SRC
 * Ocaml / Reason
 ** Tuareg
@@ -800,7 +770,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package tuareg
-       :ensure
        :mode ("\\.ml\\'" . tuareg-mode))
    #+END_SRC
 
@@ -819,7 +788,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package reason-mode
-       :ensure
        :hook ((reason-mode . init/setup-reason-buffer))
        :mode ("\\.re\\'" . reason-mode))
    #+END_SRC
@@ -838,15 +806,13 @@
 * Markdown
 
   #+BEGIN_SRC emacs-lisp
-    (use-package markdown-mode
-      :ensure)
+    (use-package markdown-mode)
   #+END_SRC
 
 * YAML
 
   #+BEGIN_SRC emacs-lisp
-    (use-package yaml-mode
-      :ensure)
+    (use-package yaml-mode)
   #+END_SRC
 
 * Java
@@ -873,8 +839,7 @@
    This is useful for editing gradle files.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package groovy-mode
-       :ensure)
+     (use-package groovy-mode)
    #+END_SRC
 * TRAMP
 
@@ -890,15 +855,16 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package elm-mode
-      :ensure
       :init
-      (add-to-list 'company-backends 'company-elm)
       (setq elm-format-on-save t))
+
+    (use-package company
+      :config
+      (add-to-list 'company-backends 'company-elm))
   #+END_SRC
 
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck-elm
-      :ensure
       :after (elm-mode flycheck)
       :hook (flycheck-mode . flycheck-elm-setup))
   #+END_SRC
@@ -907,7 +873,6 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package rust-mode
-      :ensure
       :mode ("\\.rs\\'" . rust-mode)
       :config (add-hook 'rust-mode-hook #'lsp))
   #+END_SRC
@@ -961,14 +926,13 @@
 
      (use-package cc-mode
        :hook ((c++-mode . my-configure-c++-checkers))
-       :init
+       :config
        (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
        (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc))
    #+end_src
 
-
 * Local variables
 
 # Local Variables:
-# after-save-hook: (org-babel-tangle)
+# after-save-hook: (lambda () (org-babel-tangle) (byte-compile-file "./init.el"))
 # End:
