@@ -538,6 +538,12 @@
 	      (eshell-before-prompt . my-eshell-before-prompt-xterm-color)))
    #+END_SRC
 
+** vterm
+
+   #+begin_src emacs-lisp
+     (use-package vterm)
+   #+end_src
+
 * Org mode
 ** Basic configuration
 *** Clock table indentation
