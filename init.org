@@ -642,7 +642,6 @@
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode
       :commands lsp
-      :config (setq lsp-prefer-flymake nil)
       :bind (("C-c SPC" . lsp-execute-code-action)))
   #+END_SRC
 
