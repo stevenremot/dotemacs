@@ -172,6 +172,16 @@
 	"Face for showing flycheck warnings in the mode line."
 	:group 'mode-line)
 
+      (defface my-flycheck-mode-line-info-disabled
+	'((t :inherit my-flycheck-mode-line-font :foreground "green4" ))
+	"Face for showing no flycheck warnings in the mode line."
+	:group 'mode-line)
+
+      (defface my-flycheck-mode-line-info
+	'((t :inherit my-flycheck-mode-line-font :foreground "green1" ))
+	"Face for showing flycheck warnings in the mode line."
+	:group 'mode-line)
+
 
 
       (defun my-flycheck-get-error-count ()
@@ -191,16 +201,25 @@
 	"Create a mode line element to display flycheck errors."
 	(let* ((error-count (my-flycheck-get-error-count))
 	       (errors (or (plist-get error-count 'error) 0))
-	       (warnings (or (plist-get error-count 'warning) 0)))
+	       (warnings (or (plist-get error-count 'warning) 0))
+	       (infos (or (plist-get error-count 'info) 0)))
 	  (concat
-	   (propertize (format " ❎ %d " errors)
+	   "["
+	   (propertize (format "%d" errors)
 		       'face (if (= 0 errors)
 				 'my-flycheck-mode-line-error-disabled
 			       'my-flycheck-mode-line-error))
-	   (propertize (format " ⚠ %d " warnings)
+	   " "
+	   (propertize (format "%d" warnings)
 		       'face(if (= 0 warnings)
-				 'my-flycheck-mode-line-warning-disabled
-			       'my-flycheck-mode-line-warning)))))
+				'my-flycheck-mode-line-warning-disabled
+			      'my-flycheck-mode-line-warning))
+	   " "
+	   (propertize (format "%d" infos)
+		       'face(if (= 0 infos)
+				'my-flycheck-mode-line-info-disabled
+			      'my-flycheck-mode-line-info))
+	   "]")))
     #+END_SRC
 
 *** Powerline
