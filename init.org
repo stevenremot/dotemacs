@@ -380,6 +380,22 @@
        :bind (("C-s" . swiper)))
    #+END_SRC
 
+** Glasses
+
+   #+begin_src emacs-lisp
+     (use-package glasses
+       :hook (prog-mode . glasses-mode)
+       :custom ((glasses-face 'bold)
+		(glasses-separate-parentheses-p nil)
+		(glasses-original-separator "")
+		(glasses-separator "")))
+   #+end_src
+
+   #+begin_src emacs-lisp
+     (use-package subword
+       :hook (prog-mode . subword-mode))
+   #+end_src
+
 * Performances
 
   [[https://github.com/emacsmirror/gcmh][gcmh]] minimizes the interferences of the garbage collector with the
@@ -410,6 +426,13 @@
        :if (locate-library "rainbow-delimiters")
        :hook (prog-mode . rainbow-delimiters-mode))
    #+END_SRC
+
+** Expand region
+
+   #+begin_src emacs-lisp
+     (use-package expand-region
+       :bind (("C-=" . er/expand-region)))
+   #+end_src
 
 * Navigation
 ** imenu
