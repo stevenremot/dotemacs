@@ -564,7 +564,9 @@
 ** vterm
 
    #+begin_src emacs-lisp
-     (use-package vterm)
+     (use-package vterm
+       :no-require t
+       :commands (vterm))
    #+end_src
 
 * Org mode
@@ -640,6 +642,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package ob-async
+       :no-require t
        :after (org))
    #+END_SRC
 
