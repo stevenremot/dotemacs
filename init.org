@@ -43,9 +43,9 @@
    I want to download packages from [[https://melpa.org/][MELPA]] too
 
    #+BEGIN_SRC emacs-lisp
-     (require 'package)
-
-     (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t)
+     (eval-and-compile
+       (require 'package)
+       (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t))
    #+END_SRC
 
    The only remaining thing to do is initializing the package manager
@@ -60,13 +60,13 @@
    packages have to be initialized  at the very beginning.
 
    #+BEGIN_SRC emacs-lisp
-     (let ((packages-to-install '(use-package quelpa-use-package)))
+     (eval-and-compile
+       (let ((packages-to-install '(use-package quelpa-use-package)))
        (dolist (package packages-to-install)
 	 (unless (package-installed-p package)
 	   (package-refresh-contents)
 	   (package-install package))))
 
-     (eval-when-compile
        (require 'use-package))
    #+END_SRC
 
