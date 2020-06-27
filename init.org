@@ -102,16 +102,6 @@
        :commands (elpa-backup-do elpa-backup-rollback))
    #+END_SRC
 
-** Feather
-
-   Feather is a packae that augments ~package-install~ do do it asynchronously.
-
-   #+begin_src emacs-lisp
-     (use-package feather
-       :after (package)
-       :config (feather-mode))
-   #+end_src
-
 * Theme
 ** Default settings
 
