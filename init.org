@@ -51,7 +51,7 @@
    The only remaining thing to do is initializing the package manager
 
    #+BEGIN_SRC emacs-lisp
-     (package-initialize)
+     (eval-and-compile (package-initialize))
    #+END_SRC
 
 ** use-package
@@ -67,21 +67,16 @@
 	   (package-refresh-contents)
 	   (package-install package))))
 
-       (require 'use-package))
+       (require 'use-package)
+       (require 'quelpa-use-package))
    #+END_SRC
 
    Always install a package declare with ~use-package~ if it's not
    installed:
 
    #+BEGIN_SRC emacs-lisp
-     (setq use-package-always-ensure t)
-   #+END_SRC
-
-   Additionally, we will require ~quelpa-use-package~ right now so
-   that we don't have to care about that later.
-
-   #+BEGIN_SRC emacs-lisp
-     (require 'quelpa-use-package)
+     (eval-and-compile
+       (setq use-package-always-ensure t))
    #+END_SRC
 
 ** Backups
