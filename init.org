@@ -497,13 +497,6 @@
        "Preserve text properties on eshell prompts."
        (setq xterm-color-preserve-properties t))
 
-     (defun my-eshell-init-xterm-color ()
-       "Configure xterm-color for eshell."
-       (with-eval-after-load 'eshell
-	(add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-	(setq eshell-output-filter-functions
-	      (remove 'eshell-handle-ansi-color eshell-output-filter-functions))))
-
      (defun my-eshell-env-xterm-color ()
        "Setup eshell environment for xterm-color."
        (setenv "TERM" "xterm-256color"))
@@ -540,7 +533,6 @@
      (defun my-xterm-color-init ()
        "First setup for xterm-color."
        (my-remove-ansi-from-comint)
-       ;; (my-eshell-init-xterm-color)
        (my-xterm-color-configure-compilation))
 
      (use-package xterm-color
