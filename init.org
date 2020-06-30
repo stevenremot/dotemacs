@@ -435,7 +435,8 @@
    [[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a nice tree layout file explorer for Emacs.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package treemacs)
+     (use-package treemacs
+       :commands (treemacs))
    #+END_SRC
 
 ** ripgrep
