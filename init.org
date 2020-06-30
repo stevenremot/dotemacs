@@ -367,6 +367,8 @@
 
 ** Glasses
 
+   Configure glasses-mode to show capital letters in variables in bold
+
    #+begin_src emacs-lisp
      (use-package glasses
        :hook (prog-mode . glasses-mode)
@@ -375,6 +377,8 @@
 		(glasses-original-separator "")
 		(glasses-separator "")))
    #+end_src
+
+   Using subword-mode makes more sense to me when using glasses-mode.
 
    #+begin_src emacs-lisp
      (use-package subword
