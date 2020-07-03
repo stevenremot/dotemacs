@@ -293,32 +293,6 @@
      (load custom-file 'no-error)
    #+END_SRC
 
-** Load the initialization modules
-
-   Load the sources present in the init/ directory. These are sources
-   I didn't port to my org setup yet.
-
-   #+NAME: init-modules
-   - exec-path-from-shell
-   - prompt
-   - editing
-   - git
-   - auto-completion
-   - code-checking
-   - rocktl
-   - emacs-lisp
-   - web
-   - cucumber
-
-   #+BEGIN_SRC emacs-lisp :var modules=init-modules
-     (defun my-load-init-file (file)
-       "Load one initialization file.
-
-     FILE is the name of the file without extension and directory."
-       (load (concat my-init-dir "init/" (if (listp file) (car file) file) ".el")))
-
-     (mapc #'my-load-init-file modules)
-   #+END_SRC
 * General UX
 ** Startup screen
 
@@ -385,7 +359,24 @@
        :hook (prog-mode . subword-mode))
    #+end_src
 
+** Prompts
+
+   Use =y-or-n-p= instead of =yes-or-no-p= to have a smoother experience.
+
+   #+begin_src emacs-lisp
+     (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
+
 * Performances
+
+  I use [[https://github.com/jschaf/esup][esup]] to profile my emacs startup from time to time.
+
+  #+begin_src emacs-lisp
+    (use-package esup
+      :ensure t
+      :commands (esup)
+      :init (setq esup-depth 0))
+  #+end_src
 
   [[https://github.com/emacsmirror/gcmh][gcmh]] minimizes the interferences of the garbage collector with the
   user's activity. There are more details on the package's page.
@@ -406,7 +397,29 @@
        :ensure nil)
    #+END_SRC
 
-** Rainbow parentheses
+** Mac special setup
+
+   Rebind some MacOS keys to have proper super of control, alt gr,
+   etc...
+
+   #+begin_src emacs-lisp
+     (when (eq system-type 'darwin)
+       (setq mac-option-modifier 'meta
+	     mac-right-option-modifier nil
+	     mac-command-modifier 'super))
+   #+end_src
+
+** Parentheses
+
+   Enable some core modes in order to get electric pairing and showing
+   the parenthesis matching the one under the cursor.
+
+   #+begin_src emacs-lisp
+     (electric-pair-mode 1)
+     (show-paren-mode 1)
+   #+end_src
+
+   Setup [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to get colours parentheses pairs.
 
    #+BEGIN_SRC emacs-lisp
      (use-package rainbow-delimiters
@@ -421,6 +434,39 @@
    #+begin_src emacs-lisp
      (use-package expand-region
        :bind (("C-=" . er/expand-region)))
+   #+end_src
+
+** Auto completion
+
+   #+begin_src emacs-lisp
+     (use-package company
+       :bind (("C-M-i" . company-complete))
+       :config (global-company-mode))
+   #+end_src
+
+** Code checking
+
+   #+begin_src emacs-lisp
+     (use-package flycheck
+       :ensure
+       :config (global-flycheck-mode))
+   #+end_src
+
+** Auto formatting
+
+   I basically never want trailing whitespaces
+
+   #+begin_src emacs-lisp
+     (add-hook 'before-save-hook #'delete-trailing-whitespace)
+   #+end_src
+
+   I use [[https://editorconfig.org/][editorconfig]] as much as possible so that I can share part my
+   project config with my teammates.
+
+   #+begin_src emacs-lisp
+     (use-package editorconfig
+       :if (locate-library "editorconfig")
+       :hook (prog-mode . editorconfig-mode))
    #+end_src
 
 * Navigation
@@ -450,6 +496,14 @@
    #+END_SRC
 
 * Project management
+** git
+
+   Use magit, OF COURSE
+
+   #+begin_src emacs-lisp
+     (use-package magit)
+   #+end_src
+
 ** Projectile
 
    #+BEGIN_SRC emacs-lisp
@@ -464,6 +518,16 @@
    #+END_SRC
 
 * Shell
+** Environment variables
+
+   Use [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] to import shell's environment variables
+   into Emacs.
+
+   #+begin_src emacs-lisp
+     (use-package exec-path-from-shell
+       :config (exec-path-from-shell-initialize))
+   #+end_src
+
 ** xterm-color
 
    [[https://github.com/atomontage/xterm-color][xterm-color]] is a replacement for ansi-color that is faster and has
@@ -643,6 +707,17 @@
 		:repo "stevenremot/org-tracker"))
    #+END_SRC
 
+* Lisp
+
+ Setup [[https://www.emacswiki.org/emacs/ParEdit][paredit]] as editing Lisp code is a pain without it.
+
+ #+begin_src emacs-lisp
+   (use-package elisp-mode
+     :ensure nil
+     :bind (:map emacs-lisp-mode-map
+		 ("C-c C-b" . eval-buffer)))
+ #+end_src
+
 * LSP
 
   Setup the core package
@@ -678,6 +753,23 @@
       (require 'dap-firefox)
       (global-set-key (kbd "C-c d") #'dap-hydra))
   #+END_SRC
+
+* Web
+
+  Use [[http://web-mode.org/][web-mode]] for editing HTML files
+
+  #+begin_src emacs-lisp
+    (use-package web-mode
+      :mode "\\.html\\'")
+  #+end_src
+
+  Use [[https://elpa.gnu.org/packages/rainbow-mode.html][rainbow-mode]] to get a preview of the hexa / rgb color we are
+  reading.
+
+  #+begin_src emacs-lisp
+    (use-package rainbow-mode
+      :hook (js-mode css-mode web-mode))
+  #+end_src
 
 * Javascript
 ** Node modules support
@@ -966,6 +1058,12 @@
        (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
        (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc))
    #+end_src
+
+* Cucumber
+
+  #+begin_src emacs-lisp
+    (use-package feature-mode)
+  #+end_src
 
 * Local variables
 
