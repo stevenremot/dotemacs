@@ -38,46 +38,36 @@
 
 * Package management
 
-** Initialiaze package
+** straight.el
 
-   I want to download packages from [[https://melpa.org/][MELPA]] too
+   Manage all my packages using [[https://github.com/raxod502/straight.el][straight.el]].
 
-   #+BEGIN_SRC emacs-lisp
-     (eval-and-compile
-       (require 'package)
-       (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t))
-   #+END_SRC
+   My choici was mainly motivated by the fact I have some custom
+   repositories I want to manage with =use-package=, and =quelpa= actually
+   takes 1 second to start if I want auto-updates.
 
-   The only remaining thing to do is initializing the package manager
+   #+begin_src emacs-lisp
+     (defvar bootstrap-version)
+     (let ((bootstrap-file
+	    (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	   (bootstrap-version 5))
+       (unless (file-exists-p bootstrap-file)
+	 (with-current-buffer
+	     (url-retrieve-synchronously
+	      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	      'silent 'inhibit-cookies)
+	   (goto-char (point-max))
+	   (eval-print-last-sexp)))
+       (load bootstrap-file nil 'nomessage))
+   #+end_src
 
-   #+BEGIN_SRC emacs-lisp
-     (eval-and-compile (package-initialize))
-   #+END_SRC
+   Install [[https://github.com/jwiegley/use-package][use-package]] and fetch missing packaes by default.
 
-** use-package
-
-   All my configuration is based on [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/quelpa/quelpa][quelpa]]. These
-   packages have to be initialized  at the very beginning.
-
-   #+BEGIN_SRC emacs-lisp
-     (eval-and-compile
-       (let ((packages-to-install '(use-package quelpa-use-package)))
-       (dolist (package packages-to-install)
-	 (unless (package-installed-p package)
-	   (package-refresh-contents)
-	   (package-install package))))
-
-       (require 'use-package)
-       (require 'quelpa-use-package))
-   #+END_SRC
-
-   Always install a package declare with ~use-package~ if it's not
-   installed:
-
-   #+BEGIN_SRC emacs-lisp
-     (eval-and-compile
-       (setq use-package-always-ensure t))
-   #+END_SRC
+   #+begin_src emacs-lisp
+     (straight-use-package 'use-package)
+     (setq straight-use-package-by-default t)
+     (require 'use-package)
+   #+end_src
 
 ** Backups
 
@@ -93,7 +83,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package elpa-backup
-       :ensure nil
+       :straight nil
        :commands (elpa-backup-do elpa-backup-rollback))
    #+END_SRC
 
@@ -394,7 +384,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package iso-transl
-       :ensure nil)
+       :straight nil)
    #+END_SRC
 
 ** Mac special setup
@@ -664,7 +654,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-agenda
-       :ensure nil
+       :straight nil
        :bind (("C-c o a" . org-agenda-list)))
    #+END_SRC
 
@@ -672,7 +662,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-clock
-       :ensure nil
+       :straight nil
        :bind (("C-c o j" . org-clock-goto)))
    #+END_SRC
 
@@ -680,7 +670,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
-       :ensure nil
+       :straight nil
        :bind (("C-c o c" . org-capture)))
    #+END_SRC
 
@@ -702,9 +692,10 @@
        :bind (("C-c r j" . org-tracker-open-issue-at-point)
 	      ("C-c r J" . org-tracker-open-current-issue)
 	      ("C-c r t" . org-tracker-track-time-at-point))
-       :quelpa (org-tracker
-		:fetcher github
-		:repo "stevenremot/org-tracker"))
+       :straight (org-tracker
+		  :type git
+		  :host github
+		  :repo "stevenremot/org-tracker"))
    #+END_SRC
 
 * Lisp
@@ -713,7 +704,7 @@
 
  #+begin_src emacs-lisp
    (use-package elisp-mode
-     :ensure nil
+     :straight nil
      :bind (:map emacs-lisp-mode-map
 		 ("C-c C-b" . eval-buffer)))
  #+end_src
@@ -842,7 +833,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package yaml-comment
-       :ensure nil
+       :straight nil
        :after (typescript-mode)
        :bind (:map js-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)
@@ -927,7 +918,7 @@
 
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package lsp-reason
-       :ensure nil
+       :straight nil
        :hook (reason-mode . lsp))
    #+END_SRC
 
@@ -958,7 +949,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package adb
-       :ensure nil
+       :straight nil
        :commands (avd-start-emulator))
    #+END_SRC
 
@@ -1009,8 +1000,10 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package vagrant-tramp
-      :quelpa (vagrant-tramp
-	       :fetcher github
+      :after (tramp)
+      :straight (vagrant-tramp
+	       :type git
+	       :host github
 	       :repo "stevenremot/vagrant-tramp"
 	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
   #+END_SRC
