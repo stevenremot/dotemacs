@@ -253,7 +253,8 @@
 
    #+begin_src emacs-lisp
      (use-package emojify
-       :config (global-emojify-mode))
+       :hook (prog-mode . emojify-mode)
+       :custom (emojify-emoji-styles '(unicode)))
    #+end_src
 
 * Main script
@@ -491,7 +492,8 @@
    Use magit, OF COURSE
 
    #+begin_src emacs-lisp
-     (use-package magit)
+     (use-package magit
+       :commands (magit-status))
    #+end_src
 
 ** Projectile
@@ -515,6 +517,7 @@
 
    #+begin_src emacs-lisp
      (use-package exec-path-from-shell
+       :defer
        :config (exec-path-from-shell-initialize))
    #+end_src
 
@@ -809,7 +812,9 @@
 ** JSON
 
    #+BEGIN_SRC emacs-lisp
-     (use-package json-mode)
+     (use-package json-mode
+       :commands (json-mode)
+       :mode "\\.json\\'")
    #+END_SRC
 
 ** NVM
@@ -880,7 +885,8 @@
 ** docker
 
    #+BEGIN_SRC emacs-lisp
-     (use-package docker)
+     (use-package docker
+       :commands (docker))
    #+END_SRC
 * Ocaml / Reason
 ** Tuareg
@@ -974,12 +980,12 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package elm-mode
+      :mode "\\.elm\\'"
       :init
-      (setq elm-format-on-save t))
-
-    (use-package company
-      :config
-      (add-to-list 'company-backends 'company-elm))
+      (setq elm-format-on-save t)
+      (use-package company
+	:config
+	(add-to-list 'company-backends 'company-elm)))
   #+END_SRC
 
   #+BEGIN_SRC emacs-lisp
