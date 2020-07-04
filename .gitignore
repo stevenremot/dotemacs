@@ -1,12 +1,23 @@
 
 *~
+
+# Generated scripts
+init.el
+init.elc
+
+# Straight
 /straight/build/
 /straight/repos/
 /straight/build-cache.el
-projectile-bookmarks.eld
-recentf
+/straight/modified/
+
+# Local config
 custom-file.el
-quelpa/
+
+# Packages data
+projectile-bookmarks.eld
+projectile.cache
+recentf
 rocktl/
 .cache/
 network-security.data
@@ -14,9 +25,7 @@ eshell/
 elpa-backup.tar.gz
 bookmarks
 url/
-projectile.cache
 tramp
-session.*
 .cask/
 geben/
 games/
@@ -24,6 +33,7 @@ request/
 .org-id-locations
 tutorial/
 .lsp-session-v1
+lsp-cache/
 forge-database.sqlite
 transient
 .mc-lists.el
@@ -31,8 +41,7 @@ transient
 .extension/
 emojis/
 thumbs/
-lsp-cache/
-
-# Generated scripts
-init.el
-init.elc
+eclipse.jdt.ls/
+eww-bookmarks
+semanticdb/
+workspace/

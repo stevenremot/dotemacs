@@ -7,7 +7,7 @@
   :END:
 
   Here is the source of my Emacs configuration. Create the files by
-  running ~org-babel-tangle~ (~C-c C-v t)~ in this file.
+  saving by calling [[elisp:(compile "make setup")][make setup]].
 
 * Emacs setup
 
@@ -37,36 +37,37 @@
    #+END_SRC
 
 * Package management
-
 ** straight.el
 
    Manage all my packages using [[https://github.com/raxod502/straight.el][straight.el]].
 
-   My choici was mainly motivated by the fact I have some custom
+   My choice was mainly motivated by the fact I have some custom
    repositories I want to manage with =use-package=, and =quelpa= actually
    takes 1 second to start if I want auto-updates.
 
    #+begin_src emacs-lisp
-     (defvar bootstrap-version)
-     (let ((bootstrap-file
-	    (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	   (bootstrap-version 5))
-       (unless (file-exists-p bootstrap-file)
-	 (with-current-buffer
-	     (url-retrieve-synchronously
-	      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	      'silent 'inhibit-cookies)
-	   (goto-char (point-max))
-	   (eval-print-last-sexp)))
-       (load bootstrap-file nil 'nomessage))
+     (eval-and-compile
+       (defvar bootstrap-version)
+       (let ((bootstrap-file
+	      (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	     (bootstrap-version 5))
+	 (unless (file-exists-p bootstrap-file)
+	   (with-current-buffer
+	       (url-retrieve-synchronously
+		"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+		'silent 'inhibit-cookies)
+	     (goto-char (point-max))
+	     (eval-print-last-sexp)))
+	 (load bootstrap-file nil 'nomessage)))
    #+end_src
 
    Install [[https://github.com/jwiegley/use-package][use-package]] and fetch missing packaes by default.
 
    #+begin_src emacs-lisp
-     (straight-use-package 'use-package)
-     (setq straight-use-package-by-default t)
-     (require 'use-package)
+     (eval-and-compile
+       (straight-use-package 'use-package)
+       (setq straight-use-package-by-default t)
+       (require 'use-package))
    #+end_src
 
 ** Backups
@@ -264,14 +265,10 @@
    and the path to my personal local packages.
 
    #+BEGIN_SRC emacs-lisp
-     (defconst my-init-dir (file-name-directory (or load-file-name (buffer-file-name))))
-     (defconst my-site-lisp (concat my-init-dir "site-lisp/"))
-   #+END_SRC
-
-   ~my-site-lisp~ should be added to ~load-path~ as it contains packages.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'load-path my-site-lisp)
+     (eval-and-compile
+       (defconst my-init-dir (file-name-directory (or load-file-name (buffer-file-name))))
+       (defconst my-site-lisp (concat my-init-dir "site-lisp/"))
+       (add-to-list 'load-path my-site-lisp))
    #+END_SRC
 
 ** Custom configuration
@@ -649,8 +646,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org
+       :straight org
+       :mode ("\\.org\\'" . org-mode)
        :bind (("C-c o t" . org-todo-list))
-       :config (my/init-org))
+       :init (my/init-org))
    #+END_SRC
 
 ** Agenda
@@ -1067,5 +1066,5 @@
 * Local variables
 
 # Local Variables:
-# after-save-hook: (lambda () (org-babel-tangle) (byte-compile-file "./init.el"))
+# after-save-hook: (lambda () (compile "make setup"))
 # End:
