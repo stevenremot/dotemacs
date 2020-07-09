@@ -514,7 +514,6 @@
 
    #+begin_src emacs-lisp
      (use-package exec-path-from-shell
-       :defer
        :config (exec-path-from-shell-initialize))
    #+end_src
 
