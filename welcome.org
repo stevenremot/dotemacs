@@ -84,6 +84,7 @@
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
-# eval: (save-excursion (org-babel-goto-named-src-block "init")
+# eval: (condition-case err (save-excursion (org-babel-goto-named-src-block "init")
 #   (org-babel-execute-src-block))
+#   (t (message "Error %S" err)))
 # End:
