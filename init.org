@@ -648,7 +648,8 @@
        :straight org
        :mode ("\\.org\\'" . org-mode)
        :bind (("C-c o t" . org-todo-list))
-       :init (my/init-org))
+       :init (my/init-org)
+       :custom (org-startup-folded t "Start all org documents in overview mode"))
    #+END_SRC
 
 ** Agenda
