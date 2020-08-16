@@ -1063,6 +1063,12 @@
     (use-package feature-mode)
   #+end_src
 
+* HTTPD
+
+  #+begin_src emacs-lisp
+    (use-package simple-httpd)
+  #+end_src
+
 * Local variables
 
 # Local Variables:
