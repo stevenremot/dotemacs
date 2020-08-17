@@ -36,19 +36,24 @@ CHILDREN will be included in the body."
 PROPS can have:
  - `:dir' - \"row\" or \"column\"
  - `:gap' - A gap value
+ - `:justify' - value for justify-content
  - `:align' - Value for align-items
 
 CHILDREN is the layout content."
   (let ((direction (or (plist-get props :dir) "row"))
 	(gap (or (plist-get props :gap) "8px"))
-	(align (or (plist-get props :align) "initial")))
+	(align (or (plist-get props :align) "initial"))
+	(justify (or (plist-get props :justify) "initial"))
+	(style (or (plist-get props :style) "")))
     `(div
       ,(list
 	:style (format "
 display: flex;
 flex-direction: %s;
+justify-content: %s;
 align-items: %s;
-gap: %s;" direction align gap))
+gap: %s;
+%s" direction justify align gap style))
       ,@children)))
 
 ;; Text

@@ -24,19 +24,26 @@
     (list
      :dir "row"
      :align "center"
-     :gap "16px")
+     :justify "center"
+     :style "height: 100%;")
 
-    (amui/button (list
-		       :on-click #'(lambda () (counter-app-update counter -1))
-		       :style "primary")
-		      "-")
+    (amui/flex
+     (list
+      :dir "row"
+      :align "center"
+      :gap "16px")
 
-    (amui/text (list :style "body1") (counter-app-count counter))
+     (amui/button (list
+		   :on-click #'(lambda () (counter-app-update counter -1))
+		   :style "primary")
+		  "-")
 
-    (amui/button (list
-		       :on-click #'(lambda () (counter-app-update counter 1))
-		       :style "primary")
-		      "+"))
+     (amui/text (list :style "body1") (counter-app-count counter))
+
+     (amui/button (list
+		   :on-click #'(lambda () (counter-app-update counter 1))
+		   :style "primary")
+		  "+")))
     ))
 
 (am/defapp test/counter
