@@ -11,6 +11,7 @@
 
 (defvar am/current-actions nil)
 (defvar am/current-session-uuid nil)
+(defvar am/app-name nil)
 
 ;; Helpers
 
@@ -84,14 +85,15 @@ Calls DEFAULT when no entry has been found."
 
 ;; App life cycle
 
-(defun am/handle-call (query sessions actions body)
+(defun am/handle-call (name query sessions actions body)
   "Return the HTML for an HTTP call by executing BODY."
   (let* ((session-uuid (or (cadr (assoc "session" query)) (am/uuid-create)))
 	 (action-uuid (cadr (assoc "action" query)))
 	 (state (am/session-get sessions session-uuid #'(lambda () (eval body))))
 	 (action (if action-uuid (gethash action-uuid actions) nil))
 	 (am/current-actions actions)
-	 (am/current-session-uuid session-uuid))
+	 (am/current-session-uuid session-uuid)
+	 (am/app-name name))
     (when action
       (funcall action))
     (clrhash actions)
@@ -103,7 +105,14 @@ Calls DEFAULT when no entry has been found."
   `(let ((sessions (make-hash-table :test #'equal))
 	 (actions (make-hash-table :test #'equal)))
      (defservlet ,name text/html (path query)
-       (am/handle-call query sessions actions (quote (progn ,@body))))))
+       (am/handle-call ,(symbol-name name) query sessions actions (quote (progn ,@body))))
+
+     (defservlet ,(intern (format "%s/manifest.json" (symbol-name name))) application/manifest+json ()
+       (insert ,(json-encode-plist (list
+				    'name (symbol-name name)
+				    'short_name (symbol-name name)
+				    'start_url "."
+				    'display "standalone"))))))
 
 (provide 'app-maker)
 

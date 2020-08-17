@@ -3,6 +3,8 @@
 ;;; Commentary:
 ;;
 
+(require 'app-maker)
+
 ;;; Code:
 
 ;; Basic layout
@@ -20,6 +22,7 @@ CHILDREN will be included in the body."
      ()
      (title () ,(plist-get props :title))
      (meta (:name "viewport" :content "width=device-width"))
+     (link (:rel "manifest" :href ,(concat "/" am/app-name "/manifest.json")))
      (link (:href "//cdn.muicss.com/mui-0.10.3/css/mui.min.css" :rel "stylesheet" :type "text/css"))
      (script (:src "//cdn.muicss.com/mui-0.10.3/js/mui.min.js")))
 
