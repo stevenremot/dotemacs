@@ -17,7 +17,11 @@
 (defun am/uuid-create ()
   "Generate a new UUID."
   (with-temp-buffer
-    (call-process "uuidgen" nil t)
+    (cond
+     ((executable-find "uuidgen") (call-process "uuidgen" nil t))
+     ((executable-find "uuid") (call-process "uuid" nil t))
+     (t (error "No executable found for uuid generation")))
+
     (string-trim-right (buffer-substring-no-properties (point-min) (point-max)))))
 
 ;; HTML Rendering
@@ -90,6 +94,7 @@ Calls DEFAULT when no entry has been found."
 	 (am/current-session-uuid session-uuid))
     (when action
       (funcall action))
+    (clrhash actions)
     (insert (am/render-html state))))
 
 (defmacro am/defapp (name &rest body)
