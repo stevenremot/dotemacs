@@ -4,6 +4,7 @@
 ;;
 
 (require 'app-maker)
+(require 'app-maker-material)
 (require 'cl-lib)
 
 ;;; Code:
@@ -16,11 +17,27 @@
 
 (cl-defmethod am/render ((counter counter-app))
   "Render COUNTER with + and - buttons."
-  `(div
-    ()
-    (a (:href ,(lambda () (counter-app-update counter -1))) "-")
-    (span () ,(counter-app-count counter))
-    (a (:href ,(lambda () (counter-app-update counter 1))) "+")))
+  (amui/page
+   '(:title "Counter example")
+
+   (amui/flex
+    (list
+     :dir "row"
+     :align "center"
+     :gap "16px")
+
+    (amui/button (list
+		       :on-click #'(lambda () (counter-app-update counter -1))
+		       :style "primary")
+		      "-")
+
+    (amui/text (list :style "body1") (counter-app-count counter))
+
+    (amui/button (list
+		       :on-click #'(lambda () (counter-app-update counter 1))
+		       :style "primary")
+		      "+"))
+    ))
 
 (am/defapp test/counter
   (make-counter-app))
