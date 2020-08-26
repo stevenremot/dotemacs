@@ -684,7 +684,7 @@
        :after (org))
    #+END_SRC
 
-** Issue opening
+** Trackers
 
    Use the package ~org-open-ref~ in order to easily open the redmine
    and gitlab issues.
@@ -699,6 +699,12 @@
 		  :host github
 		  :repo "stevenremot/org-tracker"))
    #+END_SRC
+
+   Define autoloads for my local helpers functions.
+
+   #+begin_src emacs-lisp
+     (autoload 'my-redmine-capture-issue "redmine-helpers")
+   #+end_src
 
 * Lisp
 
