@@ -1072,7 +1072,7 @@
 * Processing
 
   #+begin_src emacs-lisp
-    (autoload p5js-start-for-buffer "p5js" nil t)
+    (autoload 'p5js-start-for-buffer "p5js" nil t)
   #+end_src
 
 * HTTPD
