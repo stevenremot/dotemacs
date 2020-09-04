@@ -355,6 +355,21 @@
      (defalias 'yes-or-no-p 'y-or-n-p)
    #+end_src
 
+** Helpful
+
+   [[https://github.com/Wilfred/helpful][helpful]] improves the emacs help commands with more information.
+
+   #+begin_src emacs-lisp
+     (use-package helpful
+       :bind
+       ("C-h k" . helpful-key)
+       ("C-c C-d" . helpful-at-point)
+       ("C-h C" . helpful-command)
+       :custom
+       (counsel-describe-function-function #'helpful-callable)
+       (counsel-describe-variable-function #'helpful-variable))
+   #+end_src
+
 * Performances
 
   I use [[https://github.com/jschaf/esup][esup]] to profile my emacs startup from time to time.
