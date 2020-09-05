@@ -14,6 +14,25 @@
   <body>
     <main>
     </main>
+    <script>
+
+     function exportCanvas(evt) {
+         const uri = document.querySelector('canvas')
+     	  .toDataURL()
+         const link = document.createElement('img')
+         link.src = uri
+         document.body.appendChild(link)
+     }
+
+     const button = document.createElement('button')
+
+     button.onclick = exportCanvas
+     button.textContent = 'Export'
+
+     window.addEventListener(
+         'DOMContentLoaded',
+         () => document.body.appendChild(button))
+    </script>
   </body>
 </html>
 " "HTML template fdor the p5js index page.")
