@@ -739,7 +739,8 @@
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode
       :commands lsp
-      :bind (("C-c SPC" . lsp-execute-code-action)))
+      :bind (("C-c SPC" . lsp-execute-code-action))
+      :init (setq read-process-output-max (* 1024 1024)))
   #+END_SRC
 
   Setup ~lsp-ui~ and ~company~:
