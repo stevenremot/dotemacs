@@ -370,6 +370,12 @@
        (counsel-describe-variable-function #'helpful-variable))
    #+end_src
 
+** Windmove
+
+   #+begin_src emacs-lisp
+     (windmove-default-keybindings 'super)
+   #+end_src
+
 * Performances
 
   I use [[https://github.com/jschaf/esup][esup]] to profile my emacs startup from time to time.
