@@ -1038,7 +1038,9 @@
 * Gettext
 
   #+BEGIN_SRC emacs-lisp
-    (use-package po-mode)
+    (use-package po-mode
+      :custom
+      (po-auto-update-file-header nil))
   #+END_SRC
 
 * Project libs
