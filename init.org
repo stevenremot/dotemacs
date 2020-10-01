@@ -3,7 +3,7 @@
 
 * Introduction
   :PROPERTIES:
-  :tangle:   no
+  :header-args: :tangle no
   :END:
 
   Here is the source of my Emacs configuration. Create the files by
@@ -916,6 +916,9 @@
        :commands (docker))
    #+END_SRC
 * Ocaml / Reason
+  :PROPERTIES:
+  :header-args: :tangle no
+  :END:
 ** Tuareg
 
    This is the major mode to edit Ocaml buffers.
@@ -1004,6 +1007,10 @@
   #+END_SRC
 
 * Elm
+  :PROPERTIES:
+  :header-args: :tangle no
+  :END:
+
 
   #+BEGIN_SRC emacs-lisp
     (use-package elm-mode
@@ -1062,6 +1069,9 @@
   #+END_SRC
 
 * C++
+  :PROPERTIES:
+  :header-args: :tangle no
+  :END:
 ** LSP
 
    Setup lSP for C++.
