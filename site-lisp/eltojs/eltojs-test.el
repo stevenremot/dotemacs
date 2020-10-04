@@ -31,6 +31,36 @@
    (alert "Hello world")
    "alert('Hello world')"))
 
+(ert-deftest eltojs-compile-method-calls ()
+  "Compiles method calls"
+  (eltojs-should-compile
+   (.log console "Hello world")
+   "console.log('Hello world')"))
+
+(ert-deftest eltojs-compile-function-definitions ()
+  "Compiles function definitions"
+  (eltojs-should-compile
+   (defun greet (name)
+     "Greets"
+     (alert "Hello")
+     (alert name))
+   "/**
+ * Greets
+ */
+function greet(name) {
+  alert('Hello');
+  alert(name);
+}")
+
+  (eltojs-should-compile
+   (defun greetNoComment (name)
+     (alert "Hello")
+     (alert name))
+   "function greetNoComment(name) {
+  alert('Hello');
+  alert(name);
+}"))
+
 (provide 'eltojs-test)
 
 ;;; eltojs-test.el ends here
