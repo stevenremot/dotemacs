@@ -1048,6 +1048,13 @@
 	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
   #+END_SRC
 
+* Kubernetes
+
+  #+begin_src emacs-lisp
+    (use-package kubernetes
+      :commands (kubernetes-overview))
+  #+end_src
+
 * Gettext
 
   #+BEGIN_SRC emacs-lisp
