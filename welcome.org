@@ -3,8 +3,10 @@
 
     ----- *Yesterday's report -----*
 
+    [[elisp:(welcome-clocktable-previous)][<< Previous]] [[elisp:(welcome-clocktable-reset)][Reset]] [[elisp:(welcome-clocktable-next)][Next >>]]
+
 #+BEGIN: clocktable :scope agenda :maxlevel 2 :block today-1 :link t :hidefiles t
-#+CAPTION: Clock summary at [2020-05-16 sam. 21:19], for vendredi, mai 15, 2020.
+#+CAPTION: Clock summary at [2020-11-17 Tue 17:46], for Monday, November 16, 2020.
   #+END:
 
     ----- *Recent projects -----*
@@ -47,12 +49,39 @@
 #+begin_src emacs-lisp
   (require 'org-clock)
 
+  ;; Helper functions
+
+  (defun welcome-goto-clocktable ()
+    "Helper function to move the point to the clocktable line."
+    (goto-char (point-min))
+    (search-forward "#+BEGIN: clocktable")
+    (beginning-of-line))
+
+  (defun welcome-clocktable-previous ()
+    (welcome-goto-clocktable)
+    (org-clocktable-shift 'left 1))
+
+  (defun welcome-clocktable-next ()
+    (welcome-goto-clocktable)
+    (org-clocktable-shift 'right 1))
+
+  (defun welcome-get-initial-block ()
+    (let* ((today (decode-time (current-time)))
+	   (day-of-week (org-day-of-week (nth 3 today) (nth 4 today) (nth 5 today)))
+	   (last-working-day (if (or (= day-of-week 1)) 3 1)))
+      (format "today-%d" last-working-day)))
+
+  (defun welcome-clocktable-reset ()
+    (let ((block (format ":block %s" (welcome-get-initial-block))))
+      (welcome-goto-clocktable)
+      (re-search-forward (rx ":block " (+ (not whitespace))))
+      (replace-match block)
+      (org-update-all-dblocks)))
+
   ;; Init clocktable
 
   (save-excursion
-    (goto-char (point-min))
-    (search-forward "#+BEGIN: clocktable")
-    (beginning-of-line)
+    (welcome-goto-clocktable)
     (let* ((today (decode-time (current-time)))
 	   (day-of-week (org-day-of-week (nth 3 today) (nth 4 today) (nth 5 today)))
 	   (last-working-day (if (or (= day-of-week 1)) 3 1)))
@@ -87,4 +116,5 @@
 # eval: (condition-case err (save-excursion (org-babel-goto-named-src-block "init")
 #   (org-babel-execute-src-block))
 #   (t (message "Error %S" err)))
+# org-confirm-elisp-link-function: nil
 # End:
