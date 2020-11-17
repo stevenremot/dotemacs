@@ -53,7 +53,10 @@
 (defun p5js-open-page ()
   "Open the page with p5js result."
   (interactive)
-  (browse-url (format "http://localhost:%i/p5js" httpd-port)))
+  (let ((url (format "http://localhost:%i/p5js" httpd-port)))
+    (if (executable-find "termux-open")
+	(async-shell-command (format "termux-open %s" url))
+      (browse-url url))))
 
 (provide 'p5js)
 

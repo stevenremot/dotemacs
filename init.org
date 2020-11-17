@@ -1122,6 +1122,18 @@
     (use-package simple-httpd)
   #+end_src
 
+* Termux
+
+  Configuration for termux environment
+
+  #+begin_src emacs-lisp
+    (when (getenv "ANDROID_DATA")
+      (xterm-mouse-mode 1)
+      (global-set-key (kbd "<mouse-5>") #'next-line)
+      (global-set-key (kbd "<mouse-4>") #'previous-line))
+  #+end_src
+
+
 * Local variables
 
 # Local Variables:
