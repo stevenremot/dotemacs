@@ -370,10 +370,10 @@
        (counsel-describe-variable-function #'helpful-variable))
    #+end_src
 
-** Windmove
+** Autosave
 
    #+begin_src emacs-lisp
-     (windmove-default-keybindings 'super)
+     (auto-save-visited-mode 1)
    #+end_src
 
 * Performances
@@ -729,8 +729,6 @@
 
 * Lisp
 
- Setup [[https://www.emacswiki.org/emacs/ParEdit][paredit]] as editing Lisp code is a pain without it.
-
  #+begin_src emacs-lisp
    (use-package elisp-mode
      :straight nil
@@ -885,6 +883,13 @@
 	      (css-mode . prettier-js-mode)))
    #+end_src
 
+** Emmet
+
+   #+begin_src emacs-lisp
+     (use-package emmet-mode
+       :hook (typescript-mode js-mode))
+   #+end_src
+
 * PHP
 ** php-mode
 
@@ -915,49 +920,6 @@
      (use-package docker
        :commands (docker))
    #+END_SRC
-* Ocaml / Reason
-  :PROPERTIES:
-  :header-args: :tangle no
-  :END:
-** Tuareg
-
-   This is the major mode to edit Ocaml buffers.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package tuareg
-       :mode ("\\.ml\\'" . tuareg-mode))
-   #+END_SRC
-
-** Reason mode
-
-   ~reason-mode~ has a nice auto-formatting feature we can trigger
-   before saving a buffer.
-
-   #+BEGIN_SRC emacs-lisp
-     (defun init/setup-reason-buffer ()
-       "Setup a buffer for working with reason."
-       (add-hook 'before-save-hook #'refmt-before-save)
-       (setq-local indent-line-function #'indent-relative)
-       (lsp))
-   #+END_SRC
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package reason-mode
-       :hook ((reason-mode . init/setup-reason-buffer))
-       :mode ("\\.re\\'" . reason-mode))
-   #+END_SRC
-
-** LSP
-
-   This package requires [[https://github.com/jaredly/reason-language-server][reason-language-server]] to be installed
-   somewhere.
-
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (use-package lsp-reason
-       :straight nil
-       :hook (reason-mode . lsp))
-   #+END_SRC
-
 * Markdown
 
   #+BEGIN_SRC emacs-lisp
@@ -1004,28 +966,6 @@
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'tramp
       (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-  #+END_SRC
-
-* Elm
-  :PROPERTIES:
-  :header-args: :tangle no
-  :END:
-
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package elm-mode
-      :mode "\\.elm\\'"
-      :init
-      (setq elm-format-on-save t)
-      (use-package company
-	:config
-	(add-to-list 'company-backends 'company-elm)))
-  #+END_SRC
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package flycheck-elm
-      :after (elm-mode flycheck)
-      :hook (flycheck-mode . flycheck-elm-setup))
   #+END_SRC
 
 * Rust
