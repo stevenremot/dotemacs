@@ -370,12 +370,6 @@
        (counsel-describe-variable-function #'helpful-variable))
    #+end_src
 
-** Autosave
-
-   #+begin_src emacs-lisp
-     (auto-save-visited-mode 1)
-   #+end_src
-
 * Performances
 
   I use [[https://github.com/jschaf/esup][esup]] to profile my emacs startup from time to time.
