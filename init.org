@@ -113,8 +113,8 @@
     Make the mode line the same colors than the whole buffer.
 
     #+begin_src emacs-lisp
-      (set-face-attribute 'mode-line nil :background nil :foreground "white")
-      (set-face-attribute 'mode-line-inactive nil :background nil :foreground "dim gray")
+      (set-face-attribute 'mode-line nil :background "gray24" :foreground "white")
+      (set-face-attribute 'mode-line-inactive nil :background "gray24" :foreground "dim gray")
     #+end_src
 
 *** Mode line flycheck reporting
@@ -203,6 +203,16 @@
     I am using my own theme forked from ~powerline-default-theme~.
 
     #+BEGIN_SRC emacs-lisp
+      (defface my-mode-line-highlight
+	'((t :inherit mode-line
+	     :background "gray32"))
+	"Mode line face for highlighted elements")
+
+      (defface my-mode-line-highlight-active
+	'((t :inherit 'mode-line
+	     :background "gray50"))
+	"Mode line face for active highlighted elements")
+
       (defun my-powerline-theme ()
 	"Setup the default mode-line."
 	(interactive)
@@ -214,7 +224,10 @@
 		   (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
 		   (mode-line (if active 'mode-line 'mode-line-inactive))
 
-		   (lhs (list (powerline-raw "%*" mode-line 'l)
+		   (lhs (list (powerline-raw
+			       (if buffer-read-only "RO " "RW ")
+			       (if (buffer-modified-p) 'my-mode-line-highlight-active 'my-mode-line-highlight)
+			       'l)
 			      (when (> (length (tab-bar-tabs)) 1)
 				(powerline-raw (thread-last (tab-bar-tabs)
 						 (assq 'current-tab)
