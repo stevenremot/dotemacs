@@ -141,7 +141,7 @@
        (face-remap-add-relative 'font-lock-constant-face '((:weight bold))))
 
      (use-package color-identifiers-mode
-       :hook (after-init-hook . global-color-identifiers-mode)
+       :hook (after-init . global-color-identifiers-mode)
        :config (add-hook 'color-identifiers-mode-hook #'my-setup-color-identifiers))
    #+end_src
 
@@ -870,7 +870,13 @@
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
        :mode "\\.tsx?\\'"
-       :config (flycheck-add-mode 'javascript-eslint 'typescript-mode))
+       :config (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+       :straight '(typescript-mode :type git
+				   :host github
+				   :repo "emacs-typescript/typescript.el"
+				   :fork (:host github
+						:repo "stevenremot/typescript.el"
+						:branch "add-multi-line-formal-parameters-support")))
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
