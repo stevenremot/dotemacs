@@ -120,7 +120,7 @@
 		      font-lock-constant-face
 		      font-lock-type-face
 		      ;; font-lock-function-name-face
-		      font-lock-variable-name-face
+		      ;; font-lock-variable-name-face
 		      font-lock-keyword-face
 		      ;; font-lock-string-face
 		      font-lock-builtin-face
