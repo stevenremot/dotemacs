@@ -109,40 +109,21 @@
 
 ** Syntactical coloration
 
-   Use color-identifiers, and remove some colors on several syntactial
-   constructs instead.
+   Color the code based on nested parentheses / scopes using [[https://github.com/alphapapa/prism.el][prism.el]] .
+
+   Apply additional syntactical coloration on keywords to identify them easily.
 
    #+begin_src emacs-lisp
-     (defun my-setup-color-identifiers ()
-       (let ((faces '(
-		      ;; font-lock-comment-face
-		      ;; font-lock-comment-delimiter-face
-		      font-lock-constant-face
-		      font-lock-type-face
-		      ;; font-lock-function-name-face
-		      ;; font-lock-variable-name-face
-		      font-lock-keyword-face
-		      ;; font-lock-string-face
-		      font-lock-builtin-face
-		      font-lock-preprocessor-face
-		      font-lock-warning-face
-		      ;; font-lock-doc-face
-		      font-lock-negation-char-face
-		      font-lock-regexp-grouping-construct
-		      font-lock-regexp-grouping-backslash)))
-	 (dolist (face faces)
-	   (face-remap-add-relative face '((:foreground "" :weight normal :slant normal)))))
-       (face-remap-add-relative 'font-lock-keyword-face '((:weight bold)))
-       (face-remap-add-relative 'font-lock-comment-face '((:slant italic)))
-       (face-remap-add-relative 'font-lock-builtin-face '((:weight bold)))
-       (face-remap-add-relative 'font-lock-preprocessor-face '((:weight bold)))
-       (face-remap-add-relative 'font-lock-function-name-face '((:slant italic)))
-       (face-remap-add-relative 'font-lock-string-face '((:slant italic)))
-       (face-remap-add-relative 'font-lock-constant-face '((:weight bold))))
+     (defun my/setup-prism ()
+       (face-remap-add-relative 'font-lock-keyword-face (list :weight 'bold))
+       (face-remap-add-relative 'font-lock-comment-face (list :weight 'light :slant 'italic)))
+   #+end_src
 
-     (use-package color-identifiers-mode
-       :hook (after-init . global-color-identifiers-mode)
-       :config (add-hook 'color-identifiers-mode-hook #'my-setup-color-identifiers))
+   #+begin_src emacs-lisp
+     (use-package prism
+       :straight (prism :fetcher github :repo "alphapapa/prism.el")
+       :hook (((prog-mode) . prism-mode)
+	      (prism-mode . my/setup-prism)))
    #+end_src
 
 ** Mode line
@@ -472,16 +453,6 @@
      (electric-pair-mode 1)
      (show-paren-mode 1)
    #+end_src
-
-   Setup [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to get colours parentheses pairs.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package rainbow-delimiters
-       ; Necessary for first load, to prevent it being loaded by quelpa
-       ; while being inexistant
-       :if (locate-library "rainbow-delimiters")
-       :hook (prog-mode . rainbow-delimiters-mode))
-   #+END_SRC
 
 ** Expand region
 
@@ -870,13 +841,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
        :mode "\\.tsx?\\'"
-       :config (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-       :straight '(typescript-mode :type git
-				   :host github
-				   :repo "emacs-typescript/typescript.el"
-				   :fork (:host github
-						:repo "stevenremot/typescript.el"
-						:branch "add-multi-line-formal-parameters-support")))
+       :config (flycheck-add-mode 'javascript-eslint 'typescript-mode))
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
