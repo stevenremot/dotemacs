@@ -3,12 +3,14 @@
 ;;; Commentary:
 ;;
 (require 'simple-httpd)
+(require 'remote-debug)
 ;;; Code:
 
 (defvar p5js-html-template "
 <html>
   <head>
     <script src=\"https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js\"></script>
+    <script src=\"/remote-debug/script.js\" data-debug-url=\"/remote-debug\" /></script>
     <script src=\"/p5js/sketch.js\"></script>
   </head>
   <body>
@@ -40,6 +42,7 @@
 (defun p5js-start-for-buffer (buffer)
   "Start the p5js environment for the current BUFFER."
   (interactive "b")
+  (remote-debug-launch)
 
   (defservlet p5js text/html ()
     (insert p5js-html-template))
