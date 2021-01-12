@@ -740,7 +740,7 @@
    Define autoloads for my local helpers functions.
 
    #+begin_src emacs-lisp
-     (autoload 'my-redmine-capture-issue "redmine-helpers" nil t)
+     (autoload 'my-redmine-insert-issue "redmine-helpers" nil t)
    #+end_src
 
 * Lisp

@@ -31,9 +31,10 @@
   (goto-char (point-min))
   (re-search-forward (rx-to-string `(group line-start "*" (+ whitespace) ,project)))
 
-  (next-line)
-
-  (when (org-at-property-block-p)
+  (when (save-excursion
+	  (next-line)
+	  (org-at-property-block-p))
+    (next-line)
     (goto-char (cdr (org-get-property-block))))
 
   (end-of-line))
@@ -49,7 +50,6 @@
    :success #'(lambda (issue)
 		(let-alist issue
 		  (my-redmine-goto-task-project project)
-		  (newline)
 		  (org-insert-todo-subheading (point))
 		  (insert (format "#%s - %s" issue-id .subject))))
    :error #'(lambda (&rest args)
