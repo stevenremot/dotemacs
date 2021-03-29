@@ -1079,6 +1079,13 @@
     (use-package simple-httpd)
   #+end_src
 
+* Rest
+
+  #+begin_src emacs-lisp
+    (use-package restclient
+      :commands restclient-mode)
+  #+end_src
+
 * Termux
 
   Configuration for termux environment
