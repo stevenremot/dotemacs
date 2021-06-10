@@ -955,8 +955,7 @@
   Setup lsp-java for editing Java files.
 
   #+BEGIN_SRC emacs-lisp
-    (use-package lsp-java
-      :after lsp
+    (use-package lsp-mode
       :hook ((java-mode . lsp)))
   #+END_SRC
 
