@@ -11,7 +11,7 @@
   :type 'string)
 
 (cl-defun redmine-api--request (path &key type success error)
-  "Low-leve function to make a network call.
+  "Low-level function to make a network call.
 
 PATH is the URL path
 TYPE is the HTTP verb
@@ -45,6 +45,25 @@ ERROR is the error callback"
 					 (funcall success (seq-first .issues)))))
 			:error error))
 
+(cl-defun redmine-api-list-issues (project-id &key success error)
+  "Return a list of issues for PROJECT-ID."
+
+  (redmine-api--request (format "/issues.json?project_id=%s" project-id)
+			:type "GET"
+			:success #'(lambda (&rest data)
+				     (let-alist (plist-get data :data)
+				       (funcall success .issues)))
+			:error error))
+
+(cl-defun redmine-api-list-versions (project-id &key success error)
+  "Return a list of versions for PROJECT-ID."
+
+  (redmine-api--request (format "/projects/%s/versions.json" project-id)
+			:type "GET"
+			:success #'(lambda (&rest data)
+				     (let-alist (plist-get data :data)
+				       (funcall success .versions)))
+			:error error))
 
 (provide 'redmine-api)
 

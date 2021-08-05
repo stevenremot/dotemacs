@@ -6,7 +6,47 @@
 (require 'org-capture)
 (require 'redmine-api)
 
-(defconst my-redmine-project-regexp (rx line-start "*" (+ whitespace) (group (* alnum)) line-end)
+;;; Dedicated GUI
+(defun my-redmine--display-issue-in-buffer (issue)
+  "Display fetched ISSUE in a new buffer."
+  (let-alist issue
+    (with-current-buffer (get-buffer-create (format "*redmine: issue #%s*" .id))
+      (erase-buffer)
+      (markdown-mode)
+      (insert (format "# %s\n\n" .subject))
+
+      (insert-button "Add to Tasks"
+		     'action #'(lambda (_button) (my-redmine-insert-issue .id "Traqfood"))
+		     'mouse-action #'(lambda (_button) (my-redmine-insert-issue .id "Traqfood")))
+
+      (insert " - ")
+
+      (insert-button "Visit"
+		     'action #'(lambda (_button) (my-redmine-insert-issue .id "Traqfood"))
+		     'mouse-action #'(lambda (_button) (my-redmine-insert-issue .id "Traqfood")))
+
+      (insert "\n\n")
+
+      (when .assigned_to.name
+	(insert (format "**Assigned to:** %s\n\n" .assigned_to.name)))
+
+      (insert (format "**Description:**\n%s\n\n" .description))
+      (insert (format "\n\n\n\n\n**Issue content:**\n```lisp\n%S\n```\n" issue))
+
+      (replace-string "" "" nil (point-min) (point-max))
+      (switch-to-buffer-other-window (current-buffer)))))
+
+;;;###autoload
+(defun my-redmine-show-issue (issue-id)
+  "Show the issue ISSUE-ID in a new buffer."
+  (interactive (list (read-string "Issue: ")))
+  (redmine-api-get-issue issue-id
+			 :success #'(lambda (issue) (my-redmine--display-issue-in-buffer issue))
+			 :error 'error))
+
+;;; Org mode interaction
+
+(defconst my-redmine-project-regexp (rx line-start "*" (+ whitespace) (group (* (any alnum space))) line-end)
   "Regexp for matching a project section.")
 
 (defun my-redmine-list-projects ()
