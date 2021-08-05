@@ -1020,6 +1020,13 @@
       (po-auto-update-file-header nil))
   #+END_SRC
 
+* Swift
+
+  #+begin_src emacs-lisp
+    (use-package swift-mode
+      :mode ("\\.swift\\'" . swift-mode))
+  #+end_src
+
 * Project libs
 
   Load project libraries that are in the ~projects~ folder. These are
@@ -1101,5 +1108,5 @@
 * Local variables
 
 # Local Variables:
-# after-save-hook: (lambda () (compile "make setup"))
+# after-save-hook: org-babel-tangle
 # End:
