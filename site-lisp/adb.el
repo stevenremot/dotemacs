@@ -24,6 +24,28 @@ TODO: Fix first element not catched."
   )
 
 ;;;###autoload
+(defun adb-list-processes ()
+  "List all processes running on the device."
+  (interactive)
+  (async-shell-command "adb shell ps -A" "*adb ps*")
+  (display-buffer "*adb ps*"))
+
+;;;###autoload
+(defun adb-logcat-tail ()
+  "Run logcat."
+  (interactive)
+  (async-shell-command "adb logcat -T 20" "*adb logcat*")
+  (display-buffer "*adb-logcat*"))
+
+;;;###autoload
+(defun adb-logcat-pid (pid)
+  "Run logcat, filtering for PID."
+  (interactive (list (thing-at-point 'number)))
+  (async-shell-command (format "adb logcat --pid %d" pid) "*adb logcat*")
+  (display-buffer "*adb-logcat*"))
+
+
+;;;###autoload
 (defun avd-start-emulator (device-name)
   "Start an emulator.
 
