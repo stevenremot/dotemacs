@@ -123,6 +123,7 @@
      (use-package prism
        :straight (prism :fetcher github :repo "alphapapa/prism.el")
        :hook (((prog-mode) . prism-mode)
+	      ((yaml-mode) . prism-whitespace-mode)
 	      (prism-mode . my/setup-prism)))
    #+end_src
 
