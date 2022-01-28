@@ -137,87 +137,6 @@
       (set-face-attribute 'mode-line-inactive nil :background "gray24" :foreground "dim gray")
     #+end_src
 
-*** Mode line flycheck reporting
-
-    This is a simple widget to show flycheck errors and warnings in the
-    mode line.
-
-    #+BEGIN_SRC emacs-lisp
-      (defface my-flycheck-mode-line-font
-	'((t :height 120 :weight bold))
-	"Base face for showing flycheck errors adn warnings in the mode line."
-	:group 'mode-line)
-
-      (defface my-flycheck-mode-line-error-disabled
-	'((t :inherit my-flycheck-mode-line-font :foreground "red3"))
-	"Face for showing no flycheck errors in the mode line."
-	:group 'mode-line)
-
-      (defface my-flycheck-mode-line-error
-	'((t :inherit my-flycheck-mode-line-font :foreground "red1"))
-	"Face for showing flycheck errors in the mode line."
-	:group 'mode-line)
-
-      (defface my-flycheck-mode-line-warning-disabled
-	'((t :inherit my-flycheck-mode-line-font :foreground "orange3" ))
-	"Face for showing no flycheck warnings in the mode line."
-	:group 'mode-line)
-
-      (defface my-flycheck-mode-line-warning
-	'((t :inherit my-flycheck-mode-line-font :foreground "orange1" ))
-	"Face for showing flycheck warnings in the mode line."
-	:group 'mode-line)
-
-      (defface my-flycheck-mode-line-info-disabled
-	'((t :inherit my-flycheck-mode-line-font :foreground "green4" ))
-	"Face for showing no flycheck warnings in the mode line."
-	:group 'mode-line)
-
-      (defface my-flycheck-mode-line-info
-	'((t :inherit my-flycheck-mode-line-font :foreground "green1" ))
-	"Face for showing flycheck warnings in the mode line."
-	:group 'mode-line)
-
-
-
-      (defun my-flycheck-get-error-count ()
-	"Return the number of flycheck errors by level."
-	(interactive)
-	(let ((errors flycheck-current-errors)
-	      (count-by-level '()))
-	  (cl-loop for error in errors
-		   for level = (flycheck-error-level error)
-		   for new-value = (1+ (or (plist-get count-by-level level) 0))
-		   do
-		   (setq count-by-level
-			 (plist-put count-by-level level new-value))
-		   finally return count-by-level)))
-
-      (defun my-flycheck-mode-line ()
-	"Create a mode line element to display flycheck errors."
-	(let* ((error-count (my-flycheck-get-error-count))
-	       (errors (or (plist-get error-count 'error) 0))
-	       (warnings (or (plist-get error-count 'warning) 0))
-	       (infos (or (plist-get error-count 'info) 0)))
-	  (concat
-	   "["
-	   (propertize (format "%d" errors)
-		       'face (if (= 0 errors)
-				 'my-flycheck-mode-line-error-disabled
-			       'my-flycheck-mode-line-error))
-	   " "
-	   (propertize (format "%d" warnings)
-		       'face(if (= 0 warnings)
-				'my-flycheck-mode-line-warning-disabled
-			      'my-flycheck-mode-line-warning))
-	   " "
-	   (propertize (format "%d" infos)
-		       'face(if (= 0 infos)
-				'my-flycheck-mode-line-info-disabled
-			      'my-flycheck-mode-line-info))
-	   "]")))
-    #+END_SRC
-
 *** Powerline
 
     I am using my own theme forked from ~powerline-default-theme~.
@@ -250,9 +169,9 @@
 			       'l)
 			      (when (> (length (tab-bar-tabs)) 1)
 				(powerline-raw (thread-last (tab-bar-tabs)
-						 (assq 'current-tab)
-						 (assq 'name)
-						 cdr)
+							    (assq 'current-tab)
+							    (assq 'name)
+							    cdr)
 					       mode-line 'l))
 			      (powerline-buffer-id `(mode-line-buffer-id ,mode-line) 'l)
 			      (powerline-raw " " mode-line)
@@ -262,7 +181,7 @@
 			      ))
 		   (rhs (list
 			 (powerline-vc mode-line 'r)
-			 (my-flycheck-mode-line)
+			 (powerline-raw (flymake--mode-line-counters))
 			 (unless window-system
 			   (powerline-raw (char-to-string #xe0a1) mode-line 'l))
 			 )))
@@ -473,9 +392,13 @@
 ** Code checking
 
    #+begin_src emacs-lisp
-     (use-package flycheck
+     (use-package flymake
        :ensure
-       :config (global-flycheck-mode))
+       :hook (prog-mode . flymake-mode)
+       :bind ((:map flymake-mode-map
+		    ("C-c ! l" . flymake-show-buffer-diagnostics)
+		    ("C-c ! p" . flymake-goto-prev-error)
+		    ("C-c ! l" . flymake-goto-next-error))))
    #+end_src
 
 ** Auto formatting
@@ -764,15 +687,6 @@
       :init (setq read-process-output-max (* 1024 1024)))
   #+END_SRC
 
-  Setup ~lsp-ui~ and ~company~:
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package lsp-ui
-      :commands lsp-ui-mode
-      :bind (("M-." . lsp-ui-peek-find-definitions)
-	     ("M-?" . lsp-ui-peek-find-references)))
-  #+END_SRC
-
 * DAP
 
   #+BEGIN_SRC emacs-lisp
@@ -858,15 +772,21 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
-       :mode "\\.tsx?\\'"
-       :config (flycheck-add-mode 'javascript-eslint 'typescript-mode))
+       :mode "\\.tsx?\\'")
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
-       :hook (typescript-mode . lsp)
-       :init (eval-after-load 'lsp-ui '(flycheck-add-next-checker 'lsp 'javascript-eslint)))
+       :hook (typescript-mode . lsp))
    #+END_SRC
+
+** Flymake
+
+   #+begin_src emacs-lisp
+     (use-package flymake-eslint
+       :hook ((js-mode . flymake-eslint-enable)
+	      (typescript-mode . flymake-eslint-enable)))
+   #+end_src
 
 ** JSON
 
@@ -1011,18 +931,6 @@
       :config (add-hook 'rust-mode-hook #'lsp))
   #+END_SRC
 
-* Vagrant
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package vagrant-tramp
-      :after (tramp)
-      :straight (vagrant-tramp
-	       :type git
-	       :host github
-	       :repo "stevenremot/vagrant-tramp"
-	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
-  #+END_SRC
-
 * Kubernetes
 
   #+begin_src emacs-lisp
@@ -1076,14 +984,10 @@
 
    #+begin_src emacs-lisp
      (defun my-configure-c++-checkers ()
-       (flycheck-add-mode 'lsp 'c++-mode)
        (lsp))
 
      (use-package cc-mode
-       :hook ((c++-mode . my-configure-c++-checkers))
-       :config
-       (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
-       (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc))
+       :hook ((c++-mode . my-configure-c++-checkers)))
    #+end_src
 
 * Cucumber
@@ -1121,6 +1025,19 @@
       (global-set-key (kbd "<mouse-5>") #'next-line)
       (global-set-key (kbd "<mouse-4>") #'previous-line))
   #+end_src
+
+* Vagrant
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package vagrant-tramp
+      :after (tramp)
+      :straight (vagrant-tramp
+	       :type git
+	       :host github
+	       :repo "stevenremot/vagrant-tramp"
+	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
+  #+END_SRC
+
 
 
 * Local variables
