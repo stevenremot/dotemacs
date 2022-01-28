@@ -398,7 +398,7 @@
        :bind ((:map flymake-mode-map
 		    ("C-c ! l" . flymake-show-buffer-diagnostics)
 		    ("C-c ! p" . flymake-goto-prev-error)
-		    ("C-c ! l" . flymake-goto-next-error))))
+		    ("C-c ! n" . flymake-goto-next-error))))
    #+end_src
 
 ** Auto formatting
