@@ -790,6 +790,23 @@
       (global-set-key (kbd "C-c d") #'dap-hydra))
   #+END_SRC
 
+* Sonarlint
+
+  #+begin_src emacs-lisp
+    (autoload 'sonar-visit-file-page "sonar" nil t)
+  #+end_src
+
+  #+begin_src emacs-lisp :tangle no
+    (use-package lsp-sonarlint
+      :config
+      (require 'lsp-sonarlint-javascript)
+      (setq lsp-sonarlint-javascript-enabled t)
+      (require 'lsp-sonarlint-php)
+      (setq lsp-sonarlint-php-enabled t)
+      (require 'lsp-sonarlint-typescript)
+      (setq lsp-sonarlint-typescript-enabled t))
+  #+end_src
+
 * Web
 
   Use [[http://web-mode.org/][web-mode]] for editing HTML files
