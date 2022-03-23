@@ -181,7 +181,7 @@
 			      ))
 		   (rhs (list
 			 (powerline-vc mode-line 'r)
-			 (powerline-raw (flymake--mode-line-counters))
+			 (powerline-raw (when flymake-mode (flymake--mode-line-counters)))
 			 (unless window-system
 			   (powerline-raw (char-to-string #xe0a1) mode-line 'l))
 			 )))
@@ -739,17 +739,6 @@
   #+end_src
 
 * Javascript
-** Node modules support
-
-   ~add-node-modules-path~ automatically adds the node_modules bin
-   folder to the path. This allows using the project tools when
-   opening a file (ex: eslint, prettier).
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package add-node-modules-path
-       :hook ((js-mode . add-node-modules-path)
-	      (typescript-mode . add-node-modules-path)))
-   #+END_SRC
 ** LSP
 
    #+BEGIN_SRC emacs-lisp
@@ -844,6 +833,21 @@
      (use-package emmet-mode
        :hook (typescript-mode js-mode))
    #+end_src
+
+** Node modules support
+
+   ~add-node-modules-path~ automatically adds the node_modules bin
+   folder to the path. This allows using the project tools when
+   opening a file (ex: eslint, prettier).
+
+   Make sure to add the hooks as late as possible, as some other
+   packages relies on it.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package add-node-modules-path
+       :hook ((js-mode . add-node-modules-path)
+	      (typescript-mode . add-node-modules-path)))
+   #+END_SRC
 
 * PHP
 ** php-mode
