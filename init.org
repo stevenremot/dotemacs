@@ -27,13 +27,9 @@
 ** Mac OS
 
    #+BEGIN_SRC sh :tangle no
-     brew install libxml2 gnutls texinfo
-     export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
-     git clone -b master git://git.sv.gnu.org/emacs.git
-     cd emacs
-     sh autogen.sh
-     ./configure --with-gnutls --with-librsvg --with-cocoa --with-modules
-     make
+     brew tap railwaycat/emacsmacport
+     brew install emacs-mac --with-xwidgets --with-natural-title-bar
+     cp /usr/local/Cellar/emacs-mac/emacs-28.1-mac-9.0/Emacs.app ~/Applications
    #+END_SRC
 
 * Package management
@@ -1034,12 +1030,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package vagrant-tramp
-      :after (tramp)
-      :straight (vagrant-tramp
-	       :type git
-	       :host github
-	       :repo "stevenremot/vagrant-tramp"
-	       :files ("*.el" ("bin" "bin/vagrant-tramp-ssh"))))
+      :after (tramp))
   #+END_SRC
 
 
