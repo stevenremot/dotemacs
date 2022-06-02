@@ -768,9 +768,12 @@
 ** Flymake
 
    #+begin_src emacs-lisp
+     (autoload 'vscode-setup-flymake-eslint "vscode.el")
+
      (use-package flymake-eslint
        :hook ((js-mode . flymake-eslint-enable)
-	      (typescript-mode . flymake-eslint-enable)))
+	      (typescript-mode . flymake-eslint-enable)
+	      (flymake-mode . vscode-setup-flymake-eslint)))
    #+end_src
 
 ** JSON
