@@ -714,7 +714,12 @@
       (require 'lsp-sonarlint-php)
       (setq lsp-sonarlint-php-enabled t)
       (require 'lsp-sonarlint-typescript)
-      (setq lsp-sonarlint-typescript-enabled t))
+      (setq lsp-sonarlint-typescript-enabled t)
+      :straight (lsp-sonarlint
+		      :type git
+		      :host github
+		      :repo "stevenremot/lsp-sonarlint"
+		      :branch "add-connected-mode"))
   #+end_src
 
 * Web
