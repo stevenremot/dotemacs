@@ -12,7 +12,7 @@
   (when (buffer-file-name)
     (let* ((root (locate-dominating-file (buffer-file-name) ".vscode"))
 	 (settings-file (file-name-concat root ".vscode" "settings.json"))
-	 (settings (json-read-file settings-file)))
+	 (settings (when (file-exists-p settings-file) (json-read-file settings-file))))
     (seq-do
      #'(lambda (work-dir)
 	 (let ((path (expand-file-name (alist-get 'directory work-dir) root))
