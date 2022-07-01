@@ -96,11 +96,11 @@
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
    #+END_SRC
 
-** Gruvbox
+** Moe theme
 
    #+begin_src emacs-lisp
-     (use-package gruvbox-theme
-       :config (load-theme 'gruvbox-dark-soft :no-confirm))
+     (use-package moe-theme
+       :config (moe-dark))
    #+end_src
 
 ** Syntactical coloration
