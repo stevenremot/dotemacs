@@ -66,6 +66,29 @@
        (require 'use-package))
    #+end_src
 
+* Main script
+** Global variables
+
+   These are common useful variables for getting the emacs init dir
+   and the path to my personal local packages.
+
+   #+BEGIN_SRC emacs-lisp
+     (eval-and-compile
+       (defconst my-init-dir (file-name-directory (or load-file-name (buffer-file-name))))
+       (defconst my-site-lisp (concat my-init-dir "site-lisp/"))
+       (add-to-list 'load-path my-site-lisp))
+   #+END_SRC
+
+** Custom configuration
+
+   Move the custom configuration file outside of the init file to
+   avoid blending custom configuration with the init sources.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq custom-file (concat my-init-dir "custom-file.el"))
+     (load custom-file 'no-error)
+   #+END_SRC
+
 * Theme
 ** Default settings
 
@@ -78,11 +101,11 @@
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
    #+END_SRC
 
-** Moe theme
+** ef-theme
 
    #+begin_src emacs-lisp
-     (use-package moe-theme
-       :config (moe-dark))
+     (use-package ef-themes
+       :config (load-theme 'ef-dark))
    #+end_src
 
 ** Syntactical coloration
@@ -187,29 +210,6 @@
        :hook (prog-mode . emojify-mode)
        :custom (emojify-emoji-styles '(unicode)))
    #+end_src
-
-* Main script
-** Global variables
-
-   These are common useful variables for getting the emacs init dir
-   and the path to my personal local packages.
-
-   #+BEGIN_SRC emacs-lisp
-     (eval-and-compile
-       (defconst my-init-dir (file-name-directory (or load-file-name (buffer-file-name))))
-       (defconst my-site-lisp (concat my-init-dir "site-lisp/"))
-       (add-to-list 'load-path my-site-lisp))
-   #+END_SRC
-
-** Custom configuration
-
-   Move the custom configuration file outside of the init file to
-   avoid blending custom configuration with the init sources.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq custom-file (concat my-init-dir "custom-file.el"))
-     (load custom-file 'no-error)
-   #+END_SRC
 
 * General UX
 ** Startup screen
