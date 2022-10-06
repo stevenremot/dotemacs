@@ -28,8 +28,8 @@
 
    #+BEGIN_SRC sh :tangle no
      brew tap railwaycat/emacsmacport
-     brew install emacs-mac --with-xwidgets --with-natural-title-bar
-     cp /usr/local/Cellar/emacs-mac/emacs-28.1-mac-9.0/Emacs.app ~/Applications
+     brew install emacs-mac --with-xwidgets --with-natural-title-bar --with-librsvg
+     ln -s /usr/local/opt/emacs-mac/Emacs.app ~/Applications
    #+END_SRC
 
 * Package management
