@@ -912,7 +912,10 @@
   #+BEGIN_SRC emacs-lisp
     (use-package po-mode
       :custom
-      (po-auto-update-file-header nil))
+      (po-auto-update-file-header nil)
+      :straight '(po-mode :type git
+			  :host github
+			  :repo "stevenremot/po-mode"))
   #+END_SRC
 
 * Swift
