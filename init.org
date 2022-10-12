@@ -266,7 +266,6 @@
 
   #+begin_src emacs-lisp
     (use-package esup
-      :ensure t
       :commands (esup)
       :init (setq esup-depth 0))
   #+end_src
@@ -310,13 +309,6 @@
    #+begin_src emacs-lisp
      (electric-pair-mode 1)
      (show-paren-mode 1)
-   #+end_src
-
-** Expand region
-
-   #+begin_src emacs-lisp
-     (use-package expand-region
-       :bind (("C-=" . er/expand-region)))
    #+end_src
 
 ** Auto completion
@@ -638,22 +630,6 @@
     (autoload 'sonar-visit-file-page "sonar" nil t)
   #+end_src
 
-  #+begin_src emacs-lisp :tangle no
-    (use-package lsp-sonarlint
-      :config
-      (require 'lsp-sonarlint-javascript)
-      (setq lsp-sonarlint-javascript-enabled t)
-      (require 'lsp-sonarlint-php)
-      (setq lsp-sonarlint-php-enabled t)
-      (require 'lsp-sonarlint-typescript)
-      (setq lsp-sonarlint-typescript-enabled t)
-      :straight (lsp-sonarlint
-		      :type git
-		      :host github
-		      :repo "stevenremot/lsp-sonarlint"
-		      :branch "add-connected-mode"))
-  #+end_src
-
 * Web
 
   Use [[http://web-mode.org/][web-mode]] for editing HTML files
@@ -943,12 +919,6 @@
 
   #+begin_src emacs-lisp
     (autoload 'p5js-start-for-buffer "p5js" nil t)
-  #+end_src
-
-* HTTPD
-
-  #+begin_src emacs-lisp
-    (use-package simple-httpd)
   #+end_src
 
 * Rest
