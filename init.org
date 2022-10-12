@@ -255,6 +255,7 @@
        ("C-h k" . helpful-key)
        ("C-c C-d" . helpful-at-point)
        ("C-h C" . helpful-command)
+       ("C-h o" . helpful-symbol)
        :custom
        (counsel-describe-function-function #'helpful-callable)
        (counsel-describe-variable-function #'helpful-variable))
