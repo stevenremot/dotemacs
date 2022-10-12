@@ -105,39 +105,10 @@
 
    #+begin_src emacs-lisp
      (use-package ef-themes
-       :config (load-theme 'ef-dark))
-   #+end_src
-
-** Syntactical coloration
-
-   Color the code based on nested parentheses / scopes using [[https://github.com/alphapapa/prism.el][prism.el]] .
-
-   Apply additional syntactical coloration on keywords to identify them easily.
-
-   #+begin_src emacs-lisp
-     (defun my/setup-prism ()
-       (face-remap-add-relative 'font-lock-keyword-face (list :weight 'bold))
-       (face-remap-add-relative 'font-lock-comment-face (list :weight 'light :slant 'italic)))
-   #+end_src
-
-   #+begin_src emacs-lisp
-     (use-package prism
-       :straight (prism :fetcher github :repo "alphapapa/prism.el")
-       :hook (((prog-mode) . prism-mode)
-	      ((yaml-mode) . prism-whitespace-mode)
-	      (prism-mode . my/setup-prism)))
+       :config (load-theme 'ef-autumn))
    #+end_src
 
 ** Mode line
-*** Theme
-
-    Make the mode line the same colors than the whole buffer.
-
-    #+begin_src emacs-lisp
-      (set-face-attribute 'mode-line nil :background "gray24" :foreground "white")
-      (set-face-attribute 'mode-line-inactive nil :background "gray24" :foreground "dim gray")
-    #+end_src
-
 *** Powerline
 
     I am using my own theme forked from ~powerline-default-theme~.
@@ -1004,7 +975,6 @@
     (use-package vagrant-tramp
       :after (tramp))
   #+END_SRC
-
 
 
 * Local variables
