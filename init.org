@@ -349,6 +349,19 @@
        :hook (prog-mode . editorconfig-mode))
    #+end_src
 
+** Tree sitter
+
+   #+begin_src emacs-lisp
+     (use-package tree-sitter)
+   #+end_src
+
+   #+begin_src emacs-lisp
+     (use-package tree-sitter-langs
+       :hook ((php-mode . tree-sitter-hl-mode)
+	      (js-mode . tree-sitter-hl-mode)
+	      (typescript-mode . tree-sitter-hl-mode)))
+   #+end_src
+
 ** Backups
 
    Stop having backups files inside my projects and committing them by
@@ -599,7 +612,8 @@
 
 * LSP
 
-  Setup the core package
+  Setup the core package. Update ~read-process-output-max~ to improve
+  performances when communicating with LSP servers..
 
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode
@@ -607,6 +621,16 @@
       :bind (("C-c SPC" . lsp-execute-code-action))
       :init (setq read-process-output-max (* 1024 1024)))
   #+END_SRC
+
+* Yasnippet
+
+  I don't really use it, but it looks like it is necesary for lsp-mode...
+
+  #+begin_src emacs-lisp
+    (use-package yasnippet
+      :after (lsp)
+      :init (yas-global-mode))
+  #+end_src
 
 * DAP
 
@@ -946,7 +970,6 @@
     (use-package vagrant-tramp
       :after (tramp))
   #+END_SRC
-
 
 * Local variables
 
