@@ -392,9 +392,9 @@
 
 ** ripgrep
 
-   Ripgrep is my preferred way to search for occurences in a project
-   (just after LSP). It is fast, and [[https://github.com/Wilfred/deadgrep][deadgrep]] offers a really nice
-   interface for Emacs.
+   Ripgrep is my preferred way to search for occurences in a
+   project. It is fast, and [[https://github.com/Wilfred/deadgrep][deadgrep]] offers a really nice interface
+   for Emacs.
 
    #+BEGIN_SRC emacs-lisp
      (use-package deadgrep)
@@ -610,44 +610,11 @@
 		 ("C-c C-b" . eval-buffer)))
  #+end_src
 
-* LSP
-
-  Setup the core package. Update ~read-process-output-max~ to improve
-  performances when communicating with LSP servers..
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package lsp-mode
-      :commands lsp
-      :bind (("C-c SPC" . lsp-execute-code-action))
-      :init (setq read-process-output-max (* 1024 1024)))
-  #+END_SRC
-
-* Yasnippet
-
-  I don't really use it, but it looks like it is necesary for lsp-mode...
+* LSP (eglot)
 
   #+begin_src emacs-lisp
-    (use-package yasnippet
-      :after (lsp)
-      :init (yas-global-mode))
+    (use-package eglot)
   #+end_src
-
-* DAP
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package hydra)
-  #+END_SRC
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package dap-mode
-      :after lsp-mode
-      :config
-      (dap-mode t)
-      (dap-ui-mode t)
-      (require 'dap-chrome)
-      (require 'dap-firefox)
-      (global-set-key (kbd "C-c d") #'dap-hydra))
-  #+END_SRC
 
 * Sonarlint
 
@@ -673,20 +640,15 @@
   #+end_src
 
 * Javascript
-** LSP
+** Eglot
 
    #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
-       :hook ((js-mode . lsp)))
-   #+END_SRC
+     (use-package eglot
+       :hook ((js-mode . eglot-ensure)))
 
-   Rebind some js-mode keys to lsp:
-
-   #+BEGIN_SRC emacs-lisp
      (use-package js
        :bind (:map js-mode-map
-		   ("M-." . lsp-find-definition)
-		   ("M-?" . lsp-find-references)))
+			("M-." . xref-find-definitions)))
    #+END_SRC
 
 ** Typescript
@@ -699,8 +661,8 @@
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
-       :hook (typescript-mode . lsp))
+     (use-package eglot
+       :hook (typescript-mode . eglot-ensure))
    #+END_SRC
 
 ** Flymake
@@ -794,14 +756,14 @@
        :mode "\\.php\\'")
    #+END_SRC
 
-** lsp-php
+** eglot
 
    This package requires [[https://github.com/felixfbecker/php-language-server][php-language-server]] to work. Follow the
    instructions on the readme to do so.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
-       :hook ((php-mode . lsp)))
+     (use-package eglot
+       :hook ((php-mode . eglot-ensure)))
    #+END_SRC
 * Docker
 ** dockerfile-mode
@@ -829,15 +791,6 @@
     (use-package yaml-mode)
   #+END_SRC
 
-* Java
-
-  Setup lsp-java for editing Java files.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package lsp-mode
-      :hook ((java-mode . lsp)))
-  #+END_SRC
-
 * Android
 ** Helpers
 
@@ -862,14 +815,6 @@
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'tramp
       (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-  #+END_SRC
-
-* Rust
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package rust-mode
-      :mode ("\\.rs\\'" . rust-mode)
-      :config (add-hook 'rust-mode-hook #'lsp))
   #+END_SRC
 
 * Kubernetes
@@ -908,31 +853,6 @@
       (dolist (lib (directory-files projects-dir t "\.el$"))
 	(load-file lib)))
   #+END_SRC
-
-* C++
-  :PROPERTIES:
-  :header-args: :tangle no
-  :END:
-** LSP
-
-   Setup lSP for C++.
-
-   In order to be able to use it, clangd must be installed:
-
-   #+begin_src sh :tangle no
-     sudo apt install clangd-9
-   #+end_src
-
-   The ~lsp-clients-clangd-executable~ variable may have to be changed
-   from ~"clangd"~ to ~"clangd-9"~.
-
-   #+begin_src emacs-lisp
-     (defun my-configure-c++-checkers ()
-       (lsp))
-
-     (use-package cc-mode
-       :hook ((c++-mode . my-configure-c++-checkers)))
-   #+end_src
 
 * Cucumber
 
