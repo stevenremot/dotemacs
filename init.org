@@ -615,7 +615,24 @@
 * LSP (eglot)
 
   #+begin_src emacs-lisp
-    (use-package eglot)
+    (defcustom my-eglot-typescript-args '()
+      ""
+      :safe t)
+
+    (use-package eglot
+      :bind (:map eglot-mode-map
+		  ("C-c SPC" . eglot-code-actions))
+      :init
+      ;; Handle flymake manually to avoid conflicts with flymake-eslint
+      (setq eglot-stay-out-of '(flymake))
+      (add-hook 'eglot-managed-mode-hook
+		#'(lambda ()
+		    (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil)))
+      :config
+      (add-to-list 'eglot-server-programs
+		   `((js-mode typescript-mode) . ("typescript-language-server"
+						 "--stdio"
+						 :initializationOptions ,#'(lambda (server) my-eglot-typescript-args)))))
   #+end_src
 
 * Sonarlint
