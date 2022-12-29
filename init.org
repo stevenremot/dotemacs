@@ -315,9 +315,11 @@
 ** Auto completion
 
    #+begin_src emacs-lisp
-     (use-package company
-       :bind (("C-M-i" . company-complete))
-       :config (global-company-mode))
+     (use-package corfu
+       :custom
+       (corfu-auto t)
+       :init
+       (global-corfu-mode))
    #+end_src
 
 ** Code checking
