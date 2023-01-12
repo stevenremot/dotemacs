@@ -569,8 +569,18 @@
        :mode ("\\.org\\'" . org-mode)
        :bind (("C-c o t" . org-todo-list))
        :config (my/init-org)
-       :custom (org-startup-folded t "Start all org documents in overview mode"))
+       :custom
+       (org-startup-folded t "Start all org documents in overview mode")
+       (org-indent-mode t))
    #+END_SRC
+
+** Mouse
+
+#+begin_src emacs-lisp
+  (use-package org-mouse
+    :straight nil
+    :after (org))
+#+end_src
 
 ** Agenda
 
