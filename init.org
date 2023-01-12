@@ -687,7 +687,15 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
-       :mode "\\.tsx?\\'")
+       :mode (("\\.ts\\'" . typescript-mode)
+	      ("\\.tsx\\'" . typescriptreact-mode))
+       :config
+       ;; Eglot uses the major mode name as the languageId to send to the LSP server.
+       ;; However, typescript-language-server has a different langaugeId for typescript
+       (define-derived-mode typescriptreact-mode typescript-mode
+	 "Typescript TSX")
+
+       (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
