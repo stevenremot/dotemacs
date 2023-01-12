@@ -399,7 +399,8 @@
    for Emacs.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package deadgrep)
+     (use-package deadgrep
+       :bind (("C-c C-s" . deadgrep)))
    #+END_SRC
 
 * Project management
