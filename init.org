@@ -703,7 +703,7 @@
        :hook (typescript-mode . eglot-ensure))
    #+END_SRC
 
-** Flymake
+** Eslint
 
    #+begin_src emacs-lisp
      (autoload 'vscode-setup-flymake-eslint "vscode.el")
@@ -712,6 +712,15 @@
        :hook ((js-mode . flymake-eslint-enable)
 	      (typescript-mode . flymake-eslint-enable)
 	      (flymake-mode . vscode-setup-flymake-eslint)))
+   #+end_src
+
+
+   #+begin_src emacs-lisp
+     (defun my-eslint-fix ()
+       "Run eslint --fix on the current buffer"
+       (interactive)
+       (let ((default-directory (project-root (project-current))))
+	 (async-shell-command (format "npx eslint --fix %s" (buffer-file-name)))))
    #+end_src
 
 ** JSON
