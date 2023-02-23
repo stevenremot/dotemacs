@@ -639,11 +639,28 @@
       (add-hook 'eglot-managed-mode-hook
 		#'(lambda ()
 		    (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil)))
+
+      ;; Advices to prevent Eglot from bugging because some LSP servers
+      ;; (ts-ls) send unicode null characters. Won't be needed when Emacs
+      ;; 29 is out
+      ;; https://github.com/typescript-language-server/typescript-language-server/issues/559#issuecomment-1259470791
+      (advice-add 'json-parse-string :around
+		  (lambda (orig string &rest rest)
+		    (apply orig (s-replace "\\u0000" "" string)
+			   rest)))
+
+      (advice-add 'json-parse-buffer :around
+		  (lambda (oldfn &rest args)
+		    (save-excursion
+		      (while (search-forward "\\u0000" nil t)
+			(replace-match "" nil t)))
+		    (apply oldfn args)))
+
       :config
       (add-to-list 'eglot-server-programs
 		   `((js-mode typescript-mode) . ("typescript-language-server"
-						 "--stdio"
-						 :initializationOptions ,#'(lambda (server) my-eglot-typescript-args)))))
+						  "--stdio"
+						  :initializationOptions ,#'(lambda (server) my-eglot-typescript-args)))))
   #+end_src
 
 * Sonarlint
@@ -711,6 +728,7 @@
      (use-package flymake-eslint
        :hook ((js-mode . flymake-eslint-enable)
 	      (typescript-mode . flymake-eslint-enable)
+	      (typescriptreact-mode . flymake-eslint-enable)
 	      (flymake-mode . vscode-setup-flymake-eslint)))
    #+end_src
 
