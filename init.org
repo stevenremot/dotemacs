@@ -931,6 +931,12 @@
       :commands restclient-mode)
   #+end_src
 
+* GraphQL
+
+#+begin_src emacs-lisp
+  (use-package graphql-mode)
+#+end_src
+
 * Termux
 
   Configuration for termux environment
