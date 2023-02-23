@@ -791,13 +791,6 @@
        :custom ((prettier-js-show-errors . nil)))
    #+end_src
 
-** Emmet
-
-   #+begin_src emacs-lisp
-     (use-package emmet-mode
-       :hook (typescript-mode js-mode))
-   #+end_src
-
 ** Node modules support
 
    ~add-node-modules-path~ automatically adds the node_modules bin
