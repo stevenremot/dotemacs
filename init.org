@@ -504,16 +504,17 @@
    Finally, we can import and configure the package:
 
    #+BEGIN_SRC emacs-lisp
-     (defun my-xterm-color-init ()
-       "First setup for xterm-color."
-       (my-remove-ansi-from-comint)
-       (my-xterm-color-configure-compilation))
+	  (defun my-xterm-color-init ()
+	    "First setup for xterm-color."
+	    (my-remove-ansi-from-comint)
+	    (my-xterm-color-configure-compilation))
 
-     (use-package xterm-color
-       :config (my-xterm-color-init)
-       :hook ((shell-mode . my-shell-mode-config-xterm-color)
-	      (eshell-mode . my-eshell-env-xterm-color)
-	      (eshell-before-prompt . my-eshell-before-prompt-xterm-color)))
+	  (use-package xterm-color
+	    :config (my-xterm-color-init)
+	    :hook ((shell-mode . my-shell-mode-config-xterm-color)
+		   (eshell-mode . my-eshell-env-xterm-color)
+		   (eshell-before-prompt . my-eshell-before-prompt-xterm-color)
+		   (compilation-mode . my-shell-mode-config-xterm-color)))
    #+END_SRC
 
 ** vterm
