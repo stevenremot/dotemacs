@@ -1,15 +1,13 @@
 
 *~
+\#*\#
 
 # Generated scripts
 init.el
 init.elc
 
-# Straight
-/straight/build/
-/straight/repos/
-/straight/build-cache.el
-/straight/modified/
+# Elpaca
+elpaca/
 
 # Local config
 custom-file.el
@@ -45,3 +43,6 @@ eclipse.jdt.ls/
 eww-bookmarks
 semanticdb/
 workspace/
+
+# Mac OS BS
+.DS_Store

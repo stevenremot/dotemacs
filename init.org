@@ -33,38 +33,53 @@
    #+END_SRC
 
 * Package management
-** straight.el
+** elpaca
 
-   Manage all my packages using [[https://github.com/raxod502/straight.el][straight.el]].
+#+begin_src emacs-lisp
+  (defvar elpaca-installer-version 0.2)
+  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+				:ref nil
+				:files (:defaults (:exclude "extensions"))
+				:build (:not elpaca--activate-package)))
+  (when-let ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+	     (build (expand-file-name "elpaca/" elpaca-builds-directory))
+	     (order (cdr elpaca-order))
+	     ((add-to-list 'load-path (if (file-exists-p build) build repo)))
+	     ((not (file-exists-p repo))))
+    (condition-case-unless-debug err
+	(if-let ((buffer (pop-to-buffer-same-window "*elpaca-installer*"))
+		 ((zerop (call-process "git" nil buffer t "clone"
+				       (plist-get order :repo) repo)))
+		 (default-directory repo)
+		 ((zerop (call-process "git" nil buffer t "checkout"
+				       (or (plist-get order :ref) "--"))))
+		 (emacs (concat invocation-directory invocation-name))
+		 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+				       "--eval" "(byte-recompile-directory \".\" 0 'force)"))))
+	    (progn (require 'elpaca)
+		   (elpaca-generate-autoloads "elpaca" repo)
+		   (kill-buffer buffer))
+	  (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (require 'elpaca-autoloads)
+  (add-hook 'after-init-hook #'elpaca-process-queues)
+  (elpaca `(,@elpaca-order))
+#+end_src
 
-   My choice was mainly motivated by the fact I have some custom
-   repositories I want to manage with =use-package=, and =quelpa= actually
-   takes 1 second to start if I want auto-updates.
+** use-package
 
-   #+begin_src emacs-lisp
-     (eval-and-compile
-       (defvar bootstrap-version)
-       (let ((bootstrap-file
-	      (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	     (bootstrap-version 5))
-	 (unless (file-exists-p bootstrap-file)
-	   (with-current-buffer
-	       (url-retrieve-synchronously
-		"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-		'silent 'inhibit-cookies)
-	     (goto-char (point-max))
-	     (eval-print-last-sexp)))
-	 (load bootstrap-file nil 'nomessage)))
-   #+end_src
+#+begin_src emacs-lisp
+  (elpaca elpaca-use-package
+    ;; Enable :elpaca use-package keyword.
+    (elpaca-use-package-mode)
+    ;; Assume :elpaca t unless otherwise specified.
+    (setq elpaca-use-package-by-default t))
 
-   Install [[https://github.com/jwiegley/use-package][use-package]] and fetch missing packaes by default.
-
-   #+begin_src emacs-lisp
-     (eval-and-compile
-       (straight-use-package 'use-package)
-       (setq straight-use-package-by-default t)
-       (require 'use-package))
-   #+end_src
+  (elpaca-wait)
+#+end_src
 
 * Main script
 ** Global variables
@@ -234,6 +249,7 @@
 
    #+begin_src emacs-lisp
      (use-package subword
+       :elpaca nil
        :hook (prog-mode . subword-mode))
    #+end_src
 
@@ -287,7 +303,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package iso-transl
-       :straight nil)
+       :elpaca nil)
    #+END_SRC
 
 ** Mac special setup
@@ -566,7 +582,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org
-       :straight org
+       :elpaca nil
        :mode ("\\.org\\'" . org-mode)
        :bind (("C-c o t" . org-todo-list))
        :config (my/init-org)
@@ -579,7 +595,7 @@
 
 #+begin_src emacs-lisp
   (use-package org-mouse
-    :straight nil
+    :elpaca nil
     :after (org))
 #+end_src
 
@@ -587,7 +603,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-agenda
-       :straight nil
+       :elpaca nil
        :bind (("C-c o a" . org-agenda-list)))
    #+END_SRC
 
@@ -595,7 +611,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-clock
-       :straight nil
+       :elpaca nil
        :bind (("C-c o j" . org-clock-goto)))
    #+END_SRC
 
@@ -603,7 +619,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
-       :straight nil
+       :elpaca nil
        :bind (("C-c o c" . org-capture)))
    #+END_SRC
 
@@ -619,7 +635,7 @@
 
  #+begin_src emacs-lisp
    (use-package elisp-mode
-     :straight nil
+     :elpaca nil
      :bind (:map emacs-lisp-mode-map
 		 ("C-c C-b" . eval-buffer)))
  #+end_src
@@ -695,6 +711,7 @@
        :hook ((js-mode . eglot-ensure)))
 
      (use-package js
+       :elpaca nil
        :bind (:map js-mode-map
 			("M-." . xref-find-definitions)))
    #+END_SRC
@@ -754,7 +771,7 @@
 
    Setup the correct node version when opening a JS file.
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (defun my-nvm-use-for ()
        (interactive)
        (condition-case error
@@ -771,7 +788,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package yaml-comment
-       :straight nil
+       :elpaca nil
        :after (typescript-mode)
        :bind (:map js-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)
@@ -810,7 +827,7 @@
 * PHP
 ** php-mode
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package php-mode
        :mode "\\.php\\'")
    #+END_SRC
@@ -820,7 +837,7 @@
    This package requires [[https://github.com/felixfbecker/php-language-server][php-language-server]] to work. Follow the
    instructions on the readme to do so.
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package eglot
        :hook ((php-mode . eglot-ensure)))
    #+END_SRC
@@ -855,7 +872,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package adb
-       :straight nil
+       :elpaca nil
        :commands (avd-start-emulator))
    #+END_SRC
 
@@ -863,7 +880,7 @@
 
    This is useful for editing gradle files.
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package groovy-mode)
    #+END_SRC
 * TRAMP
@@ -878,25 +895,25 @@
 
 * Kubernetes
 
-  #+begin_src emacs-lisp
+  #+begin_src emacs-lisp :tangle no
     (use-package kubernetes
       :commands (kubernetes-overview))
   #+end_src
 
 * Gettext
 
-  #+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp :tangle no
     (use-package po-mode
       :custom
       (po-auto-update-file-header nil)
-      :straight '(po-mode :type git
+      :elpaca '(po-mode :type git
 			  :host github
 			  :repo "stevenremot/po-mode"))
   #+END_SRC
 
 * Swift
 
-  #+begin_src emacs-lisp
+  #+begin_src emacs-lisp :tangle no
     (use-package swift-mode
       :mode ("\\.swift\\'" . swift-mode))
   #+end_src
@@ -915,7 +932,7 @@
 
 * Cucumber
 
-  #+begin_src emacs-lisp
+  #+begin_src emacs-lisp :tangle no
     (use-package feature-mode)
   #+end_src
 
