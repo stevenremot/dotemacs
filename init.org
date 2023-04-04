@@ -673,11 +673,22 @@
 			(replace-match "" nil t)))
 		    (apply oldfn args)))
 
+      ;; Unless I update my emacs, add a polyfill for project-name
+      (unless (fboundp 'project-name)
+	(cl-defgeneric project-name (project)
+	  "A human-readable name for the project.
+    Nominally unique, but not enforced."
+	  (file-name-nondirectory (directory-file-name (project-root project)))))
+
       :config
       (add-to-list 'eglot-server-programs
-		   `((js-mode typescript-mode) . ("typescript-language-server"
-						  "--stdio"
-						  :initializationOptions ,#'(lambda (server) my-eglot-typescript-args)))))
+		   `((js-mode typescript-mode typescriptreact-mode) .
+		     ("typescript-language-server"
+		      "--stdio"
+		      :initializationOptions
+		      (:preferences (:includeInlayParameterNameHints "none"
+				     :includeInlayPropertyDeclarationTypeHints t
+				     :includeInlayFunctionLikeReturnTypeHints t))))))
   #+end_src
 
 * Sonarlint
