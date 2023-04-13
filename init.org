@@ -112,7 +112,6 @@
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode 0)
      (when (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
-     (menu-bar-mode 0)
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
    #+END_SRC
 
