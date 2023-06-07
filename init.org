@@ -431,18 +431,12 @@
        :commands (magit-status))
    #+end_src
 
-** Projectile
+** Project
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package projectile
-       :custom
-       (projectile-keymap-prefix (kbd "C-c p"))
-       :config (projectile-mode))
-
-     (use-package counsel-projectile
-       :after (projectile ivy)
-       :config (counsel-projectile-mode))
-   #+END_SRC
+#+begin_src emacs-lisp
+  (use-package project
+    :elpaca nil)
+#+end_src
 
 * Shell
 ** Environment variables
