@@ -679,7 +679,7 @@
 
       :config
       (add-to-list 'eglot-server-programs
-		   `((js-mode typescript-mode typescriptreact-mode) .
+		   `((js-mode typescriptreact-mode typescript-mode) .
 		     ("typescript-language-server"
 		      "--stdio"
 		      :initializationOptions
@@ -715,13 +715,13 @@
 ** Eglot
 
    #+BEGIN_SRC emacs-lisp
-     (use-package eglot
-       :hook ((js-mode . eglot-ensure)))
-
      (use-package js
        :elpaca nil
+       :mode (("\\.mjs\\'" . js-mode))
        :bind (:map js-mode-map
-			("M-." . xref-find-definitions)))
+			("M-." . xref-find-definitions))
+       :config
+       (add-hook 'js-mode-hook #'eglot-ensure))
    #+END_SRC
 
 ** Typescript
@@ -738,12 +738,8 @@
        (define-derived-mode typescriptreact-mode typescript-mode
 	 "Typescript TSX")
 
-       (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
-   #+END_SRC
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package eglot
-       :hook (typescript-mode . eglot-ensure))
+       (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx))
+       (add-hook 'typescript-mode-hook #'eglot-ensure))
    #+END_SRC
 
 ** Eslint
