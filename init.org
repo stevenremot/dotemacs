@@ -568,6 +568,8 @@
 
 	(setq org-hide-emphasis-markers t)
 
+	(add-hook 'org-mode-hook #'(lambda () (org-indent-mode t)))
+
 	(org-babel-do-load-languages 'org-babel-load-languages
 				     '((shell . t)
 				       (sql . t))))
@@ -583,8 +585,7 @@
        :bind (("C-c o t" . org-todo-list))
        :config (my/init-org)
        :custom
-       (org-startup-folded t "Start all org documents in overview mode")
-       (org-indent-mode t))
+       (org-startup-folded t "Start all org documents in overview mode"))
    #+END_SRC
 
 ** Mouse
