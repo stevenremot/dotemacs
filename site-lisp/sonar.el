@@ -22,7 +22,7 @@
   "Open the sonar page with the file issues in the web browser."
   (interactive)
   (let ((file-name (buffer-file-name (current-buffer)))
-	(project-directory (projectile-project-root)))
+	(project-directory (vc-root-dir)))
     (browse-url (format "%s/code?id=%s&selected=%s:%s" sonar-url sonar-project-id sonar-project-id (file-relative-name file-name project-directory)))))
 
 (provide 'sonar)
