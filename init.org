@@ -111,16 +111,18 @@
 
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode 0)
-     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
      (set-face-attribute 'default nil :height 140 :family "Source code pro")
    #+END_SRC
 
-** ef-theme
+** Theme
 
-   #+begin_src emacs-lisp
-     (use-package ef-themes
-       :config (load-theme 'ef-bio))
-   #+end_src
+#+NAME: my-themes
+- tango-dark
+- deeper-blue
+
+#+begin_src emacs-lisp :var themes=my-themes
+  (load-theme (intern (car (nth (random (length themes)) themes))))
+#+end_src
 
 ** Mode line
 *** Powerline
@@ -179,10 +181,10 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package powerline
-	:config
-	(setq powerline-default-separator 'bar
-	      powerline-display-hud nil)
-	(my-powerline-theme))
+        :config
+        (setq powerline-default-separator 'bar
+              powerline-display-hud nil)
+        (my-powerline-theme))
     #+END_SRC
 
 ** Emojis
