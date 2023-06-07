@@ -828,6 +828,12 @@
 	      (typescript-mode . add-node-modules-path)))
    #+END_SRC
 
+** Comint extras
+
+#+begin_src emacs-lisp
+  (autoload 'comint-extras-node-repl "comint-extras" "" t)
+#+end_src
+
 * PHP
 ** php-mode
 
