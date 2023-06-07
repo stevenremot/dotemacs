@@ -406,7 +406,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package treemacs
-       :commands (treemacs))
+       :commands (treemacs)
+       :bind (("<f5>" . treemacs)))
    #+END_SRC
 
 ** ripgrep
