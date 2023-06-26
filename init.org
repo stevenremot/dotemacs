@@ -393,6 +393,18 @@
 	   `((".*" ,temporary-file-directory t)))
    #+end_src
 
+** Starcoder
+
+#+begin_src emacs-lisp
+  (use-package starhugger
+    :bind (("C-c <tab>" . starhugger-trigger-suggestion)
+           :map starhugger-inlining-mode-map
+           ("<M-return>" . starhugger-accept-suggestion)
+           ("<M-S-down>" . starhugger-show-next-suggestion)
+           ("<M-S-up>" . starhugger-show-next-suggestion))
+    :elpaca (starhugger :repo "https://gitlab.com/daanturo/starhugger.el" :files (:defaults "*.py")))
+#+end_src
+
 * Navigation
 ** imenu
 
@@ -987,10 +999,22 @@
 
 * Vagrant
 
-  #+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp :tangle no
     (use-package vagrant-tramp
       :after (tramp))
   #+END_SRC
+
+* ChatGPT
+
+#+begin_src emacs-lisp
+  (use-package shell-maker
+    :elpaca (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
+
+  (use-package chatgpt-shell
+    :requires shell-maker
+    :commands (chatgpt-shell)
+    :elpaca (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el")))
+#+end_src
 
 * Local variables
 
