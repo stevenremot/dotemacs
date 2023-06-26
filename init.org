@@ -438,6 +438,15 @@
     :elpaca nil)
 #+end_src
 
+** Test watcher
+
+#+begin_src emacs-lisp
+  (use-package test-watcher
+    :ensure t
+    :commands (test-watcher-run test-watcher-coverage)
+    :elpaca nil)
+#+end_src
+
 * Shell
 ** Environment variables
 
