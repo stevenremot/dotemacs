@@ -7,12 +7,16 @@
 (require 'vterm)
 
 ;;; Code:
-(defcustom tw-shell-command "npm test"
-  "Shell command for test watcher MVP."
-  :safe #'stringp)
 
+;;;###autoload
+(defcustom tw-shell-commands '("npm test")
+  "Shell commands for test watcher MVP."
+  :safe 'listp)
+
+;;;###autoload
 (defcustom tw-coverage-paths '("coverage/lcov-report/index.html")
-  "Directories to the index.html of the coverage report.")
+  "Directories to the index.html of the coverage report."
+  :safe 'listp)
 
 (defvar tw--shell-history nil
   "Shell history.")
@@ -21,11 +25,12 @@
 (defun tw-run ()
   "Run the test command in vterm for the current project."
   (interactive)
-  (let ((default-directory (project-root (project-current))))
+  (let ((command (completing-read "Test command: " tw-shell-commands nil nil))
+	(default-directory (project-root (project-current))))
     (vterm (format "*%s test*" (thread-first default-directory
 					     (directory-file-name)
 					     (file-name-base))))
-    (vterm-send-string (format "%s\n" (read-string "Test command: " tw-shell-command 'tw--shell-history tw-shell-command)))))
+    (vterm-send-string (format "%s\n" command))))
 
 ;;;###autoload
 (defun tw-coverage ()
