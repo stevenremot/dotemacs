@@ -1,432 +1,424 @@
 ((elpaca :source "lockfile" :date
-	 (25736 10075 955833 0)
+	 (25792 50179 516810 0)
 	 :recipe
-	 (:protocol https :inherit t :depth 1 :repo "https://github.com/progfolio/elpaca.git" :ref "ab5f7156a681b7205b7235861ab2cdc730550382" :files
+	 (:protocol https :inherit t :depth 1 :repo "https://github.com/progfolio/elpaca.git" :ref "daab805ff9ce9c69ba3b3531b6abf33cbacb710b" :files
 		    (:defaults
 		     (:exclude "extensions"))
 		    :build
 		    (:not elpaca--activate-package)
 		    :package "elpaca"))
  (elpaca-use-package :source "lockfile" :date
-		     (25736 10075 951171 0)
+		     (25792 50179 512545 0)
 		     :recipe
 		     (:package "elpaca-use-package" :repo "https://github.com/progfolio/elpaca.git" :files
 			       ("extensions/elpaca-use-package.el")
 			       :main "extensions/elpaca-use-package.el" :build
 			       (:not elpaca--compile-info)
-			       :protocol https :inherit t :depth 1 :ref "ab5f7156a681b7205b7235861ab2cdc730550382"))
+			       :protocol https :inherit t :depth 1 :ref "daab805ff9ce9c69ba3b3531b6abf33cbacb710b"))
  (use-package :source "lockfile" :date
-   (25736 10075 944886 0)
+   (25792 50179 506813 0)
    :recipe
    (:package "use-package" :fetcher github :repo "jwiegley/use-package" :files
 	     (:defaults
 	      (:exclude "bind-key.el" "bind-chord.el" "use-package-chords.el" "use-package-ensure-system-package.el"))
 	     :protocol https :inherit t :depth 1 :ref "a6e856418d2ebd053b34e0ab2fda328abeba731c"))
  (bind-key :source "lockfile" :date
-	   (25736 10075 940404 0)
+	   (25792 50179 502758 0)
 	   :recipe
 	   (:package "bind-key" :fetcher github :repo "jwiegley/use-package" :files
 		     ("bind-key.el")
 		     :protocol https :inherit t :depth 1 :ref "a6e856418d2ebd053b34e0ab2fda328abeba731c"))
  (powerline :source "lockfile" :date
-	    (25736 10075 934019 0)
+	    (25792 50179 497244 0)
 	    :recipe
 	    (:package "powerline" :fetcher github :repo "milkypostman/powerline" :files
 		      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		      :protocol https :inherit t :depth 1 :ref "c35c35bdf5ce2d992882c1f06f0f078058870d4a"))
  (emojify :source "lockfile" :date
-	  (25736 10075 928460 0)
+	  (25792 50179 489165 0)
 	  :recipe
 	  (:package "emojify" :fetcher github :repo "iqbalansari/emacs-emojify" :files
 		    (:defaults "data" "images")
 		    :protocol https :inherit t :depth 1 :ref "1b726412f19896abf5e4857d4c32220e33400b55"))
  (ivy :source "lockfile" :date
-      (25736 10075 922895 0)
+      (25792 50179 483901 0)
       :recipe
       (:package "ivy" :repo "abo-abo/swiper" :fetcher github :files
 		(:defaults "doc/ivy-help.org"
 			   (:exclude "swiper.el" "counsel.el" "ivy-hydra.el" "ivy-avy.el"))
-		:protocol https :inherit t :depth 1 :ref "d28225e86f8dfb3825809ad287f759f95ee9e479"))
+		:protocol https :inherit t :depth 1 :ref "9d630d800e856a2c984c5a62a6f0ad313a9d2228"))
  (counsel :source "lockfile" :date
-	  (25736 10075 918469 0)
+	  (25792 50179 479386 0)
 	  :recipe
 	  (:package "counsel" :repo "abo-abo/swiper" :fetcher github :files
 		    ("counsel.el")
-		    :protocol https :inherit t :depth 1 :ref "d28225e86f8dfb3825809ad287f759f95ee9e479"))
+		    :protocol https :inherit t :depth 1 :ref "9d630d800e856a2c984c5a62a6f0ad313a9d2228"))
  (swiper :source "lockfile" :date
-	 (25736 10075 914362 0)
+	 (25792 50179 475869 0)
 	 :recipe
 	 (:package "swiper" :repo "abo-abo/swiper" :fetcher github :files
 		   ("swiper.el")
-		   :protocol https :inherit t :depth 1 :ref "d28225e86f8dfb3825809ad287f759f95ee9e479"))
+		   :protocol https :inherit t :depth 1 :ref "9d630d800e856a2c984c5a62a6f0ad313a9d2228"))
  (helpful :source "lockfile" :date
-	  (25736 10075 908669 0)
+	  (25792 50179 470898 0)
 	  :recipe
 	  (:package "helpful" :repo "Wilfred/helpful" :fetcher github :files
 		    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		    :protocol https :inherit t :depth 1 :ref "32cb28b50b3366ad35e2cb936367268ddeec745f"))
  (esup :source "lockfile" :date
-       (25736 10075 903238 0)
+       (25792 50179 465737 0)
        :recipe
        (:package "esup" :fetcher github :repo "jschaf/esup" :files
 		 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		  (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		 :protocol https :inherit t :depth 1 :ref "4b49c8d599d4cc0fbf994e9e54a9c78e5ab62a5f"))
  (gcmh :source "lockfile" :date
-       (25736 10075 898157 0)
+       (25792 50179 460818 0)
        :recipe
        (:package "gcmh" :repo "koral/gcmh" :fetcher gitlab :files
 		 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		  (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		 :protocol https :inherit t :depth 1 :ref "0089f9c3a6d4e9a310d0791cf6fa8f35642ecfd9"))
  (corfu :source "lockfile" :date
-	(25736 10075 893274 0)
+	(25792 50179 456385 0)
 	:recipe
-	(:package "corfu" :host github :repo "emacs-straight/corfu" :protocol https :inherit t :depth 1 :ref "e5de9f4a839b2508eedd453d44a25cfd17829532"))
+	(:package "corfu" :host github :repo "emacs-straight/corfu" :protocol https :inherit t :depth 1 :ref "a4f003605bc712952e5f2fc27d87730c312fdbeb"))
  (flymake :source "lockfile" :date
-	  (25736 10075 888323 0)
+	  (25792 50179 450899 0)
 	  :recipe
-	  (:package "flymake" :host github :repo "emacs-straight/flymake" :protocol https :inherit t :depth 1 :ref "bb1408afd5c907b6c24e41457064cc32b0f985de"))
+	  (:package "flymake" :host github :repo "emacs-straight/flymake" :protocol https :inherit t :depth 1 :ref "6950c8099e3ee7cafc701b1f86797b2a1b466067"))
  (tree-sitter :source "lockfile" :date
-	      (25736 10075 883060 0)
+	      (25792 50179 445332 0)
 	      :recipe
 	      (:package "tree-sitter" :repo "emacs-tree-sitter/elisp-tree-sitter" :fetcher github :branch "release" :files
 			(:defaults
 			 (:exclude "lisp/tree-sitter-tests.el"))
 			:protocol https :inherit t :depth 1 :ref "3cfab8a0e945db9b3df84437f27945746a43cc71"))
  (tree-sitter-langs :source "lockfile" :date
-		    (25736 10075 878697 0)
+		    (25792 50179 441226 0)
 		    :recipe
 		    (:package "tree-sitter-langs" :repo "emacs-tree-sitter/tree-sitter-langs" :fetcher github :branch "release" :files
 			      (:defaults "queries")
-			      :protocol https :inherit t :depth 1 :ref "d8f8ac4faeb4564fbb61e94a631b4672523d84a9"))
+			      :protocol https :inherit t :depth 1 :ref "944a734b7c3a5922a7e9a2009a9165e2dc195b18"))
+ (starhugger :source "lockfile" :date
+	     (25792 50179 416851 0)
+	     :recipe
+	     (:protocol https :inherit t :depth 1 :repo "https://gitlab.com/daanturo/starhugger.el" :files
+			(:defaults "*.py")
+			:package "starhugger" :ref "8b429cb2f7b5ad0d9c89db4577df5c7f8f5d8f6b"))
  (treemacs :source "lockfile" :date
-	   (25736 10075 873419 0)
+	   (25792 50179 411641 0)
 	   :recipe
 	   (:package "treemacs" :fetcher github :repo "Alexander-Miller/treemacs" :files
 		     (:defaults "Changelog.org" "icons" "src/elisp/treemacs*.el" "src/scripts/treemacs*.py"
 				(:exclude "src/extra/*"))
-		     :protocol https :inherit t :depth 1 :ref "a7a877ae173c92ae3c9586be1c593805d931185c"))
+		     :protocol https :inherit t :depth 1 :ref "aa0944a29eee48302fd76b6c3a59c5aece114fa6"))
  (deadgrep :source "lockfile" :date
-	   (25736 10075 868207 0)
+	   (25792 50179 406491 0)
 	   :recipe
 	   (:package "deadgrep" :repo "Wilfred/deadgrep" :fetcher github :files
 		     ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		      (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		     :protocol https :inherit t :depth 1 :ref "0313e17a4df7bc8a344b2bc23a319c45d14f9689"))
+		     :protocol https :inherit t :depth 1 :ref "b36dc1b2e5d5e8cd53c1977eeea9b6469ad42381"))
  (magit :source "lockfile" :date
-	(25736 10075 862870 0)
+	(25792 50179 401592 0)
 	:recipe
 	(:package "magit" :fetcher github :repo "magit/magit" :files
 		  ("lisp/magit" "lisp/magit*.el" "lisp/git-rebase.el" "docs/magit.texi" "docs/AUTHORS.md" "LICENSE" "Documentation/magit.texi" "Documentation/AUTHORS.md"
 		   (:exclude "lisp/magit-libgit.el" "lisp/magit-libgit-pkg.el" "lisp/magit-section.el" "lisp/magit-section-pkg.el"))
-		  :protocol https :inherit t :depth 1 :ref "9c66514b2c879a8959b676393467b1f24be71303"))
+		  :protocol https :inherit t :depth 1 :ref "f6f4b96b641a5af75e90b5431a32369ab0f664a7"))
  (exec-path-from-shell :source "lockfile" :date
-		       (25736 10075 858488 0)
+		       (25792 50179 397791 0)
 		       :recipe
 		       (:package "exec-path-from-shell" :fetcher github :repo "purcell/exec-path-from-shell" :files
 				 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 				  (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 				 :protocol https :inherit t :depth 1 :ref "ddd24dc823de9a94435b4d8ea7569161657f31e2"))
  (xterm-color :source "lockfile" :date
-	      (25736 10075 853131 0)
+	      (25792 50179 392801 0)
 	      :recipe
 	      (:package "xterm-color" :repo "atomontage/xterm-color" :fetcher github :files
 			("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			 (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			:protocol https :inherit t :depth 1 :ref "2ad407c651e90fff2ea85d17bf074cee2c022912"))
  (vterm :source "lockfile" :date
-	(25736 10075 847980 0)
+	(25792 50179 388290 0)
 	:recipe
 	(:package "vterm" :fetcher github :repo "akermu/emacs-libvterm" :files
 		  ("CMakeLists.txt" "elisp.c" "elisp.h" "emacs-module.h" "etc" "utf8.c" "utf8.h" "vterm.el" "vterm-module.c" "vterm-module.h")
 		  :protocol https :inherit t :depth 1 :ref "94e2b0b2b4a750e7907dacd5b4c0584900846dd1"))
  (ob-async :source "lockfile" :date
-	   (25736 10075 842569 0)
+	   (25792 50179 383098 0)
 	   :recipe
 	   (:package "ob-async" :repo "astahlman/ob-async" :fetcher github :files
 		     ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		      (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		     :protocol https :inherit t :depth 1 :ref "9aac486073f5c356ada20e716571be33a350a982"))
  (eglot :source "lockfile" :date
-	(25736 10075 837538 0)
+	(25792 50179 378560 0)
 	:recipe
 	(:package "eglot" :repo "joaotavora/eglot" :fetcher github :files
 		  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		  :protocol https :inherit t :depth 1 :ref "8b5532dd32b25276c1857508030b207f765ef9b6"))
  (web-mode :source "lockfile" :date
-	   (25736 10075 832290 0)
+	   (25792 50179 373621 0)
 	   :recipe
 	   (:package "web-mode" :repo "fxbois/web-mode" :fetcher github :files
 		     ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		      (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		     :protocol https :inherit t :depth 1 :ref "57856ba64b9382811b35df0d9ab0a24aede0c1f0"))
  (rainbow-mode :source "lockfile" :date
-	       (25736 10075 826719 0)
+	       (25792 50179 367980 0)
 	       :recipe
 	       (:package "rainbow-mode" :host github :repo "emacs-straight/rainbow-mode" :protocol https :inherit t :depth 1 :ref "8e96388fb4d616a9dde23e712bad0d9cd048fbf0"))
  (typescript-mode :source "lockfile" :date
-		  (25736 10075 821559 0)
+		  (25792 50179 361526 0)
 		  :recipe
 		  (:package "typescript-mode" :fetcher github :repo "emacs-typescript/typescript.el" :files
 			    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			    :protocol https :inherit t :depth 1 :ref "4fcb4594819caf472ae42ea068a1c7795cf07f46"))
  (flymake-eslint :source "lockfile" :date
-		 (25736 10075 816244 0)
+		 (25792 50179 356551 0)
 		 :recipe
 		 (:package "flymake-eslint" :repo "orzechowskid/flymake-eslint" :fetcher github :files
 			   ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			    (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			   :protocol https :inherit t :depth 1 :ref "82b1345c699172b6092e13be2c4cc10551d88b90"))
  (json-mode :source "lockfile" :date
-	    (25736 10075 811210 0)
+	    (25792 50179 351858 0)
 	    :recipe
 	    (:package "json-mode" :fetcher github :repo "joshwnj/json-mode" :files
 		      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		      :protocol https :inherit t :depth 1 :ref "eedb4560034f795a7950fa07016bd4347c368873"))
+		      :protocol https :inherit t :depth 1 :ref "20b9c21f44c58e94256c7826d0821205e017dfbb"))
  (prettier-js :source "lockfile" :date
-	      (25736 10075 805700 0)
+	      (25792 50179 346795 0)
 	      :recipe
 	      (:package "prettier-js" :repo "prettier/prettier-emacs" :fetcher github :files
 			("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			 (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			:protocol https :inherit t :depth 1 :ref "e9b73e81d3e1642aec682195f127a42dfb0b5774"))
  (add-node-modules-path :source "lockfile" :date
-			(25736 10075 800797 0)
+			(25792 50179 341086 0)
 			:recipe
 			(:package "add-node-modules-path" :repo "codesuki/add-node-modules-path" :fetcher github :files
 				  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 				   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 				  :protocol https :inherit t :depth 1 :ref "841e93dfed50448da66c89a977c9182bb18796a1"))
  (dockerfile-mode :source "lockfile" :date
-		  (25736 10075 794854 0)
+		  (25792 50179 335514 0)
 		  :recipe
 		  (:package "dockerfile-mode" :fetcher github :repo "spotify/dockerfile-mode" :files
 			    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			    :protocol https :inherit t :depth 1 :ref "52c6c00da1d31c0b6c29c74335b3af63ed6bf06c"))
  (docker :source "lockfile" :date
-	 (25736 10075 788951 0)
+	 (25792 50179 330127 0)
 	 :recipe
 	 (:package "docker" :fetcher github :repo "Silex/docker.el" :files
 		   ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		    (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		   :protocol https :inherit t :depth 1 :ref "4a308e6b2184a1b7745df5a8b8adafb29b3f7157"))
+		   :protocol https :inherit t :depth 1 :ref "df141addfec256cfb943fa1823b4b2ad8f461fa9"))
  (markdown-mode :source "lockfile" :date
-		(25736 10075 783261 0)
+		(25792 50179 325361 0)
 		:recipe
 		(:package "markdown-mode" :fetcher github :repo "jrblevin/markdown-mode" :files
 			  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-			  :protocol https :inherit t :depth 1 :ref "5d98592fe516748034d8baf92d7c0ba045e1f87a"))
+			  :protocol https :inherit t :depth 1 :ref "a4305f496efb64787d820e34d6418bfcbcbbed92"))
  (yaml-mode :source "lockfile" :date
-	    (25736 10075 778051 0)
+	    (25792 50179 320546 0)
 	    :recipe
 	    (:package "yaml-mode" :repo "yoshiki/yaml-mode" :fetcher github :files
 		      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		      :protocol https :inherit t :depth 1 :ref "b153150e0e77b4ec462d741cdb16956c6ae270d6"))
+		      :protocol https :inherit t :depth 1 :ref "13728b4b1b1bd33d3a754236a0f23e4c76d6ba91"))
  (restclient :source "lockfile" :date
-	     (25736 10075 772735 0)
+	     (25792 50179 315206 0)
 	     :recipe
 	     (:package "restclient" :repo "pashky/restclient.el" :fetcher github :files
 		       ("restclient.el")
 		       :protocol https :inherit t :depth 1 :ref "0ba72816f92f3d5906cdf76f418fd0a3ee72809b"))
  (graphql-mode :source "lockfile" :date
-	       (25736 10075 767200 0)
+	       (25792 50179 309710 0)
 	       :recipe
 	       (:package "graphql-mode" :repo "davazp/graphql-mode" :fetcher github :files
 			 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			  (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			 :protocol https :inherit t :depth 1 :ref "0ad4ae0160cabad46109dfbb394297a185eb2525"))
  (shell-maker :source "lockfile" :date
-	      (25736 10075 761388 0)
+	      (25792 50179 304625 0)
 	      :recipe
 	      (:protocol https :inherit t :depth 1 :host github :repo "xenodium/chatgpt-shell" :files
 			 ("shell-maker.el")
-			 :package "shell-maker" :ref "6c3c9b0068f1b60e8981a0d32588d93f100c7691"))
+			 :package "shell-maker" :ref "7845ebcadc4206c09a36418a8b8611776d6c3480"))
  (chatgpt-shell :source "lockfile" :date
-		(25736 10075 756851 0)
+		(25792 50179 300828 0)
 		:recipe
 		(:protocol https :inherit t :depth 1 :host github :repo "xenodium/chatgpt-shell" :files
 			   ("chatgpt-shell.el")
-			   :package "chatgpt-shell" :ref "6c3c9b0068f1b60e8981a0d32588d93f100c7691"))
- (cov :source "lockfile" :date
-      (25736 10075 750628 0)
-      :recipe
-      (:package "cov" :fetcher github :repo "AdamNiederer/cov" :files
-		("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
-		 (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		:protocol https :inherit t :depth 1 :ref "cd3e1995c596cc227124db9537792d8329ffb696"))
+			   :package "chatgpt-shell" :ref "7845ebcadc4206c09a36418a8b8611776d6c3480"))
  (ht :source "lockfile" :date
-     (25736 10075 744603 0)
+     (25792 50179 295171 0)
      :recipe
      (:package "ht" :fetcher github :repo "Wilfred/ht.el" :files
 	       ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		(:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-	       :protocol https :inherit t :depth 1 :ref "3c1677f1bf2ded2ab07edffb7d17def5d2b5b6f6"))
+	       :protocol https :inherit t :depth 1 :ref "1c49aad1c820c86f7ee35bf9fff8429502f60fef"))
  (dash :source "lockfile" :date
-       (25736 10075 739719 0)
+       (25792 50179 290380 0)
        :recipe
        (:package "dash" :fetcher github :repo "magnars/dash.el" :files
 		 ("dash.el" "dash.texi")
-		 :protocol https :inherit t :depth 1 :ref "96eaba028ac069ea0e5cc70de15b0229126a054a"))
+		 :protocol https :inherit t :depth 1 :ref "f46268c75cb7c18361d3cee942cd4dc14a03aef4"))
  (s :source "lockfile" :date
-    (25736 10075 734458 0)
+    (25792 50179 285624 0)
     :recipe
     (:package "s" :fetcher github :repo "magnars/s.el" :files
 	      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 	       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 	      :protocol https :inherit t :depth 1 :ref "dda84d38fffdaf0c9b12837b504b402af910d01d"))
  (f :source "lockfile" :date
-    (25736 10075 728769 0)
+    (25792 50179 280282 0)
     :recipe
     (:package "f" :fetcher github :repo "rejeep/f.el" :files
 	      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 	       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-	      :protocol https :inherit t :depth 1 :ref "af7d37c619010b576fd22b50c62c71ff33093f3c"))
+	      :protocol https :inherit t :depth 1 :ref "19e1da061e759b05e8c480b426287a063ca39484"))
  (elisp-refs :source "lockfile" :date
-	     (25736 10075 723391 0)
+	     (25792 50179 274457 0)
 	     :recipe
 	     (:package "elisp-refs" :repo "Wilfred/elisp-refs" :fetcher github :files
 		       (:defaults
 			(:exclude "elisp-refs-bench.el"))
 		       :protocol https :inherit t :depth 1 :ref "bf3cca8f74065b1b31036f461e3a093b162311bd"))
  (compat :source "lockfile" :date
-	 (25736 10075 717869 0)
+	 (25792 50179 269189 0)
 	 :recipe
-	 (:package "compat" :host github :repo "emacs-straight/compat" :protocol https :inherit t :depth 1 :ref "81ae800b5e32bc31ce5f456b051636c8e4235bdc"))
+	 (:package "compat" :host github :repo "emacs-straight/compat" :protocol https :inherit t :depth 1 :ref "b5ff5f5600dbd88d629f3688afa2a15ba7bc3fe4"))
  (eldoc :source "lockfile" :date
-	(25736 10075 712287 0)
+	(25792 50179 264587 0)
 	:recipe
 	(:package "eldoc" :host github :repo "emacs-straight/eldoc" :protocol https :inherit t :depth 1 :ref "bf2e88dcf00e6554e24b517aa315527011042fae"))
  (tsc :source "lockfile" :date
-      (25736 10075 706461 0)
+      (25792 50179 259620 0)
       :recipe
       (:package "tsc" :fetcher github :repo "emacs-tree-sitter/elisp-tree-sitter" :branch "release" :files
 		("core/*.el" "core/Cargo.toml" "core/Cargo.lock" "core/src")
 		:protocol https :inherit t :depth 1 :ref "3cfab8a0e945db9b3df84437f27945746a43cc71"))
+ (spinner :source "lockfile" :date
+	  (25792 50179 254098 0)
+	  :recipe
+	  (:package "spinner" :host github :repo "emacs-straight/spinner" :protocol https :inherit t :depth 1 :ref "634529bb3173e09b37499f636de70abf29d9fa8a"))
  (ace-window :source "lockfile" :date
-	     (25736 10075 701076 0)
+	     (25792 50179 248950 0)
 	     :recipe
 	     (:package "ace-window" :repo "abo-abo/ace-window" :fetcher github :files
 		       ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			(:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		       :protocol https :inherit t :depth 1 :ref "77115afc1b0b9f633084cf7479c767988106c196"))
  (pfuture :source "lockfile" :date
-	  (25736 10075 696023 0)
+	  (25792 50179 244527 0)
 	  :recipe
 	  (:package "pfuture" :repo "Alexander-Miller/pfuture" :fetcher github :files
 		    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		    :protocol https :inherit t :depth 1 :ref "19b53aebbc0f2da31de6326c495038901bffb73c"))
  (hydra :source "lockfile" :date
-	(25736 10075 690880 0)
+	(25792 50179 240167 0)
 	:recipe
 	(:package "hydra" :repo "abo-abo/hydra" :fetcher github :files
 		  (:defaults
 		   (:exclude "lv.el"))
 		  :protocol https :inherit t :depth 1 :ref "317e1de33086637579a7aeb60f77ed0405bf359b"))
  (cfrs :source "lockfile" :date
-       (25736 10075 686527 0)
+       (25792 50179 236497 0)
        :recipe
        (:package "cfrs" :repo "Alexander-Miller/cfrs" :fetcher github :files
 		 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		  (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		 :protocol https :inherit t :depth 1 :ref "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121"))
  (avy :source "lockfile" :date
-      (25736 10075 681008 0)
+      (25792 50179 231235 0)
       :recipe
       (:package "avy" :repo "abo-abo/avy" :fetcher github :files
 		("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		 (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 		:protocol https :inherit t :depth 1 :ref "be612110cb116a38b8603df367942e2bb3d9bdbe"))
  (lv :source "lockfile" :date
-     (25736 10075 675480 0)
+     (25792 50179 226369 0)
      :recipe
      (:package "lv" :repo "abo-abo/hydra" :fetcher github :files
 	       ("lv.el")
 	       :protocol https :inherit t :depth 1 :ref "317e1de33086637579a7aeb60f77ed0405bf359b"))
  (posframe :source "lockfile" :date
-	   (25736 10075 670206 0)
+	   (25792 50179 220977 0)
 	   :recipe
 	   (:package "posframe" :fetcher github :repo "tumashu/posframe" :files
 		     ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		      (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		     :protocol https :inherit t :depth 1 :ref "3b97dc180b03498103cfcc7f44e64150df440bf0"))
- (spinner :source "lockfile" :date
-	  (25736 10075 664818 0)
-	  :recipe
-	  (:package "spinner" :host github :repo "emacs-straight/spinner" :protocol https :inherit t :depth 1 :ref "634529bb3173e09b37499f636de70abf29d9fa8a"))
+		     :protocol https :inherit t :depth 1 :ref "017deece88360c7297265680d78a0bb316470716"))
  (git-commit :source "lockfile" :date
-	     (25736 10075 659101 0)
+	     (25792 50179 215975 0)
 	     :recipe
 	     (:package "git-commit" :fetcher github :repo "magit/magit" :files
 		       ("lisp/git-commit.el" "lisp/git-commit-pkg.el")
 		       :old-names
 		       (git-commit-mode)
-		       :protocol https :inherit t :depth 1 :ref "9c66514b2c879a8959b676393467b1f24be71303"))
+		       :protocol https :inherit t :depth 1 :ref "f6f4b96b641a5af75e90b5431a32369ab0f664a7"))
  (magit-section :source "lockfile" :date
-		(25736 10075 655109 0)
+		(25792 50179 211992 0)
 		:recipe
 		(:package "magit-section" :fetcher github :repo "magit/magit" :files
 			  ("lisp/magit-section.el" "lisp/magit-section-pkg.el" "docs/magit-section.texi" "Documentation/magit-section.texi")
-			  :protocol https :inherit t :depth 1 :ref "9c66514b2c879a8959b676393467b1f24be71303"))
+			  :protocol https :inherit t :depth 1 :ref "f6f4b96b641a5af75e90b5431a32369ab0f664a7"))
  (with-editor :source "lockfile" :date
-	      (25736 10075 649417 0)
+	      (25792 50179 206810 0)
 	      :recipe
 	      (:package "with-editor" :fetcher github :repo "magit/with-editor" :files
 			("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			 (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-			:protocol https :inherit t :depth 1 :ref "bce8d1bf3faf5237332aada3bb0920bbbc037fe7"))
+			:protocol https :inherit t :depth 1 :ref "a4853781835346aabf083d2d9cb87f656d01ccac"))
  (async :source "lockfile" :date
-	(25736 10075 643731 0)
+	(25792 50179 201595 0)
 	:recipe
 	(:package "async" :repo "jwiegley/emacs-async" :fetcher github :files
 		  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		  :protocol https :inherit t :depth 1 :ref "34feabe1142863a2c96f75afda1a2ae4aa0813f6"))
+		  :protocol https :inherit t :depth 1 :ref "3ae74c0a4ba223ba373e0cb636c385e08d8838be"))
  (jsonrpc :source "lockfile" :date
-	  (25736 10075 637645 0)
+	  (25792 50179 196205 0)
 	  :recipe
 	  (:package "jsonrpc" :host github :repo "emacs-straight/jsonrpc" :protocol https :inherit t :depth 1 :ref "5244f21d42a6bf28b570f9e41083f794cc904518"))
  (xref :source "lockfile" :date
-       (25736 10075 631879 0)
+       (25792 50179 191238 0)
        :recipe
        (:package "xref" :host github :repo "emacs-straight/xref" :protocol https :inherit t :depth 1 :ref "420511e20187d0c6c8680c0e63ae8810f84dee00"))
  (external-completion :source "lockfile" :date
-		      (25736 10075 624707 0)
+		      (25792 50179 186156 0)
 		      :recipe
 		      (:package "external-completion" :host github :repo "emacs-straight/external-completion" :protocol https :inherit t :depth 1 :ref "d717c138623aeecc8e0a0312e0576e98604c43f2"))
  (json-snatcher :source "lockfile" :date
-		(25736 10075 617979 0)
+		(25792 50179 180950 0)
 		:recipe
 		(:package "json-snatcher" :fetcher github :repo "Sterlingg/json-snatcher" :files
 			  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 			   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
 			  :protocol https :inherit t :depth 1 :ref "b28d1c0670636da6db508d03872d96ffddbc10f2"))
  (aio :source "lockfile" :date
-      (25736 10075 611586 0)
+      (25792 50179 175876 0)
       :recipe
       (:package "aio" :fetcher github :repo "skeeto/emacs-aio" :files
 		("aio.el" "README.md" "UNLICENSE")
 		:protocol https :inherit t :depth 1 :ref "da93523e235529fa97d6f251319d9e1d6fc24a41"))
  (tablist :source "lockfile" :date
-	  (25736 10075 604834 0)
+	  (25792 50179 171152 0)
 	  :recipe
 	  (:package "tablist" :fetcher github :repo "politza/tablist" :files
 		    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
 		     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		    :protocol https :inherit t :depth 1 :ref "faab7a035ef2258cc4ea2182f67e3aedab7e2af9"))
- (elquery :source "lockfile" :date
-	  (25736 10075 595788 0)
-	  :recipe
-	  (:package "elquery" :fetcher github :repo "AdamNiederer/elquery" :files
-		    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
-		     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el" "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		    :protocol https :inherit t :depth 1 :ref "38f3bd41096cb270919b06095da0b9ac1add4598")))
+		    :protocol https :inherit t :depth 1 :ref "faab7a035ef2258cc4ea2182f67e3aedab7e2af9")))
