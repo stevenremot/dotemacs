@@ -131,52 +131,53 @@
 
     #+BEGIN_SRC emacs-lisp
       (defface my-mode-line-highlight
-	'((t :inherit mode-line
-	     :background "gray32"))
-	"Mode line face for highlighted elements")
+        '((t :inherit mode-line
+             :background "gray32"))
+        "Mode line face for highlighted elements")
 
       (defface my-mode-line-highlight-active
-	'((t :inherit 'mode-line
-	     :background "gray50"))
-	"Mode line face for active highlighted elements")
+        '((t :inherit 'mode-line
+             :background "gray50"))
+        "Mode line face for active highlighted elements")
 
       (defun my-powerline-theme ()
-	"Setup the default mode-line."
-	(interactive)
-	(setq-default
-	 mode-line-format
-	 '("%e"
-	   (:eval
-	    (let* ((active (powerline-selected-window-active))
-		   (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
-		   (mode-line (if active 'mode-line 'mode-line-inactive))
+        "Setup the default mode-line."
+        (interactive)
+        (setq-default
+         mode-line-format
+         '("%e"
+           (:eval
+            (let* ((active (powerline-selected-window-active))
+                   (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
+                   (mode-line (if active 'mode-line 'mode-line-inactive))
 
-		   (lhs (list (powerline-raw
-			       (if buffer-read-only "RO " "RW ")
-			       (if (buffer-modified-p) 'my-mode-line-highlight-active 'my-mode-line-highlight)
-			       'l)
-			      (when (> (length (tab-bar-tabs)) 1)
-				(powerline-raw (thread-last (tab-bar-tabs)
-							    (assq 'current-tab)
-							    (assq 'name)
-							    cdr)
-					       mode-line 'l))
-			      (powerline-buffer-id `(mode-line-buffer-id ,mode-line) 'l)
-			      (powerline-raw " " mode-line)
-			      (powerline-process mode-line)
-			      (powerline-narrow mode-line 'l)
-			      (powerline-raw " " mode-line)
-			      ))
-		   (rhs (list
-			 (powerline-vc mode-line 'r)
-			 (powerline-raw (when flymake-mode (flymake--mode-line-counters)))
-			 (unless window-system
-			   (powerline-raw (char-to-string #xe0a1) mode-line 'l))
-			 )))
+                   (lhs (list (powerline-raw
+                               (if buffer-read-only "RO " "RW ")
+                               (if (buffer-modified-p) 'my-mode-line-highlight-active 'my-mode-line-highlight)
+                               'l)
+                              (when (> (length (tab-bar-tabs)) 1)
+                                (powerline-raw (thread-last (tab-bar-tabs)
+                                                            (assq 'current-tab)
+                                                            (assq 'name)
+                                                            cdr)
+                                               mode-line 'l))
+                              (powerline-buffer-id `(mode-line-buffer-id ,mode-line) 'l)
+                              (powerline-raw " " mode-line)
+                              (powerline-process mode-line)
+                              (powerline-narrow mode-line 'l)
+                              (powerline-raw " " mode-line)
+                              (powerline-raw org-timer-mode-line-string)
+                              ))
+                   (rhs (list
+                         (powerline-vc mode-line 'r)
+                         (powerline-raw (when flymake-mode (flymake--mode-line-counters)))
+                         (unless window-system
+                           (powerline-raw (char-to-string #xe0a1) mode-line 'l))
+                         )))
 
-	      (concat (powerline-render lhs)
-		      (powerline-fill mode-line (powerline-width rhs))
-		      (powerline-render rhs)))))))
+              (concat (powerline-render lhs)
+                      (powerline-fill mode-line (powerline-width rhs))
+                      (powerline-render rhs)))))))
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
