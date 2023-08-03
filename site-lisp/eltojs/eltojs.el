@@ -5,6 +5,7 @@
 ;;; Code:
 (require 'cl-lib)
 (require 'subr-x)
+(require 'seq)
 
 (cl-defstruct eltojs-compile-rule predicate compiler (priority 2))
 
@@ -25,6 +26,14 @@ PREDICATE, COMPILER and PRIORITY are struct fields."
 	     (< (eltojs-compile-rule-priority rule-1)
 		(eltojs-compile-rule-priority rule-2))))))
 
+(cl-defun eltojs-add-simple-rule (symbol compiler &key (priority 1))
+  (eltojs-add-compile-rule
+ :predicate #'(lambda (sexp)
+		(and (listp sexp) (eq symbol (car sexp))))
+ :compiler #'(lambda (sexp)
+	       (apply compiler (cdr sexp)))
+ :priority priority))
+
 (defconst eltojs--arithmetic-operators '(+ - * /))
 
 (defun eltojs-is-arithmetic-operation? (sexp)
@@ -43,22 +52,25 @@ PREDICATE, COMPILER and PRIORITY are struct fields."
   "Return non-nil when SYMBOL is a method name (starts with .)."
   (string-prefix-p "." (symbol-name symbol)))
 
+
 ;; Raw el
-(eltojs-add-compile-rule
- :predicate #'(lambda (sexp)
-		(and (listp sexp) (eq '$el (car sexp))))
- :compiler #'(lambda (sexp)
-	       (dolist (expr (cdr sexp))
-		 (eval expr)))
- :priority 1)
+(eltojs-add-simple-rule
+ '$el
+ (lambda (&rest args)
+   (dolist (expr args)
+     (eval expr))))
 
 ;; Raw JS
-(eltojs-add-compile-rule
- :predicate #'(lambda (sexp)
-		(and (listp sexp) (eq '$js (car sexp))))
- :compiler #'(lambda (sexp)
-	       (mapconcat #'identity (cdr sexp) ";\n"))
- :priority 1)
+(eltojs-add-simple-rule
+ '$js
+ (lambda (&rest args)
+   (mapconcat #'identity args ";\n")))
+
+(defun eltojs-generate-arrow-function (args body)
+  "Write an arrow function wuth the given ARGS and BODY."
+  (format "(%s) => {\n%s\n}"
+	  (eltojs-compile-comma-list args)
+	  (eltojs-compile-function-body body)))
 
 ;; Lambda
 (eltojs-add-compile-rule
@@ -68,9 +80,7 @@ PREDICATE, COMPILER and PRIORITY are struct fields."
 	       (let* ((parts (cdr (cadr sexp)))
 		      (args (car parts))
 		      (body (cdr parts)))
-		 (format "(%s) => { %s }"
-			 (eltojs-compile-comma-list args)
-			 (eltojs-compile-function-body body))))
+		 (eltojs-generate-arrow-function args body)))
  :priority 1)
 
 ;; Lambda - lexical binding
@@ -81,10 +91,21 @@ PREDICATE, COMPILER and PRIORITY are struct fields."
 	       (let* ((parts (cddr sexp))
 		      (args (car parts))
 		      (body (cdr parts)))
-		 (format "(%s) => {\n%s\n}"
-			 (eltojs-compile-comma-list args)
-			 (eltojs-compile-function-body body))))
+		 (eltojs-generate-arrow-function args body)))
  :priority 1)
+
+(eltojs-add-simple-rule
+ 'defalias
+ (lambda (name value)
+   (format "const %s = %s"
+	   (symbol-name (eval name))
+	   (eltojs-compile value))))
+
+(eltojs-add-simple-rule
+ '1+
+ (lambda (n)
+   (format "1 + (%s)"
+	   (eltojs-compile n))))
 
 
 (defun eltojs-compile-group (sexp)
@@ -112,10 +133,15 @@ Basically, put parenthesis around when necesary."
   (mapconcat #'eltojs-compile sexps ", "))
 
 (defun eltojs-compile-function-body (body)
-  (mapconcat #'(lambda (statement)
-		 (concat "  " (eltojs-compile statement) ";"))
-		body
-		"\n"))
+  (let ((last-index (1- (seq-length body))))
+    (thread-last body
+      (seq-map-indexed (lambda (line index)
+			 (format
+			  (if (< index last-index)
+			      "  %s;\n"
+			    "  return %s;")
+			  (eltojs-compile line))))
+      (string-join))))
 
 (defun eltojs-compile-defun (name args docstring-or-body &rest body)
   "Compile arguments as a defun.
