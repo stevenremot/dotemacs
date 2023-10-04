@@ -884,6 +884,14 @@
      (use-package docker
        :commands (docker))
    #+END_SRC
+
+** TRAMP
+
+#+begin_src emacs-lisp
+  (use-package docker-tramp
+    :after (tramp))
+#+end_src
+
 * Markdown
 
   #+BEGIN_SRC emacs-lisp
