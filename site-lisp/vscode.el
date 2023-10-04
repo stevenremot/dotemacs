@@ -15,11 +15,15 @@
 	 (settings (when (file-exists-p settings-file) (json-read-file settings-file))))
     (seq-do
      #'(lambda (work-dir)
-	 (let ((path (expand-file-name (alist-get 'directory work-dir) root))
-	       (change-process-cwd? (alist-get 'changeProcessCWD work-dir)))
+	 (let ((dir (if (listp work-dir)
+			work-dir
+		      (list (cons 'directory work-dir) (cons 'changeProcessCWD t)))))
+	   (let ((path (expand-file-name (alist-get 'directory dir) root))
+	       (change-process-cwd? (alist-get 'changeProcessCWD dir)))
 	   (when (and change-process-cwd?
 		      (string-prefix-p path (buffer-file-name)))
 	     (setq-local flymake-eslint-project-root path))))
+	 )
      (alist-get 'eslint.workingDirectories settings))))
   )
 
