@@ -121,7 +121,7 @@
 - deeper-blue
 
 #+begin_src emacs-lisp :var themes=my-themes
-  (load-theme (intern (car (nth (random (length themes)) themes))))
+  (load-theme (intern (nth (random (length themes)) themes)))
 #+end_src
 
 ** Mode line
@@ -466,6 +466,7 @@
 
    #+begin_src emacs-lisp
      (use-package exec-path-from-shell
+       :custom ((exec-path-from-shell-variables '("PATH" "MANPATH" "NODE_OPTIONS")))
        :config (exec-path-from-shell-initialize))
    #+end_src
 
@@ -580,19 +581,23 @@
 
     #+BEGIN_SRC emacs-lisp
       (defun my/init-org ()
-	;; Override clock table ident function with mine
-	(advice-add 'org-clocktable-indent-string :override #'my/org-clocktable-indent-string)
+        ;; Override clock table ident function with mine
+        (advice-add 'org-clocktable-indent-string :override #'my/org-clocktable-indent-string)
 
-	;; Automatically add syntax coloration on org src blocks
-	(setq org-src-fontify-natively t)
+        ;; Automatically add syntax coloration on org src blocks
+        (setq org-src-fontify-natively t)
 
-	(setq org-hide-emphasis-markers t)
+        (setq org-hide-emphasis-markers t)
 
-	(add-hook 'org-mode-hook #'(lambda () (org-indent-mode t)))
+        (add-hook 'org-mode-hook #'(lambda () (org-indent-mode t)))
 
-	(org-babel-do-load-languages 'org-babel-load-languages
-				     '((shell . t)
-				       (sql . t))))
+        (org-babel-do-load-languages 'org-babel-load-languages
+                                     '((shell . t)
+                                       (sql . t)))
+
+        ;; Allow using top-level await in js code blocks
+        (setq org-babel-js-function-wrapper "(async function(){%s
+        })().then(result => require('process').stdout.write(require('util').inspect(result, { maxArrayLength: Infinity})));"))
 
     #+END_SRC
 
