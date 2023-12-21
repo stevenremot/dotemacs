@@ -9,6 +9,9 @@ init.elc
 # Elpaca
 elpaca/
 
+# Elpa
+elpa/
+
 # Local config
 custom-file.el
 
@@ -31,8 +34,6 @@ request/
 .org-id-locations
 tutorial/
 .lsp-session-v1
-lsp-cache/
-forge-database.sqlite
 transient
 .mc-lists.el
 .dap-breakpoints
@@ -43,6 +44,10 @@ eclipse.jdt.ls/
 eww-bookmarks
 semanticdb/
 workspace/
+chatgpt/
+dall-e/
+devdocs/
+org-persist/
 
 # Mac OS BS
 .DS_Store

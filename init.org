@@ -25,60 +25,62 @@
    #+END_SRC
 
 ** Mac OS
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+*** From scratch
+**** Dependencies
 
-   #+BEGIN_SRC sh :tangle no
-     brew tap railwaycat/emacsmacport
-     brew install emacs-mac --with-xwidgets --with-natural-title-bar --with-librsvg
-     ln -s /usr/local/opt/emacs-mac/Emacs.app ~/Applications
-   #+END_SRC
-
-* Package management
-** elpaca
+-lemutls_w: https://github.com/d12frosted/homebrew-emacs-plus/issues/554
 
 #+begin_src emacs-lisp
-  (defvar elpaca-installer-version 0.2)
-  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
-  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-				:ref nil
-				:files (:defaults (:exclude "extensions"))
-				:build (:not elpaca--activate-package)))
-  (when-let ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
-	     (build (expand-file-name "elpaca/" elpaca-builds-directory))
-	     (order (cdr elpaca-order))
-	     ((add-to-list 'load-path (if (file-exists-p build) build repo)))
-	     ((not (file-exists-p repo))))
-    (condition-case-unless-debug err
-	(if-let ((buffer (pop-to-buffer-same-window "*elpaca-installer*"))
-		 ((zerop (call-process "git" nil buffer t "clone"
-				       (plist-get order :repo) repo)))
-		 (default-directory repo)
-		 ((zerop (call-process "git" nil buffer t "checkout"
-				       (or (plist-get order :ref) "--"))))
-		 (emacs (concat invocation-directory invocation-name))
-		 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-				       "--eval" "(byte-recompile-directory \".\" 0 'force)"))))
-	    (progn (require 'elpaca)
-		   (elpaca-generate-autoloads "elpaca" repo)
-		   (kill-buffer buffer))
-	  (error "%s" (with-current-buffer buffer (buffer-string))))
-      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
-  (require 'elpaca-autoloads)
-  (add-hook 'after-init-hook #'elpaca-process-queues)
-  (elpaca `(,@elpaca-order))
+  (setenv "LIBRARY_PATH"
+          (string-join
+           '("/opt/homebrew/opt/gcc/lib/gcc/13"
+             "/opt/homebrew/opt/libgccjit/lib/gcc/13"
+             "/opt/homebrew/opt/gcc/lib/gcc/13/gcc/aarch64-apple-darwin22/13")
+           ":"))
 #+end_src
 
-** use-package
+#+begin_src sh
+  brew install imagemagick libgccjit
+#+end_src
+
+**** Install
+
+Clone repo
+
+#+begin_src sh :async
+  git clone git://git.savannah.gnu.org/emacs.git .emacs-build
+#+end_src
+
+Install
+
+#+begin_src sh :dir (expand-file-name ".emacs-build" (file-name-directory buffer-file-name)) :async
+  make configure
+  ./configure --with-imagemagick --with-json --with-tree-sitter --with-xwidgets --with-native-compilation
+#+end_src
+
+*** From the brew formula
+
+#+BEGIN_SRC sh
+  brew tap railwaycat/emacsmacport
+  brew install emacs-mac --with-xwidgets --with-natural-title-bar --with-librsvg
+  ln -s /usr/local/opt/emacs-mac/Emacs.app ~/Applications
+#+END_SRC
+
+* Package management
+
+I use the default package manager with ~use-package~.
+
+Setup ~vc-use-package~ too:
 
 #+begin_src emacs-lisp
-  (elpaca elpaca-use-package
-    ;; Enable :elpaca use-package keyword.
-    (elpaca-use-package-mode)
-    ;; Assume :elpaca t unless otherwise specified.
-    (setq elpaca-use-package-by-default t))
+  (require 'package)
 
-  (elpaca-wait)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+  (package-initialize)
 #+end_src
 
 * Main script
@@ -182,6 +184,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package powerline
+        :ensure t
         :config
         (setq powerline-default-separator 'bar
               powerline-display-hud nil)
@@ -195,6 +198,7 @@
 
    #+begin_src emacs-lisp
      (use-package emojify
+       :ensure t
        :hook (prog-mode . emojify-mode)
        :custom (emojify-emoji-styles '(unicode)))
    #+end_src
@@ -234,13 +238,16 @@
        (setq enable-recursive-minibuffers t))
 
      (use-package ivy
+       :ensure t
        :config (init/setup-ivy))
 
      (use-package counsel
+       :ensure t
        :after (ivy)
        :config (counsel-mode 1))
 
      (use-package swiper
+       :ensure t
        :after (ivy)
        :bind (("C-s" . swiper)))
    #+END_SRC
@@ -251,7 +258,6 @@
 
    #+begin_src emacs-lisp
      (use-package subword
-       :elpaca nil
        :hook (prog-mode . subword-mode))
    #+end_src
 
@@ -269,6 +275,7 @@
 
    #+begin_src emacs-lisp
      (use-package helpful
+       :ensure t
        :bind
        ("C-h k" . helpful-key)
        ("C-c C-d" . helpful-at-point)
@@ -285,6 +292,7 @@
 
   #+begin_src emacs-lisp
     (use-package esup
+      :ensure t
       :commands (esup)
       :init (setq esup-depth 0))
   #+end_src
@@ -294,6 +302,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package gcmh
+      :ensure t
       :config (gcmh-mode 1))
   #+END_SRC
 
@@ -304,8 +313,7 @@
    support all its keys.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package iso-transl
-       :elpaca nil)
+     (use-package iso-transl)
    #+END_SRC
 
 ** Mac special setup
@@ -334,6 +342,7 @@
 
    #+begin_src emacs-lisp
      (use-package corfu
+       :ensure t
        :custom
        (corfu-auto t)
        :init
@@ -365,6 +374,7 @@
 
    #+begin_src emacs-lisp
      (use-package editorconfig
+       :ensure t
        :if (locate-library "editorconfig")
        :hook (prog-mode . editorconfig-mode))
    #+end_src
@@ -372,14 +382,16 @@
 ** Tree sitter
 
    #+begin_src emacs-lisp
-     (use-package tree-sitter)
+     (use-package tree-sitter
+       :ensure t)
    #+end_src
 
    #+begin_src emacs-lisp
      (use-package tree-sitter-langs
+       :ensure t
        :hook ((php-mode . tree-sitter-hl-mode)
-	      (js-mode . tree-sitter-hl-mode)
-	      (typescript-mode . tree-sitter-hl-mode)))
+              (js-mode . tree-sitter-hl-mode)
+              (typescript-mode . tree-sitter-hl-mode)))
    #+end_src
 
 ** Backups
@@ -398,12 +410,22 @@
 
 #+begin_src emacs-lisp
   (use-package starhugger
+    :ensure t
     :bind (("C-c <tab>" . starhugger-trigger-suggestion)
            :map starhugger-inlining-mode-map
            ("<M-return>" . starhugger-accept-suggestion)
            ("<M-S-down>" . starhugger-show-next-suggestion)
            ("<M-S-up>" . starhugger-show-next-suggestion))
-    :elpaca (starhugger :repo "https://gitlab.com/daanturo/starhugger.el" :files (:defaults "*.py")))
+    :hook ((prog-mode . starhugger-auto-mode)))
+#+end_src
+
+** Devdocs
+
+#+begin_src emacs-lisp
+  (use-package devdocs
+    :ensure t
+    :commands (devdocs-install)
+    :bind (("C-c C-h" . devdocs-peruse)))
 #+end_src
 
 * Navigation
@@ -419,6 +441,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package treemacs
+       :ensure t
        :commands (treemacs)
        :bind (("<f5>" . treemacs)))
    #+END_SRC
@@ -431,6 +454,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package deadgrep
+       :ensure t
        :bind (("C-c C-s" . deadgrep)))
    #+END_SRC
 
@@ -441,21 +465,20 @@
 
    #+begin_src emacs-lisp
      (use-package magit
+       :ensure t
        :commands (magit-status))
    #+end_src
 
 ** Project
 
 #+begin_src emacs-lisp
-  (use-package project
-    :elpaca nil)
+  (use-package project)
 #+end_src
 
 ** Test watcher
 
 #+begin_src emacs-lisp
-  (use-package test-watcher
-    :elpaca nil)
+  (use-package test-watcher)
 #+end_src
 
 * Shell
@@ -466,6 +489,7 @@
 
    #+begin_src emacs-lisp
      (use-package exec-path-from-shell
+       :ensure t
        :custom ((exec-path-from-shell-variables '("PATH" "MANPATH" "NODE_OPTIONS")))
        :config (exec-path-from-shell-initialize))
    #+end_src
@@ -537,23 +561,25 @@
    Finally, we can import and configure the package:
 
    #+BEGIN_SRC emacs-lisp
-	  (defun my-xterm-color-init ()
-	    "First setup for xterm-color."
-	    (my-remove-ansi-from-comint)
-	    (my-xterm-color-configure-compilation))
+     (defun my-xterm-color-init ()
+       "First setup for xterm-color."
+       (my-remove-ansi-from-comint)
+       (my-xterm-color-configure-compilation))
 
-	  (use-package xterm-color
-	    :config (my-xterm-color-init)
-	    :hook ((shell-mode . my-shell-mode-config-xterm-color)
-		   (eshell-mode . my-eshell-env-xterm-color)
-		   (eshell-before-prompt . my-eshell-before-prompt-xterm-color)
-		   (compilation-mode . my-shell-mode-config-xterm-color)))
+     (use-package xterm-color
+       :ensure t
+       :config (my-xterm-color-init)
+       :hook ((shell-mode . my-shell-mode-config-xterm-color)
+              (eshell-mode . my-eshell-env-xterm-color)
+              (eshell-before-prompt . my-eshell-before-prompt-xterm-color)
+              (compilation-mode . my-shell-mode-config-xterm-color)))
    #+END_SRC
 
 ** vterm
 
    #+begin_src emacs-lisp
      (use-package vterm
+       :ensure t
        :no-require t
        :commands (vterm))
    #+end_src
@@ -605,7 +631,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org
-       :elpaca nil
        :mode ("\\.org\\'" . org-mode)
        :bind (("C-c o t" . org-todo-list))
        :config (my/init-org)
@@ -617,7 +642,6 @@
 
 #+begin_src emacs-lisp
   (use-package org-mouse
-    :elpaca nil
     :after (org))
 #+end_src
 
@@ -625,7 +649,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-agenda
-       :elpaca nil
        :bind (("C-c o a" . org-agenda-list)))
    #+END_SRC
 
@@ -633,7 +656,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-clock
-       :elpaca nil
        :bind (("C-c o j" . org-clock-goto)))
    #+END_SRC
 
@@ -641,7 +663,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
-       :elpaca nil
        :bind (("C-c o c" . org-capture)))
    #+END_SRC
 
@@ -652,12 +673,10 @@
        :no-require t
        :after (org))
    #+END_SRC
-
 * Lisp
 
  #+begin_src emacs-lisp
    (use-package elisp-mode
-     :elpaca nil
      :bind (:map emacs-lisp-mode-map
 		 ("C-c C-b" . eval-buffer)))
  #+end_src
@@ -671,46 +690,30 @@
 
     (use-package eglot
       :bind (:map eglot-mode-map
-		  ("C-c SPC" . eglot-code-actions))
+                  ("C-c SPC" . eglot-code-actions))
       :init
       ;; Handle flymake manually to avoid conflicts with flymake-eslint
       (setq eglot-stay-out-of '(flymake))
       (add-hook 'eglot-managed-mode-hook
-		#'(lambda ()
-		    (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil)))
-
-      ;; Advices to prevent Eglot from bugging because some LSP servers
-      ;; (ts-ls) send unicode null characters. Won't be needed when Emacs
-      ;; 29 is out
-      ;; https://github.com/typescript-language-server/typescript-language-server/issues/559#issuecomment-1259470791
-      (advice-add 'json-parse-string :around
-		  (lambda (orig string &rest rest)
-		    (apply orig (s-replace "\\u0000" "" string)
-			   rest)))
-
-      (advice-add 'json-parse-buffer :around
-		  (lambda (oldfn &rest args)
-		    (save-excursion
-		      (while (search-forward "\\u0000" nil t)
-			(replace-match "" nil t)))
-		    (apply oldfn args)))
+                #'(lambda ()
+                    (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil)))
 
       ;; Unless I update my emacs, add a polyfill for project-name
-      (unless (fboundp 'project-name)
-	(cl-defgeneric project-name (project)
-	  "A human-readable name for the project.
-    Nominally unique, but not enforced."
-	  (file-name-nondirectory (directory-file-name (project-root project)))))
+      ;; (unless (fboundp 'project-name)
+    ;;     (cl-defgeneric project-name (project)
+    ;;       "A human-readable name for the project.
+    ;; Nominally unique, but not enforced."
+    ;;       (file-name-nondirectory (directory-file-name (project-root project)))))
 
       :config
       (add-to-list 'eglot-server-programs
-		   `((js-mode typescriptreact-mode typescript-mode) .
-		     ("typescript-language-server"
-		      "--stdio"
-		      :initializationOptions
-		      (:preferences (:includeInlayParameterNameHints "none"
-				     :includeInlayPropertyDeclarationTypeHints t
-				     :includeInlayFunctionLikeReturnTypeHints t))))))
+                   `((js-mode typescriptreact-mode typescript-mode) .
+                     ("typescript-language-server"
+                      "--stdio"
+                      :initializationOptions
+                      (:preferences (:includeInlayParameterNameHints "none"
+                                     :includeInlayPropertyDeclarationTypeHints t
+                                     :includeInlayFunctionLikeReturnTypeHints t))))))
   #+end_src
 
 * Sonarlint
@@ -725,6 +728,7 @@
 
   #+begin_src emacs-lisp
     (use-package web-mode
+      :ensure t
       :mode "\\.html\\'")
   #+end_src
 
@@ -733,6 +737,7 @@
 
   #+begin_src emacs-lisp
     (use-package rainbow-mode
+      :ensure t
       :hook (js-mode css-mode web-mode))
   #+end_src
 
@@ -741,7 +746,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package js
-       :elpaca nil
        :mode (("\\.mjs\\'" . js-mode))
        :bind (:map js-mode-map
 			("M-." . xref-find-definitions))
@@ -755,13 +759,14 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package typescript-mode
+       :ensure t
        :mode (("\\.ts\\'" . typescript-mode)
-	      ("\\.tsx\\'" . typescriptreact-mode))
+              ("\\.tsx\\'" . typescriptreact-mode))
        :config
        ;; Eglot uses the major mode name as the languageId to send to the LSP server.
        ;; However, typescript-language-server has a different langaugeId for typescript
        (define-derived-mode typescriptreact-mode typescript-mode
-	 "Typescript TSX")
+         "Typescript TSX")
 
        (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx))
        (add-hook 'typescript-mode-hook #'eglot-ensure))
@@ -773,10 +778,11 @@
      (autoload 'vscode-setup-flymake-eslint "vscode.el")
 
      (use-package flymake-eslint
+       :ensure t
        :hook ((js-mode . flymake-eslint-enable)
-	      (typescript-mode . flymake-eslint-enable)
-	      (typescriptreact-mode . flymake-eslint-enable)
-	      (flymake-mode . vscode-setup-flymake-eslint)))
+              (typescript-mode . flymake-eslint-enable)
+              (typescriptreact-mode . flymake-eslint-enable)
+              (flymake-mode . vscode-setup-flymake-eslint)))
    #+end_src
 
 
@@ -804,10 +810,11 @@
      (defun my-nvm-use-for ()
        (interactive)
        (condition-case error
-	   (nvm-use-for-buffer)
-	 (t (message "NVM error: %s" error))))
+           (nvm-use-for-buffer)
+         (t (message "NVM error: %s" error))))
 
      (use-package nvm
+       :ensure t
        :hook ((js-mode json-mode typescript-mode dired-after-readin magit-mode) . my-nvm-use-for))
    #+END_SRC
 
@@ -817,7 +824,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package yaml-comment
-       :elpaca nil
        :after (typescript-mode)
        :bind (:map js-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)
@@ -831,10 +837,11 @@
 
    #+begin_src emacs-lisp
      (use-package prettier-js
+       :ensure t
        :hook ((js-mode . prettier-js-mode)
-	      (typescript-mode . prettier-js-mode)
-	      (web-mode . prettier-js-mode)
-	      (css-mode . prettier-js-mode))
+              (typescript-mode . prettier-js-mode)
+              (web-mode . prettier-js-mode)
+              (css-mode . prettier-js-mode))
        :custom ((prettier-js-show-errors . nil)))
    #+end_src
 
@@ -849,8 +856,9 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package add-node-modules-path
+       :ensure t
        :hook ((js-mode . add-node-modules-path)
-	      (typescript-mode . add-node-modules-path)))
+              (typescript-mode . add-node-modules-path)))
    #+END_SRC
 
 ** Comint extras
@@ -880,20 +888,22 @@
 ** dockerfile-mode
 
    #+BEGIN_SRC emacs-lisp
-     (use-package dockerfile-mode)
+     (use-package dockerfile-mode
+       :ensure t)
    #+END_SRC
 
 ** docker
 
    #+BEGIN_SRC emacs-lisp
      (use-package docker
+       :ensure t
        :commands (docker))
    #+END_SRC
 
 ** TRAMP
 
 #+begin_src emacs-lisp
-  (use-package docker-tramp
+  (use-package tramp-container
     :after (tramp))
 #+end_src
 
@@ -901,31 +911,17 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package markdown-mode
+      :ensure t
       :mode "\\.md\\'")
   #+END_SRC
 
 * YAML
 
   #+BEGIN_SRC emacs-lisp
-    (use-package yaml-mode)
+    (use-package yaml-mode
+      :ensure t)
   #+END_SRC
 
-* Android
-** Helpers
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package adb
-       :elpaca nil
-       :commands (avd-start-emulator))
-   #+END_SRC
-
-** Groovy
-
-   This is useful for editing gradle files.
-
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (use-package groovy-mode)
-   #+END_SRC
 * TRAMP
 
   Make sure the remote PATH will be properly set when connecting with
@@ -935,31 +931,6 @@
     (with-eval-after-load 'tramp
       (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
   #+END_SRC
-
-* Kubernetes
-
-  #+begin_src emacs-lisp :tangle no
-    (use-package kubernetes
-      :commands (kubernetes-overview))
-  #+end_src
-
-* Gettext
-
-  #+BEGIN_SRC emacs-lisp :tangle no
-    (use-package po-mode
-      :custom
-      (po-auto-update-file-header nil)
-      :elpaca '(po-mode :type git
-			  :host github
-			  :repo "stevenremot/po-mode"))
-  #+END_SRC
-
-* Swift
-
-  #+begin_src emacs-lisp :tangle no
-    (use-package swift-mode
-      :mode ("\\.swift\\'" . swift-mode))
-  #+end_src
 
 * Project libs
 
@@ -973,12 +944,6 @@
 	(load-file lib)))
   #+END_SRC
 
-* Cucumber
-
-  #+begin_src emacs-lisp :tangle no
-    (use-package feature-mode)
-  #+end_src
-
 * Processing
 
   #+begin_src emacs-lisp
@@ -989,13 +954,15 @@
 
   #+begin_src emacs-lisp
     (use-package restclient
+      :ensure t
       :commands restclient-mode)
   #+end_src
 
 * GraphQL
 
 #+begin_src emacs-lisp
-  (use-package graphql-mode)
+  (use-package graphql-mode
+    :ensure t)
 #+end_src
 
 * Termux
@@ -1009,23 +976,27 @@
       (global-set-key (kbd "<mouse-4>") #'previous-line))
   #+end_src
 
-* Vagrant
-
-  #+BEGIN_SRC emacs-lisp :tangle no
-    (use-package vagrant-tramp
-      :after (tramp))
-  #+END_SRC
-
 * ChatGPT
 
 #+begin_src emacs-lisp
-  (use-package shell-maker
-    :elpaca (:host github :repo "xenodium/chatgpt-shell" :files ("shell-maker.el")))
-
   (use-package chatgpt-shell
-    :requires shell-maker
-    :commands (chatgpt-shell)
-    :elpaca (:host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell.el")))
+    :ensure t
+    :commands (chatgpt-shell))
+#+end_src
+
+* Mongo
+
+A function that inserts a random ObjectId in the current buffer for
+easily writing mocks and tests.
+
+#+begin_src emacs-lisp
+  (defun my-insert-object-id ()
+    "Write a random ObjectId at the current position."
+    (interactive)
+    (insert (let ((hex "0123456789abcdef"))
+              (mapconcat (lambda (_) (string (aref hex (random 16))))
+                         (number-sequence 1 24)
+                         ""))))
 #+end_src
 
 * Local variables
