@@ -168,7 +168,6 @@ Setup ~vc-use-package~ too:
                               (powerline-process mode-line)
                               (powerline-narrow mode-line 'l)
                               (powerline-raw " " mode-line)
-                              (powerline-raw org-timer-mode-line-string)
                               ))
                    (rhs (list
                          (powerline-vc mode-line 'r)
