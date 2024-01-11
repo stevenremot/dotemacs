@@ -48,6 +48,7 @@ chatgpt/
 dall-e/
 devdocs/
 org-persist/
+node_modules/
 
 # Mac OS BS
 .DS_Store

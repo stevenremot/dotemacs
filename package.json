@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "typescript-eslint-language-service": "^5.0.5"
+  }
+}
