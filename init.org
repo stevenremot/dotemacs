@@ -414,8 +414,7 @@ Setup ~vc-use-package~ too:
            :map starhugger-inlining-mode-map
            ("<M-return>" . starhugger-accept-suggestion)
            ("<M-S-down>" . starhugger-show-next-suggestion)
-           ("<M-S-up>" . starhugger-show-next-suggestion))
-    :hook ((prog-mode . starhugger-auto-mode)))
+           ("<M-S-up>" . starhugger-show-next-suggestion)))
 #+end_src
 
 ** Devdocs
