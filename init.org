@@ -780,8 +780,8 @@ Setup ~vc-use-package~ too:
 ** JSON
 
    #+BEGIN_SRC emacs-lisp
-     (use-package json-mode
-       :commands (json-mode)
+     (use-package json-ts-mode
+       :commands (json-ts-mode)
        :mode "\\.json\\'")
    #+END_SRC
 
