@@ -473,6 +473,13 @@ Setup ~vc-use-package~ too:
   (use-package project)
 #+end_src
 
+** Task runner
+
+#+begin_src emacs-lisp
+  (use-package task-runner
+    :bind ("<f4>" . task-runner-run-task))
+#+end_src
+
 ** Test watcher
 
 #+begin_src emacs-lisp
