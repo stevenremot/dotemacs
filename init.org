@@ -19,9 +19,10 @@
    Download the tar sources, then
 
    #+BEGIN_SRC sh :tangle no
-   ./configure --with-modules --with-x-toolkit=lucid --with-xwidgets
-   make
-   sudo make install
+     sudo apt install libjansson-dev libtree-sitter-dev
+     ./configure --with-modules --tree-sitter
+     make
+     sudo make install
    #+END_SRC
 
 ** Mac OS
