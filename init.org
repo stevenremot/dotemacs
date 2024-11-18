@@ -341,12 +341,10 @@ Setup ~vc-use-package~ too:
 ** Auto completion
 
    #+begin_src emacs-lisp
-     (use-package corfu
+     (use-package company
        :ensure t
-       :custom
-       (corfu-auto t)
        :init
-       (global-corfu-mode))
+       (global-campany-mode))
    #+end_src
 
 ** Code checking
@@ -425,6 +423,13 @@ Setup ~vc-use-package~ too:
     :ensure t
     :commands (devdocs-install)
     :bind (("C-c C-h" . devdocs-peruse)))
+#+end_src
+
+** Windmove
+
+#+begin_src emacs-lisp
+  (use-package windmove
+    :config (windmove-default-keybindings))
 #+end_src
 
 * Navigation
@@ -720,7 +725,7 @@ Setup ~vc-use-package~ too:
 
 * Sonarlint
 
-  #+begin_src emacs-lisp
+  #+begin_src emacs-lisp :tangle no
     (autoload 'sonar-visit-file-page "sonar" nil t)
   #+end_src
 
@@ -936,7 +941,7 @@ Setup ~vc-use-package~ too:
 
 * Processing
 
-  #+begin_src emacs-lisp
+  #+begin_src emacs-lisp :tangle no
     (autoload 'p5js-start-for-buffer "p5js" nil t)
   #+end_src
 
