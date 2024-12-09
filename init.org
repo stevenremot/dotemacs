@@ -34,12 +34,12 @@
 
 -lemutls_w: https://github.com/d12frosted/homebrew-emacs-plus/issues/554
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ./init.el
   (setenv "LIBRARY_PATH"
           (string-join
-           '("/opt/homebrew/opt/gcc/lib/gcc/13"
-             "/opt/homebrew/opt/libgccjit/lib/gcc/13"
-             "/opt/homebrew/opt/gcc/lib/gcc/13/gcc/aarch64-apple-darwin22/13")
+           '("/opt/homebrew/opt/gcc/lib/gcc/current"
+             "/opt/homebrew/opt/libgccjit/lib/gcc/current"
+             "/opt/homebrew/opt/gcc/lib/gcc/current/gcc/aarch64-apple-darwin23/14")
            ":"))
 #+end_src
 
@@ -344,7 +344,7 @@ Setup ~vc-use-package~ too:
      (use-package company
        :ensure t
        :init
-       (global-campany-mode))
+       (global-company-mode))
    #+end_src
 
 ** Code checking

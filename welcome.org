@@ -5,13 +5,10 @@
 
     [[elisp:(welcome-clocktable-previous)][<< Previous]] [[elisp:(welcome-clocktable-reset)][Reset]] [[elisp:(welcome-clocktable-next)][Next >>]]
 
-#+BEGIN: clocktable :scope agenda :maxlevel 2 :block today-1 :link t :hidefiles t
-#+CAPTION: Clock summary at [2020-11-17 Tue 17:46], for Monday, November 16, 2020.
+#+BEGIN: clocktable :scope agenda :maxlevel 2 :block today-3 :link t :hidefiles t
+
   #+END:
 
-    ----- *Recent projects -----*
-
-#+call: projects-template()
 
 
 
@@ -104,12 +101,6 @@
 #+end_src
 
 #+RESULTS: init
-
-#+name: projects-template
-#+begin_src emacs-lisp :results list
-  (cl-loop for proj in (sort (append projectile-known-projects '()) 'string>)
-	   collect (format "[[file+emacs:%s][%s]]" proj proj))
-#+end_src
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
