@@ -286,6 +286,14 @@ Setup ~vc-use-package~ too:
        (counsel-describe-variable-function #'helpful-variable))
    #+end_src
 
+** Bell
+
+Seriously, who wants this bell to ring?
+
+#+begin_src emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+end_src
+
 * Performances
 
   I use [[https://github.com/jschaf/esup][esup]] to profile my emacs startup from time to time.
@@ -429,7 +437,7 @@ Setup ~vc-use-package~ too:
 
 #+begin_src emacs-lisp
   (use-package windmove
-    :config (windmove-default-keybindings))
+    :config (windmove-default-keybindings 's))
 #+end_src
 
 * Navigation
@@ -702,6 +710,7 @@ Setup ~vc-use-package~ too:
     (use-package eglot
       :bind (:map eglot-mode-map
                   ("C-c SPC" . eglot-code-actions))
+      :custom ((eglot-confirm-server-initiated-edits . nil))
       :init
       ;; Unless I update my emacs, add a polyfill for project-name
       ;; (unless (fboundp 'project-name)
