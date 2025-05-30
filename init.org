@@ -39,12 +39,13 @@
           (string-join
            '("/opt/homebrew/opt/gcc/lib/gcc/current"
              "/opt/homebrew/opt/libgccjit/lib/gcc/current"
-             "/opt/homebrew/opt/gcc/lib/gcc/current/gcc/aarch64-apple-darwin23/14")
+             "/opt/homebrew/opt/gcc/lib/gcc/current/gcc/aarch64-apple-darwin24/14")
            ":"))
 #+end_src
 
 #+begin_src sh
-  brew install imagemagick libgccjit
+  sudo port install ImageMagick
+  brew install gcc libgccjit autoconf texinfo
 #+end_src
 
 **** Install
@@ -62,13 +63,17 @@ Install
   ./configure --with-imagemagick --with-json --with-tree-sitter --with-xwidgets --with-native-compilation
 #+end_src
 
-*** From the brew formula
+*** From the brew formula (unmaintained)
 
 #+BEGIN_SRC sh
   brew tap railwaycat/emacsmacport
   brew install emacs-mac --with-xwidgets --with-natural-title-bar --with-librsvg
   ln -s /usr/local/opt/emacs-mac/Emacs.app ~/Applications
 #+END_SRC
+
+*** Emacs for mac os x
+
+https://emacsformacosx.com/
 
 * Package management
 
@@ -727,7 +732,8 @@ Seriously, who wants this bell to ring?
                       :initializationOptions
                       (:preferences (:includeInlayParameterNameHints "none"
                                      :includeInlayPropertyDeclarationTypeHints t
-                                     :includeInlayFunctionLikeReturnTypeHints t)
+                                     :includeInlayFunctionLikeReturnTypeHints t
+                                     :importModuleSpecifierPreference "shortest")
                                     :plugins [(:name "typescript-eslint-language-service"
                                                      :location ,(expand-file-name "node_modules/typescript-eslint-language-directory" user-emacs-directory))])))))
   #+end_src
@@ -858,7 +864,7 @@ Seriously, who wants this bell to ring?
    Make sure to add the hooks as late as possible, as some other
    packages relies on it.
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package add-node-modules-path
        :ensure t
        :hook ((js-mode . add-node-modules-path)
@@ -981,7 +987,7 @@ Seriously, who wants this bell to ring?
   #+end_src
 
 * LLM
-
+** Gptel
 #+begin_src emacs-lisp
   (use-package gptel
     :ensure t
@@ -993,7 +999,24 @@ Seriously, who wants this bell to ring?
     (setq gptel-backend
           (gptel-make-anthropic "Claude"
             :key (auth-source-pick-first-password :host "anthropic"))
-          gptel-model "claude-3-haiku-20240307"))
+          gptel-model "claude-3-haiku-20240307")
+
+    (gptel-make-ollama "Ollama"
+      :host "localhost:11434"
+      :stream t
+      :models '(llama3.2:latest)))
+#+end_src
+
+** Aidermacs
+
+#+begin_src emacs-lisp :tangle no
+  (use-package aidermacs
+    :vc (:url "https://github.com/MatthewZMD/aidermacs" :branch "main")
+    :config
+    ; (setq aidermacs-default-model "ollama_chat/deepseek-coder-v2")
+    (global-set-key (kbd "C-c a") 'aidermacs-transient-menu)
+    ;; (setq aidermacs-auto-commits t)
+    (setq aidermacs-use-architect-mode t))
 #+end_src
 
 * Mongo
@@ -1009,6 +1032,14 @@ easily writing mocks and tests.
               (mapconcat (lambda (_) (string (aref hex (random 16))))
                          (number-sequence 1 24)
                          ""))))
+#+end_src
+
+* Dev containers
+
+#+begin_src emacs-lisp
+  (use-package devcontainer
+    :commands (devcontainer-up)
+    :vc (:url "https://github.com/johannes-mueller/devcontainer.el" :branch "master"))
 #+end_src
 
 * Local variables

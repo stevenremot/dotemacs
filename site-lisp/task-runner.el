@@ -24,12 +24,12 @@
       (message "No package.json found in the current or parent directories.")
       nil)))
 
-
-(defun task-runner-start-task (name command)
+(defun task-runner-start-task/string (name command)
   "Run the task COMMAND.
 It is run in a vterm, with the name NAME.
 If the task already exists, just switch to the terminal."
-  (let* ((buffer-name (format "*task-%s*" name))
+  (let* ((dir-name (project-root (project-current)))
+	 (buffer-name (format "*task-%s (%s)*" name dir-name))
          (buffer (get-buffer buffer-name)))
     (if buffer
         (switch-to-buffer buffer)
@@ -39,6 +39,16 @@ If the task already exists, just switch to the terminal."
         (vterm-send-string command)
         (vterm-send-return)))
     (get-buffer buffer-name)))
+
+
+(defun task-runner-start-task (name command)
+  "Run the task named NAME with the command COMMAND.
+
+ COMMAND is a function, execute it in the root directory.
+If COMMAND is a string, execute it in a vterm."
+  (if (stringp command)
+      (task-runner-start-task/string name command)
+    (funcall command)))
 
 (require 'vterm)
 

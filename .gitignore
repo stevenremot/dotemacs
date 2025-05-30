@@ -1,6 +1,7 @@
 
 *~
 \#*\#
+.emacs-build/
 
 # Generated scripts
 init.el
@@ -11,6 +12,7 @@ elpaca/
 
 # Elpa
 elpa/
+elpa.tar.gz
 
 # Local config
 custom-file.el
@@ -49,6 +51,11 @@ dall-e/
 devdocs/
 org-persist/
 node_modules/
+tree-sitter/
+multisession/
+image-dired/
+projects
 
 # Mac OS BS
 .DS_Store
+.aider*
