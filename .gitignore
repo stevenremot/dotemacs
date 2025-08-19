@@ -9,6 +9,7 @@ init.elc
 
 # Elpaca
 elpaca/
+eln-cache
 
 # Elpa
 elpa/

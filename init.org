@@ -63,13 +63,67 @@ Install
   ./configure --with-imagemagick --with-json --with-tree-sitter --with-xwidgets --with-native-compilation
 #+end_src
 
-*** From the brew formula (unmaintained)
+*** emacs-plus
 
 #+BEGIN_SRC sh
-  brew tap railwaycat/emacsmacport
-  brew install emacs-mac --with-xwidgets --with-natural-title-bar --with-librsvg
-  ln -s /usr/local/opt/emacs-mac/Emacs.app ~/Applications
+  brew tap d12frosted/emacs-plus
+  brew install emacs-plus@30 --with-xwidgets --with-imagemagick
 #+END_SRC
+
+Fixes issues with native compilation and gccjit. More information here: https://github.com/d12frosted/homebrew-emacs-plus/issues/323
+
+#+begin_src elisp :tangle ./init.el
+  (defun homebrew-gcc-paths ()
+    "Return GCC library paths from Homebrew installations.
+  Detects paths for gcc and libgccjit packages to be used in LIBRARY_PATH."
+    (let* ((paths '())
+           (brew-bin (or (executable-find "brew")
+                         (let ((arm-path "/opt/homebrew/bin/brew")
+                               (intel-path "/usr/local/bin/brew"))
+                           (cond
+                            ((file-exists-p arm-path) arm-path)
+                            ((file-exists-p intel-path) intel-path))))))
+
+      (when brew-bin
+        ;; Get gcc paths.
+        (let* ((gcc-prefix (string-trim
+                            (shell-command-to-string
+                             (concat brew-bin " --prefix gcc"))))
+               (gcc-lib-current (expand-file-name "lib/gcc/current" gcc-prefix)))
+          (push gcc-lib-current paths)
+
+          ;; Find apple-darwin directory.
+          (let* ((default-directory gcc-lib-current)
+                 (arch-dirs (file-expand-wildcards "gcc/*-apple-darwin*/*[0-9]")))
+            (when arch-dirs
+              (push (expand-file-name
+                     (car (sort arch-dirs #'string>)))
+                    paths))))
+
+        ;; Get libgccjit paths
+        (let* ((jit-prefix (string-trim
+                            (shell-command-to-string
+                             (concat brew-bin " --prefix libgccjit"))))
+               (jit-lib-current (expand-file-name "lib/gcc/current" jit-prefix)))
+          (push jit-lib-current paths)))
+
+      (nreverse paths)))
+
+  (defun setup-macos-native-comp-library-paths ()
+    "Set up LIBRARY_PATH for native compilation on macOS.
+  Includes Homebrew GCC paths and CommandLineTools SDK libraries."
+    (let* ((existing-paths (split-string (or (getenv "LIBRARY_PATH") "") ":" t))
+           (gcc-paths (homebrew-gcc-paths))
+           (clt-paths '("/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib"))
+           (unique-paths (delete-dups
+                          (append existing-paths gcc-paths clt-paths))))
+
+      (setenv "LIBRARY_PATH" (mapconcat #'identity unique-paths ":"))))
+
+  ;; Set up library paths for native compilation on macOS.
+  (when (eq system-type 'darwin)
+    (setup-macos-native-comp-library-paths))
+#+end_src
 
 *** Emacs for mac os x
 
@@ -393,16 +447,13 @@ Seriously, who wants this bell to ring?
 ** Tree sitter
 
    #+begin_src emacs-lisp
-     (use-package tree-sitter
-       :ensure t)
-   #+end_src
-
-   #+begin_src emacs-lisp
-     (use-package tree-sitter-langs
-       :ensure t
-       :hook ((php-mode . tree-sitter-hl-mode)
-              (js-mode . tree-sitter-hl-mode)
-              (typescript-mode . tree-sitter-hl-mode)))
+     (use-package treesit
+       :init
+       (setq treesit-language-source-alist
+     	'((tsx "https://github.com/tree-sitter/tree-sitter-typescript" nil
+     	       "tsx/src" nil nil)
+     	  (typescript "https://github.com/tree-sitter/tree-sitter-typescript"
+     		      nil "typescript/src" nil nil))))
    #+end_src
 
 ** Backups
@@ -777,21 +828,15 @@ Seriously, who wants this bell to ring?
 
 ** Typescript
 
-   Setup the basic typescript-mode:
+   Setup the basic typescript mode:
 
    #+BEGIN_SRC emacs-lisp
-     (use-package typescript-mode
+     (use-package typescript-ts-mode
        :ensure t
-       :mode (("\\.ts\\'" . typescript-mode)
-              ("\\.tsx\\'" . typescriptreact-mode))
+       :mode (("\\.ts\\'" . typescript-ts-mode)
+              ("\\.tsx\\'" . tsx-ts-mode))
        :config
-       ;; Eglot uses the major mode name as the languageId to send to the LSP server.
-       ;; However, typescript-language-server has a different langaugeId for typescript
-       (define-derived-mode typescriptreact-mode typescript-mode
-         "Typescript TSX")
-
-       (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx))
-       (add-hook 'typescript-mode-hook #'eglot-ensure))
+       (add-hook 'typescript-ts-base-mode-hook #'eglot-ensure))
    #+END_SRC
 
 ** Eslint
@@ -812,32 +857,16 @@ Seriously, who wants this bell to ring?
        :mode "\\.json\\'")
    #+END_SRC
 
-** NVM
-
-   Setup the correct node version when opening a JS file.
-
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (defun my-nvm-use-for ()
-       (interactive)
-       (condition-case error
-           (nvm-use-for-buffer)
-         (t (message "NVM error: %s" error))))
-
-     (use-package nvm
-       :ensure t
-       :hook ((js-mode json-mode typescript-mode dired-after-readin magit-mode) . my-nvm-use-for))
-   #+END_SRC
-
 ** Swagger
 
    Setup a custom command to be able to edit yaml in multi-line comments.
 
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp :tangle no
      (use-package yaml-comment
-       :after (typescript-mode)
+       :after (typescript-ts-mode)
        :bind (:map js-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)
-	      :map typescript-mode-map
+	      :map typescript-ts-base-mode-map
 	      ("C-c y" . yaml-comment-edit-at-point)))
    #+END_SRC
 
@@ -849,7 +878,7 @@ Seriously, who wants this bell to ring?
      (use-package prettier-js
        :ensure t
        :hook ((js-mode . prettier-js-mode)
-              (typescript-mode . prettier-js-mode)
+     	 (typescript-ts-base-mode . prettier-js-mode)
               (web-mode . prettier-js-mode)
               (css-mode . prettier-js-mode))
        :custom ((prettier-js-show-errors . nil)))
@@ -868,7 +897,7 @@ Seriously, who wants this bell to ring?
      (use-package add-node-modules-path
        :ensure t
        :hook ((js-mode . add-node-modules-path)
-              (typescript-mode . add-node-modules-path)))
+              (typescript-ts-base-mode . add-node-modules-path)))
    #+END_SRC
 
 ** Comint extras
